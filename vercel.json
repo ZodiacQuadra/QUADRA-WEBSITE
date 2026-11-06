@@ -1,0 +1,28 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "node server/build_deploy.js",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/_q/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+    },
+    {
+      "source": "/_mirror/framer.com/m/(.*)",
+      "headers": [{ "key": "Content-Type", "value": "text/javascript; charset=utf-8" }]
+    }
+  ],
+  "redirects": [
+    { "source": "/_img/:file", "destination": "https://framerusercontent.com/images/:file", "permanent": true },
+    { "source": "/_mirror/framerusercontent.com/images/:path*", "destination": "https://framerusercontent.com/images/:path*", "permanent": true },
+    { "source": "/_mirror/framerusercontent.com/assets/:path*", "destination": "https://framerusercontent.com/assets/:path*", "permanent": true },
+    { "source": "/_mirror/fonts.gstatic.com/:path*", "destination": "https://fonts.gstatic.com/:path*", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/_mirror/framerusercontent.com/:path*", "destination": "https://framerusercontent.com/:path*" },
+    { "source": "/_mirror/framer.com/m/:path*", "destination": "https://framer.com/m/:path*" }
+  ]
+}

@@ -10,3 +10,5 @@ Desktop.ini
 *.log
 *.tmp
 *.part-*
+# static deploy output (node server/build_deploy.js, run by Vercel)
+dist/
