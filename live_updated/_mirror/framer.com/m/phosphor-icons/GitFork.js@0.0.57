@@ -1,0 +1,8 @@
+/*
+ * GitFork (phosphor-icons/GitFork@0.0.57)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "http://localhost:8081/_mirror/framerusercontent.com/modules/EcwyaFAUtKH6VaMgem5T/r4UOJqzKOn6Kha9x5aB9/GitFork.js"
+export { default } from "http://localhost:8081/_mirror/framerusercontent.com/modules/EcwyaFAUtKH6VaMgem5T/r4UOJqzKOn6Kha9x5aB9/GitFork.js"

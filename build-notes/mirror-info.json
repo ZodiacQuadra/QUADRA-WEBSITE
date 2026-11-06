@@ -1,0 +1,25 @@
+{
+ "source": "http://localhost:8081",
+ "servedFrom": "http://localhost:8081",
+ "madeAt": "2026-11-02T12:45:25.152Z",
+ "pages": 285,
+ "files": 3678,
+ "megabytes": 485,
+ "pageErrors": [],
+ "fileErrors": [],
+ "removed": [
+  "Google Tag Manager",
+  "PostHog",
+  "Framer events",
+  "reCAPTCHA",
+  "Framer editor bar"
+ ],
+ "disconnected": [
+  "api.framer.com",
+  "events.framer.com",
+  "us.i.posthog.com",
+  "us-assets.i.posthog.com",
+  "www.googletagmanager.com",
+  "www.google-analytics.com"
+ ]
+}

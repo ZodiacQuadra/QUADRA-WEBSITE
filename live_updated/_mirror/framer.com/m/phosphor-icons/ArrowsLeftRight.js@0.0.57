@@ -1,0 +1,8 @@
+/*
+ * ArrowsLeftRight (phosphor-icons/ArrowsLeftRight@0.0.57)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "http://localhost:8081/_mirror/framerusercontent.com/modules/dCVj9XJSOp2qpdAYNrmo/n4kFHTPHUmuzCkGUIVk9/ArrowsLeftRight.js"
+export { default } from "http://localhost:8081/_mirror/framerusercontent.com/modules/dCVj9XJSOp2qpdAYNrmo/n4kFHTPHUmuzCkGUIVk9/ArrowsLeftRight.js"

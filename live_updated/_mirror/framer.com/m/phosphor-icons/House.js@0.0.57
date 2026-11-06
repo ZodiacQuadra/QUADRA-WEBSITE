@@ -1,0 +1,8 @@
+/*
+ * House (phosphor-icons/House@0.0.57)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "http://localhost:8081/_mirror/framerusercontent.com/modules/Qc8yuHkQmGO0kFiSWbkX/rVmMAFttOHuuiwSg6KjZ/House.js"
+export { default } from "http://localhost:8081/_mirror/framerusercontent.com/modules/Qc8yuHkQmGO0kFiSWbkX/rVmMAFttOHuuiwSg6KjZ/House.js"

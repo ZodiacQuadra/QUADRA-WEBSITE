@@ -1,0 +1,8 @@
+/*
+ * Scales (phosphor-icons/Scales@0.0.57)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "http://localhost:8081/_mirror/framerusercontent.com/modules/f2hjmdz3T2yKdqakZqMS/XxbqRKC2185G7YF8wbcA/Scales.js"
+export { default } from "http://localhost:8081/_mirror/framerusercontent.com/modules/f2hjmdz3T2yKdqakZqMS/XxbqRKC2185G7YF8wbcA/Scales.js"

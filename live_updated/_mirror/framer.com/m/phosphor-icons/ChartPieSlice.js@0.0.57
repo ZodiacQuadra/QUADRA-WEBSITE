@@ -1,0 +1,8 @@
+/*
+ * ChartPieSlice (phosphor-icons/ChartPieSlice@0.0.57)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "http://localhost:8081/_mirror/framerusercontent.com/modules/iPtyGP6dLvlpZeXm89q5/vXjhZug1z9xBkWKE1Aji/ChartPieSlice.js"
+export { default } from "http://localhost:8081/_mirror/framerusercontent.com/modules/iPtyGP6dLvlpZeXm89q5/vXjhZug1z9xBkWKE1Aji/ChartPieSlice.js"

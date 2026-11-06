@@ -1,0 +1,8 @@
+/*
+ * FlowArrow (phosphor-icons/FlowArrow@0.0.57)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "http://localhost:8081/_mirror/framerusercontent.com/modules/N3oyiiWPpyjKg97CgoF3/ydx8LjkL3wM7AT6d0Qhb/FlowArrow.js"
+export { default } from "http://localhost:8081/_mirror/framerusercontent.com/modules/N3oyiiWPpyjKg97CgoF3/ydx8LjkL3wM7AT6d0Qhb/FlowArrow.js"

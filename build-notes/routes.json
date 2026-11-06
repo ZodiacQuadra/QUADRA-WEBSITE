@@ -1,0 +1,593 @@
+{
+ "rebuilt": [
+  {
+   "id": "home",
+   "path": "/",
+   "template": "/"
+  },
+  {
+   "id": "solutions",
+   "path": "/solutions",
+   "template": "/solutions"
+  },
+  {
+   "id": "modernize",
+   "path": "/solutions/modernize-your-foundation",
+   "template": "/solutions/modernize-your-foundation"
+  },
+  {
+   "id": "transform",
+   "path": "/solutions/innovate-with-ai-data",
+   "template": "/solutions/innovate-with-ai-data"
+  },
+  {
+   "id": "secure",
+   "path": "/solutions/fortify-your-defenses",
+   "template": "/solutions/fortify-your-defenses"
+  },
+  {
+   "id": "empower",
+   "path": "/solutions/empower-your-workforce",
+   "template": "/solutions/empower-your-workforce"
+  },
+  {
+   "id": "platforms-ip",
+   "path": "/solutions/platforms-ip",
+   "template": "/solutions/platforms-ip"
+  },
+  {
+   "id": "intellient",
+   "path": "/solutions/platforms-ip/intellient",
+   "template": "/solutions/platforms-ip/intellient"
+  },
+  {
+   "id": "technology",
+   "path": "/technology",
+   "template": "/technology"
+  },
+  {
+   "id": "microsoft",
+   "path": "/technology/microsoft",
+   "template": "/technology/microsoft"
+  },
+  {
+   "id": "azure",
+   "path": "/technology/microsoft/azure",
+   "template": "/technology/microsoft/azure"
+  },
+  {
+   "id": "azure-migration",
+   "path": "/technology/microsoft/azure/migration-and-modernization",
+   "template": "/technology/microsoft/azure/migration-and-modernization"
+  },
+  {
+   "id": "azure-apps",
+   "path": "/technology/microsoft/azure/digital-app-innovation",
+   "template": "/technology/microsoft/azure/digital-app-innovation"
+  },
+  {
+   "id": "azure-data-ai",
+   "path": "/technology/microsoft/azure/data-and-ai",
+   "template": "/technology/microsoft/azure/data-and-ai"
+  },
+  {
+   "id": "azure-security",
+   "path": "/technology/microsoft/azure/security-compliance-governance",
+   "template": "/technology/microsoft/azure/security-compliance-governance"
+  },
+  {
+   "id": "azure-managed",
+   "path": "/technology/microsoft/azure/managed-services",
+   "template": "/technology/microsoft/azure/managed-services"
+  },
+  {
+   "id": "microsoft-workplace",
+   "path": "/technology/microsoft/modern-work",
+   "template": "/technology/microsoft/modern-work"
+  },
+  {
+   "id": "ispg-migration",
+   "path": "/technology/microsoft/modern-work/microsoft-365-migration",
+   "template": "/technology/microsoft/modern-work"
+  },
+  {
+   "id": "microsoft-security",
+   "path": "/technology/microsoft/security",
+   "template": "/technology/microsoft/security"
+  },
+  {
+   "id": "ispg-hybrid",
+   "path": "/technology/microsoft/modern-work/hybrid-integration",
+   "template": "/technology/microsoft/modern-work"
+  },
+  {
+   "id": "ispg-managed",
+   "path": "/technology/microsoft/modern-work/managed-services",
+   "template": "/technology/microsoft/modern-work"
+  },
+  {
+   "id": "aws",
+   "path": "/technology/aws",
+   "template": "/technology/aws"
+  },
+  {
+   "id": "aws-migration",
+   "path": "/technology/aws/migration-modernization",
+   "template": "/technology/aws/migration-modernization"
+  },
+  {
+   "id": "aws-apps",
+   "path": "/technology/aws/application-database-modernization",
+   "template": "/technology/aws"
+  },
+  {
+   "id": "aws-data-ai",
+   "path": "/technology/aws/data-analytics-ai",
+   "template": "/technology/aws/data-analytics-ai"
+  },
+  {
+   "id": "aws-agentic-ai",
+   "path": "/technology/aws/agentic-ai",
+   "template": "/technology/aws"
+  },
+  {
+   "id": "aws-ai-use-cases",
+   "path": "/technology/aws/agentic-ai/ai-use-cases",
+   "template": "/technology/aws"
+  },
+  {
+   "id": "aws-managed",
+   "path": "/technology/aws/managed-services",
+   "template": "/technology/aws/managed-services"
+  },
+  {
+   "id": "aws-security",
+   "path": "/technology/aws/security-governance",
+   "template": "/technology/aws/security-governance"
+  },
+  {
+   "id": "google-cloud",
+   "path": "/technology/google-cloud",
+   "template": "/technology/google-cloud"
+  },
+  {
+   "id": "gcp-ai",
+   "path": "/technology/google-cloud/artificial-intelligence",
+   "template": "/technology/google-cloud/artificial-intelligence"
+  },
+  {
+   "id": "gcp-gemini",
+   "path": "/technology/google-cloud/gemini-enterprise",
+   "template": "/technology/google-cloud"
+  },
+  {
+   "id": "gcp-data",
+   "path": "/technology/google-cloud/data-analytics",
+   "template": "/technology/google-cloud/data-analytics"
+  },
+  {
+   "id": "gcp-infrastructure",
+   "path": "/technology/google-cloud/infrastructure-modernization",
+   "template": "/technology/google-cloud/infrastructure-modernization"
+  },
+  {
+   "id": "gcp-apps",
+   "path": "/technology/google-cloud/application-modernization",
+   "template": "/technology/google-cloud/application-modernization"
+  },
+  {
+   "id": "gcp-databases",
+   "path": "/technology/google-cloud/database-modernization",
+   "template": "/technology/google-cloud/database-modernization"
+  },
+  {
+   "id": "gcp-security",
+   "path": "/technology/google-cloud/cloud-security-governance",
+   "template": "/technology/google-cloud/cloud-security-governance"
+  },
+  {
+   "id": "gcp-managed",
+   "path": "/technology/google-cloud/managed-services",
+   "template": "/technology/google-cloud/managed-services"
+  },
+  {
+   "id": "gcp-startups",
+   "path": "/technology/google-cloud/startup",
+   "template": "/technology/google-cloud/startup"
+  },
+  {
+   "id": "csg",
+   "path": "/technology/cyber-security",
+   "template": "/technology/cyber-security"
+  },
+  {
+   "id": "csg-zero-trust",
+   "path": "/technology/cyber-security/zero_trust",
+   "template": "/technology/cyber-security/zero_trust"
+  },
+  {
+   "id": "csg-endpoint",
+   "path": "/technology/cyber-security/threat-endpoint-protection",
+   "template": "/technology/cyber-security/threat-endpoint-protection"
+  },
+  {
+   "id": "csg-network-apps",
+   "path": "/technology/cyber-security/network-application-security",
+   "template": "/technology/cyber-security/network-application-security"
+  },
+  {
+   "id": "csg-cnapp",
+   "path": "/technology/cyber-security/cloud-native-security",
+   "template": "/technology/cyber-security/cloud-native-security"
+  },
+  {
+   "id": "csg-ai-security",
+   "path": "/technology/cyber-security/ai-security",
+   "template": "/technology/cyber-security"
+  },
+  {
+   "id": "csg-managed",
+   "path": "/technology/cyber-security/managed-security-operations",
+   "template": "/technology/cyber-security/managed-security-operations"
+  },
+  {
+   "id": "csg-advisory",
+   "path": "/technology/cyber-security/risk-advisory",
+   "template": "/technology/cyber-security"
+  },
+  {
+   "id": "hcdw",
+   "path": "/technology/hybrid-cloud",
+   "template": "/technology/hybrid-cloud"
+  },
+  {
+   "id": "hcdw-infrastructure",
+   "path": "/technology/hybrid-cloud/infrastructure",
+   "template": "/technology/hybrid-cloud/infrastructure"
+  },
+  {
+   "id": "hcdw-workspace",
+   "path": "/technology/hybrid-cloud/digital-workspace",
+   "template": "/technology/hybrid-cloud/digital-workspace"
+  },
+  {
+   "id": "hcdw-resilience",
+   "path": "/technology/hybrid-cloud/data-resilience",
+   "template": "/technology/hybrid-cloud/data-resilience"
+  },
+  {
+   "id": "hcdw-commvault",
+   "path": "/technology/hybrid-cloud/data-resilience/commvault",
+   "template": "/technology/hybrid-cloud/data-resilience"
+  },
+  {
+   "id": "hcdw-veeam",
+   "path": "/technology/hybrid-cloud/data-resilience/veeam",
+   "template": "/technology/hybrid-cloud/data-resilience"
+  },
+  {
+   "id": "hcdw-druva",
+   "path": "/technology/hybrid-cloud/data-resilience/druva",
+   "template": "/technology/hybrid-cloud/data-resilience"
+  },
+  {
+   "id": "aig",
+   "path": "/technology/enterprise-ai-engineering",
+   "template": "/technology"
+  },
+  {
+   "id": "aig-advisory",
+   "path": "/technology/enterprise-ai-engineering/advisory-architecture",
+   "template": "/technology"
+  },
+  {
+   "id": "aig-engineering",
+   "path": "/technology/enterprise-ai-engineering/engineering-integration",
+   "template": "/technology"
+  },
+  {
+   "id": "aig-automation",
+   "path": "/technology/enterprise-ai-engineering/process-automation",
+   "template": "/technology"
+  },
+  {
+   "id": "aig-managed",
+   "path": "/technology/enterprise-ai-engineering/managed-ai",
+   "template": "/technology"
+  },
+  {
+   "id": "aig-governance",
+   "path": "/technology/enterprise-ai-engineering/governance",
+   "template": "/technology"
+  },
+  {
+   "id": "why-quadra",
+   "path": "/why-quadra",
+   "template": "/why-quadra"
+  },
+  {
+   "id": "how-we-work",
+   "path": "/why-quadra/how-we-partner",
+   "template": "/why-quadra/how-we-partner"
+  },
+  {
+   "id": "partners",
+   "path": "/why-quadra/partners",
+   "template": "/why-quadra"
+  },
+  {
+   "id": "coe",
+   "path": "/why-quadra/centre-of-excellence",
+   "template": "/why-quadra"
+  },
+  {
+   "id": "recognition",
+   "path": "/awards",
+   "template": "/awards"
+  },
+  {
+   "id": "happy-customers",
+   "path": "/happy",
+   "template": "/happy"
+  },
+  {
+   "id": "contact",
+   "path": "/contact-us",
+   "template": "/contact-us"
+  },
+  {
+   "id": "assessments",
+   "path": "/assessments",
+   "template": "/solutions"
+  },
+  {
+   "id": "home-v2",
+   "path": "/home-v2",
+   "template": "/"
+  },
+  {
+   "id": "gcp-security-health-check",
+   "path": "/technology/google-cloud/security-health-check",
+   "template": "/technology/google-cloud/infrastructure-modernization"
+  }
+ ],
+ "unchangedLive": [
+  "/2026",
+  "/ai-careerguide",
+  "/AT8_Kd26M",
+  "/aws-migration-modernization",
+  "/blogs",
+  "/buP9kCfRX",
+  "/BXapqTMlz",
+  "/C3bWwIkI3",
+  "/careers",
+  "/CJB9QE9N7",
+  "/coe-microsoft-ai-security",
+  "/DNoLdyn_i",
+  "/edm",
+  "/ePaB_woxd",
+  "/EQ3qLe4sC",
+  "/etVPj8DXW",
+  "/F2j6VS8NH",
+  "/FN5LP1UNh",
+  "/foundersblog/a-new-economics-of-winning-in-ai",
+  "/foundersblog/architecting-ambition-why-purpose-and-curiosity-define-the-ai-era",
+  "/foundersblog",
+  "/foundersblog/the-ai-takeover-is-a-myth-the-future-is-human-ai-partnership",
+  "/foundersblog/the-most-underrated-enterprise-asset-of-2026",
+  "/foundersblog/the-overlooked-human-skill-that-can-10x-your-ai-productivity",
+  "/foundersblog/the-overlooked-human-skill-that-can-10x-your-ai-productivity-copy",
+  "/foundersblog/when-intelligence-becomes-abundant-judgement-becomes-scarce",
+  "/from-builders-to-autonomy-agentic-ai",
+  "/from-builders-to-autonomy-agentic-ai-chennai",
+  "/gIS8b3OVc",
+  "/H8uKkuYSH",
+  "/happy/accelerating-contract-intelligence",
+  "/happy/accelerating-digital-transformation-for-fintech",
+  "/happy/accelerating-growth-retail-multi-account",
+  "/happy/accelerating-research-to-deliver-improved-quality-of-life",
+  "/happy/automated-software-deployment-eliminates-risk",
+  "/happy/automating-active-directory-migration-for-solar-pioneer",
+  "/happy/azure-managed-services-for-financial-infra",
+  "/happy/azure-vmware-solution-modernization-pharma",
+  "/happy/b2c-portal-drives-forward-and-horizontal-integration",
+  "/happy/building-a-ciso-dashboard",
+  "/happy/building-custom-communication-platform-low-code",
+  "/happy/cloud-collaboration-for-general-insurance-major",
+  "/happy/cloud-iaas-enables-it-major",
+  "/happy/cloud-iaas-saas-enables-financial-services-provider",
+  "/happy/cloud-native-modern-devops-fuelling-innovation-on-aws",
+  "/happy/crm-makes-customer-delight-a-way-of-life",
+  "/happy/customer-experience-specialist-secures-data-with-saas",
+  "/happy/delivering-potential-of-people-and-software",
+  "/happy/delivering-secure-anywhere-access-for-conglomerate",
+  "/happy/deploying-zero-trust-security-for-business-house",
+  "/happy/design-and-manufacturing-major-secures-data-in-cloud",
+  "/happy/desktop-virtualization-enables-apparel-major-erp",
+  "/happy/driving-efficiency-with-centralized-information-access",
+  "/happy/elevating-pharma-infrastructure",
+  "/happy/empowering-healthcare-analytics-with-security-and-compliance",
+  "/happy/empowering-precision-agriculture",
+  "/happy/empowering-rapid-expansion-for-eyecare-chain",
+  "/happy/enabling-asias-largest-pharma-research-organization",
+  "/happy/enabling-hosting-service-provider-to-deliver-superior-cx",
+  "/happy/enabling-on-time-completion-of-multi-billion-dollar-projects",
+  "/happy/enabling-seamless-ma-activity",
+  "/happy/enabling-secure-global-app-access-telecom",
+  "/happy/energizing-the-entertainment-experience",
+  "/happy/enhancing-collaboration-at-premier-education-institute",
+  "/happy/enhancing-fintech-operations-with-security",
+  "/happy/enterprise-data-protection-solution-secures-critical-corporate-data",
+  "/happy/enterprise-project-management-solution",
+  "/happy/enterprise-security-solution-safeguards-digital-assets",
+  "/happy/fast-growing-bank-deploys-collaboration",
+  "/happy/fostering-an-agile-enterprise-with-integrated-it",
+  "/happy/global-fashion-house-looks-to-the-cloud-for-erp",
+  "/happy/global-player-leverages-new-working-models",
+  "/happy/heterogeneous-backup-and-dr-on-a-distributed-platform",
+  "/happy/hybrid-cloud-solution-enables-people-centric-organization",
+  "/happy/indias-leading-insurance-provider-implements-hybrid-collaboration",
+  "/happy/integrated-backup-mitigates-risk-and-drives-compliance",
+  "/happy/integrated-backup-mitigates-risk-and-drives-compliance-across-the-globe",
+  "/happy/integrated-data-management-solution-for-pharmaceuticals-manufacturer",
+  "/happy/integrated-security-solution-for-analytics-provider",
+  "/happy/iplon-indias-seamless-journey-to-gcp-efficiency",
+  "/happy/itsm-help-desk-enhances-employee-satisfaction",
+  "/happy/leading-fleet-management-provider-devops-transformation",
+  "/happy/leading-pharma-services-provider-leveraging-aws-waf",
+  "/happy/migrating-etms-vehicle-tracking-to-gcp",
+  "/happy/modern-analytics-for-patient-flow-management",
+  "/happy/modern-it-infrastructure-powers-growth-capital-market",
+  "/happy/modernizing-patch-management-with-azure",
+  "/happy/move-to-a-saas-model",
+  "/happy/multi-billion-dollar-two-wheeler-manufacturer",
+  "/happy/niche-ecom-portal-cloud-scale",
+  "/happy/offshore-it-services-delivery",
+  "/happy/online-replication-enables-real-time-dashboard",
+  "/happy/portal-extends-erp-functionality",
+  "/happy/portal-solution-enhances-erp-functionality-saving-costs",
+  "/happy/powering-secure-compliant-growth",
+  "/happy/premier-healthcare-provider-collaboration",
+  "/happy/protecting-data-for-70000-users-bank",
+  "/happy/publishing-house-embraces-change",
+  "/happy/redefining-app-dev-for-bi-provider",
+  "/happy/reinventing-apparel-manufacturing-with-azure-analytics",
+  "/happy/responsive-it-powers-transactions",
+  "/happy/revitalization-powers-growth",
+  "/happy/revolutionizing-renewable-energy-management",
+  "/happy/revolutionizing-security-response",
+  "/happy/revolutionizing-vlsi-application-development",
+  "/happy/sankara-eye-care-enterprise-ai-adoption-claude",
+  "/happy/seamless-cloud-migration-apparel-manufacturer",
+  "/happy/secure-anytime-anywhere-it-access",
+  "/happy/secure-compliant-access-for-bank",
+  "/happy/secure-high-performance-app-delivery",
+  "/happy/securing-data-for-healthcare-provider",
+  "/happy/securing-global-tech-giant",
+  "/happy/service-desk-enhances-productivity",
+  "/happy/streamlining-cloud-workflow-with-aws-systems-manager",
+  "/happy/training-ml-models-ai-solutions",
+  "/happy/transforming-collaboration-dairy-company",
+  "/happy/transforming-data-management-biotech",
+  "/happy/transforming-desktop-application-delivery-startup",
+  "/happy/transforming-employee-experience-pharma",
+  "/happy/uc-redefines-productivity",
+  "/happy/unified-cloud-security-architecture",
+  "/happy/unleashing-real-time-face-swap-capabilities",
+  "/happy/virtualization-puts-it-in-top-gear",
+  "/HarrEnOR3",
+  "/Ihju1uH84",
+  "/ihN6jzqAS",
+  "/join-quadra",
+  "/legacy-wall",
+  "/llms-txt",
+  "/logos",
+  "/LOLBJNnlh",
+  "/LXuld382j",
+  "/mhx6EPo8p",
+  "/MjjLzleFp",
+  "/MkhSj4g9M",
+  "/my3KV00jW",
+  "/nEDUL_EJ1",
+  "/newsroom/accessing-virtual-machines-in-google-cloud-using-iap-desktop",
+  "/newsroom/achieve-data-security-and-scalability-with-google-cloud-storage-a-business-guide",
+  "/newsroom/achieving-more-with-less-explore-the-capabilities-of-microsoft-power-platform",
+  "/newsroom/amazon-workspaces-offering-flexibility-and-scalability-for-your-business-needs",
+  "/newsroom/beyond-firewalls-build-stronger-security-teams-with-quadra-soc-nxts-expertise",
+  "/newsroom/building-a-vpn-from-on-premises-hybrid-to-gcp",
+  "/newsroom/citrix-secure-private-access-an-essential-tool-for-protecting-your-business-data",
+  "/newsroom/cloud-firewall-standard-protect-your-google-cloud-network-from-advanced-threats",
+  "/newsroom/creating-accurate-cloud-architecture-diagrams-made-easy-with-google-cloud-tools",
+  "/newsroom/cross-cloud-disaster-recovery",
+  "/newsroom/cross-cloud-disaster-recovery-for-sap-hana",
+  "/newsroom/deliver-applications-anywhere-anytime-using-adcs",
+  "/newsroom/discover-unauthorised-ai-agents-with-microsoft-defender-for-endpoint",
+  "/newsroom/enable-secure-access-to-applications-and-resources-with-beyondcorp-enterprise",
+  "/newsroom/essential-resources-to-secure-your-aws-infrastructure",
+  "/newsroom/finding-sensitive-data-in-azure-cloud-storage",
+  "/newsroom/finops-hub-the-smart-way-to-manage-your-google-cloud-costs",
+  "/newsroom/from-legacy-vms-to-cloud-native-applications",
+  "/newsroom/from-pixel-to-insight-in-just-minutes",
+  "/newsroom/heres-how-you-can-maximize-your-google-cloud-platform-investment-with-a-landing-zone",
+  "/newsroom/how-microsoft-viva-learning-is-transforming-corporate-training-and-development",
+  "/newsroom/how-to-use-terraform-for-effective-gcp-resource-management",
+  "/newsroom/increase-business-agility-by-up-to-45-percentage-with-google-cloud-vmware-engine",
+  "/newsroom",
+  "/newsroom/learn-how-you-can-leverage-amazon-rds-and-aurora",
+  "/newsroom/leveraging-beyondcorp-in-gcp-for-advanced-cloud-security",
+  "/newsroom/maximizing-cost-savings-with-aws-server-migration-service",
+  "/newsroom/microsoft-entra-private-access",
+  "/newsroom/microsoft-intune-endpoint-privilege-management-(epm)-eliminate-local-admin-rights-without-slowing-down-users",
+  "/newsroom/modernise-your-enterprise-applications-using-amazon-ecs",
+  "/newsroom/protect-your-business-against-modern-cyber-threats-using-azure-ad-multi-factor-authentication",
+  "/newsroom/purview-network-dlp",
+  "/newsroom/quadras-comprehensive-guide-to-microsoft-copilots",
+  "/newsroom/seamless-file-sharing-and-low-latency-storage-with-google-cloud-filestore",
+  "/newsroom/setting-up-a-landing-zone-in-gcp-a-10-point-checklist-for-seamless-onboarding",
+  "/newsroom/smart-tools-that-can-double-your-employee-productivity-instantly",
+  "/newsroom/stay-on-top-of-your-costs-with-detailed-tracking-from-looker-studio-at-no-cost",
+  "/newsroom/streamline-your-business-with-containerized-applications-on-google-kubernetes-engine-gke",
+  "/newsroom/strengthen-your-cloud-security-posture-with-google-cloud-armor",
+  "/newsroom/take-control-of-security-and-risk-management-with-google-cloud",
+  "/newsroom/that-file-shared-for-one-project-is-still-open-three-years-later",
+  "/newsroom/the-architect’s-view",
+  "/newsroom/the-autonomous-engineering-era-google-antigravity-gemini-enterprise",
+  "/newsroom/the-predictive-tool-thats-changing-ecommerce-forever",
+  "/newsroom/transforming-healthcare-a-case-study-on-patient-flow-management",
+  "/newsroom/which-microsoft-365-copilot-experience-should-you-use",
+  "/newsroom/why-migrating-vms-from-aws-to-google-cloud-is-a-smart-move",
+  "/newsroom/why-use-traditional-desktops-when-you-have-citrix-daas",
+  "/NM5HYGKiy",
+  "/nY3_Pr8T9",
+  "/pjoA7zmKT",
+  "/pressrelease",
+  "/pressrelease/quadra-bridges-the-‘execution-gap’-in-ai",
+  "/pressrelease/quadrasystems.net-among-the-first-in-india-to-achieve-iso-iec-42001-2023",
+  "/privacy",
+  "/q13_g3BCZ",
+  "/R6nlH7AV0",
+  "/Rldzb6pWK",
+  "/secure-the-future-power-it-with-ai",
+  "/social",
+  "/solutions/platforms-ip/bluforge/bluforge-assist",
+  "/solutions/platforms-ip/bluforge/bluforge-ops",
+  "/solutions/platforms-ip/bluforge/bluforge-pulse",
+  "/solutions/platforms-ip/bluforge/bluforge-shield",
+  "/solutions/platforms-ip/bluforge",
+  "/solutions/platforms-ip/intellilink",
+  "/solutions/platforms-ip/max-it",
+  "/solutions/platforms-ip/thankz",
+  "/Sxf5Veh5p",
+  "/technology/aws/aws-security-assessment-compliance/case-study-empowering-a-global-life-sciences",
+  "/technology/aws/aws-security-assessment-compliance/case-study-securing-a-multi-account-aws-environment",
+  "/technology/aws/aws-security-assessment-compliance",
+  "/technology/aws/managed-services/case-study-comprehensive-cloud",
+  "/technology/aws/managed-services/case-study-empowering-life-sciences",
+  "/technology/aws/microsite/control-tower",
+  "/technology/aws/microsite/generative-ai",
+  "/technology/aws/microsite/glue",
+  "/technology/aws/microsite/migration",
+  "/technology/aws/microsite/modern-analytics",
+  "/technology/aws/microsite/modernization",
+  "/technology/aws/microsite/quadra-draas",
+  "/technology/aws/microsite/quicksight",
+  "/technology/aws/microsite/redshift",
+  "/technology/aws/microsite/security-compliance",
+  "/technology/aws/microsite/systems-manager",
+  "/technology/aws/microsite/waf",
+  "/technology/intelligent_platform",
+  "/terms",
+  "/thankyou",
+  "/Tzm9EePDi",
+  "/VGsdcm8l7",
+  "/W1X7KPnKP",
+  "/why-quadra/careers-recruit-test",
+  "/why-quadra/leadership",
+  "/why-quadra/legacy-of-seeing-whats-next",
+  "/why-quadra/our-people",
+  "/why-quadra/our-story",
+  "/YLkqIuPao",
+  "/zlAmx_jon",
+  "/zscaler-lunch-learn-genai-security"
+ ]
+}

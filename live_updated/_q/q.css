@@ -1,0 +1,954 @@
+/* Sections rebuilt from content.json inside the live Quadra pages (live_updated/). Matches the live design:
+   EB Garamond headings with an orange closing phrase, Raleway body, dark cards, orange pill buttons. */
+:root { --q-accent: #f26102; --q-grad: linear-gradient(90deg, #f26202 0%, #a418f5 100%); --q-serif: "EB Garamond", Georgia, serif; --q-sans: Raleway, "Helvetica Neue", Arial, sans-serif; --q-ease-out: cubic-bezier(0.23, 1, 0.32, 1); --q-accent-text: #f26102; }
+html[data-q-theme="dark"] { --q-bg: #000; --q-band: #0d0d0f; --q-surface: #18181b; --q-surface2: #111113; --q-border: #27272a; --q-text: #fff; --q-accent-text: #f26102; --q-body: #e8e8e8; --q-muted: #a1a1aa; --q-panel: rgba(10, 10, 12, 0.97); color-scheme: dark; }
+html[data-q-theme="light"] { --q-bg: #fff; --q-band: #fafafa; --q-surface: #fafafa; --q-surface2: #f4f4f5; --q-border: #e4e4e7; --q-text: #09090b; --q-accent-text: #c2410c; --q-body: #2e2e2e; --q-muted: #66666e; --q-panel: rgba(255, 255, 255, 0.98); color-scheme: light; }
+html[data-q-theme] body { background: var(--q-bg); }
+
+.q-wrap { width: 100%; align-self: stretch; }
+.q-wrap *, .q-menu *, .q-mobile * { box-sizing: border-box; }
+.q-section { width: 100%; background: var(--q-bg); padding: 100px 0; position: relative; }
+.q-section.q-band { background: var(--q-band); }
+.q-container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 40px; }
+.q-wrap p { margin: 0 0 14px; }
+.q-wrap p:last-child { margin-bottom: 0; }
+.q-wrap h2, .q-wrap h3 { margin: 0; color: var(--q-text); font-family: var(--q-serif); text-wrap: balance; }
+
+.q-head { max-width: 820px; margin: 0 auto 56px; text-align: center; }
+.q-h2 { font-weight: 500; font-size: clamp(34px, 4vw, 52px); line-height: 1.1; letter-spacing: -1.04px; }
+.q-accent { color: var(--q-accent); }
+.q-lede { margin-top: 20px; font: 500 17px/1.6 var(--q-sans); letter-spacing: 0.4px; color: var(--q-muted); }
+.q-kicker { display: inline-block; font: 600 12px/1 var(--q-sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--q-accent-text); margin-bottom: 16px; }
+
+/* rebuilt heroes: the new copy inside the live hero (boxes fitted by q.js) */
+[data-q-title], [data-q-title] * { text-wrap: balance !important; }
+/* the live hero type is tracked very tight (-0.04em eyebrow, -0.03em title): with longer new copy the word spaces
+   nearly close ("ArchitectingAmbition", 5.7px at 36px). Open the tracking a little and give words a normal space. */
+[data-q-eyebrow], [data-q-eyebrow] * { --framer-letter-spacing: -0.01em !important; letter-spacing: -0.01em !important; word-spacing: 0.06em; }
+[data-q-title], [data-q-title] * { --framer-letter-spacing: -0.015em !important; letter-spacing: -0.015em !important; word-spacing: 0.04em; }
+/* the pack's eyebrow labels ("AZURE · APPLICATION ENGINEERING") are kickers: the small tracked caps of .q-kicker,
+   in the hero's own text colour, instead of the live slot's large serif line */
+[data-q-kicker], [data-q-kicker] * { --framer-font-family: var(--q-sans) !important; font-family: var(--q-sans) !important; --framer-font-size: 13px !important; font-size: 13px !important; --framer-font-weight: 600 !important; font-weight: 600 !important; --framer-letter-spacing: 0.16em !important; letter-spacing: 0.16em !important; --framer-line-height: 1.6 !important; line-height: 1.6 !important; text-transform: uppercase; word-spacing: normal; text-wrap: balance; }
+@media (max-width: 809.98px) { [data-q-kicker], [data-q-kicker] * { --framer-font-size: 12px !important; font-size: 12px !important; letter-spacing: 0.14em !important; } }
+/* the intro is short (2-5 lines): even lines, no word or two left hanging on the last one */
+[data-q-intro] { text-wrap: balance !important; }
+/* browsers balance up to 6 lines; a longer intro (a phone) keeps its last word company instead (q.js adds .q-long) */
+[data-q-intro].q-long { text-wrap: pretty !important; }
+/* a hero's second action: the orange outline version of the live pill (Framer draws its border from --border-*) */
+[data-q-hero] a[data-q-secondary] { background-color: transparent !important; box-shadow: none !important; --border-color: var(--q-accent) !important; --border-top-width: 1.5px !important; --border-right-width: 1.5px !important; --border-bottom-width: 1.5px !important; --border-left-width: 1.5px !important; --border-style: solid !important; transition: background-color 0.2s ease, transform 160ms var(--q-ease-out); }
+[data-q-hero] a[data-q-secondary] p { --framer-text-color: var(--q-accent-text) !important; color: var(--q-accent-text) !important; }
+@media (hover: hover) and (pointer: fine) { [data-q-hero] a[data-q-secondary]:hover { background-color: color-mix(in srgb, var(--q-accent) 10%, transparent) !important; } }
+[data-q-hero] a[data-q-secondary]:active { transform: scale(0.97); }
+[data-q-hero] .q-hero-text { isolation: isolate; }
+html[data-q-theme="dark"] { --q-scrim: rgba(0, 0, 0, 0.62); }
+html[data-q-theme="light"] { --q-scrim: rgba(255, 255, 255, 0.82); }
+/* text on a photo: a soft, borderless pool of the page colour behind the copy, not a box */
+.q-photo-hero .q-hero-text::before { content: ""; position: absolute; inset: -14% -10%; z-index: -1; pointer-events: none; background: radial-gradient(closest-side, var(--q-scrim) 0%, var(--q-scrim) 45%, transparent 100%); }
+.q-photo-hero [data-q-intro] { --framer-text-color: var(--q-body) !important; }
+
+/* intro statement right after the hero */
+.q-intro { padding: 80px 0 40px; }
+.q-intro .q-container { max-width: 900px; text-align: center; }
+.q-intro p { font: 500 20px/1.6 var(--q-sans); color: var(--q-body); letter-spacing: 0.3px; }
+
+/* text section with real image */
+.q-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center; }
+.q-split.q-flip > .q-media { order: -1; }
+.q-split.q-noimg { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; }
+.q-split .q-h2 { font-size: clamp(32px, 3.4vw, 46px); }
+.q-split .q-copy > p, .q-split .q-body p { font: 500 16.5px/1.65 var(--q-sans); color: var(--q-muted); letter-spacing: 0.4px; }
+.q-split .q-body { margin-top: 22px; }
+.q-split .q-body p.q-lead { font: 600 18px/1.45 var(--q-sans); color: var(--q-text); letter-spacing: 0.2px; text-wrap: balance; }
+.q-noimg .q-body { margin-top: 0; }
+.q-media img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 15px; display: block; border: 1px solid var(--q-border); }
+
+.q-checks { list-style: none; padding: 0; margin: 24px 0 0; display: grid; gap: 10px; }
+.q-checks li { position: relative; padding: 13px 16px 13px 46px; border-radius: 12px; background: var(--q-surface); border: 1px solid var(--q-border); font: 500 15px/1.5 var(--q-sans); color: var(--q-body); letter-spacing: 0.3px; }
+.q-checks li::before, .q-outcomes li::before { content: ""; position: absolute; left: 15px; top: 14px; width: 18px; height: 18px; border-radius: 50%; background: var(--q-grad);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 0a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.6 7.3-5.4 6a1 1 0 0 1-1.5 0L5.4 11a1 1 0 1 1 1.5-1.4l1.6 1.7 4.6-5.1a1 1 0 0 1 1.5 1.4Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 0a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.6 7.3-5.4 6a1 1 0 0 1-1.5 0L5.4 11a1 1 0 1 1 1.5-1.4l1.6 1.7 4.6-5.1a1 1 0 0 1 1.5 1.4Z'/%3E%3C/svg%3E") center / contain no-repeat; }
+.q-head + .q-checks { max-width: 940px; margin: -24px auto 40px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.q-closing { margin-top: 26px; padding: 20px 24px; border-radius: 15px; border: 1px solid var(--q-border); background: linear-gradient(100deg, rgba(242, 97, 2, 0.1), rgba(164, 24, 245, 0.1)); position: relative; overflow: hidden; font: 500 15.5px/1.6 var(--q-sans); color: var(--q-body); }
+.q-closing::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--q-grad); }
+.q-grid + .q-closing { max-width: 940px; margin: 36px auto 0; }
+
+/* Quadra platform logos where new copy names the product: the official lockups with nothing behind them. Each has a
+   version for light and one for dark backgrounds and the theme shows the matching one. The builder matches their
+   optical size (--q-logo-h: the same visual area for wide and squarer lockups); each place scales it (--q-logo-scale). */
+.q-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 36px; margin-top: 28px; }
+.q-logos.q-center { justify-content: center; }
+.q-head-logos { margin: -20px 0 48px; }
+.q-logo { display: inline-flex; align-items: center; flex-shrink: 0; line-height: 0; text-decoration: none; border-radius: 6px; }
+.q-logo .q-logo-light, .q-logo .q-logo-dark { display: block; width: auto; max-width: 100%; height: calc(var(--q-logo-h, 30px) * var(--q-logo-scale, 1)); margin: 0; border: 0; border-radius: 0; aspect-ratio: auto; object-fit: contain; }
+html[data-q-theme="dark"] .q-logo .q-logo-light, html[data-q-theme="light"] .q-logo .q-logo-dark { display: none; }
+a.q-logo { transition: transform 160ms var(--q-ease-out); }
+@media (hover: hover) and (pointer: fine) { a.q-logo:hover { transform: translateY(-1px); } }
+a.q-logo:active { transform: scale(0.97); }
+a.q-logo:focus-visible { outline: 2px solid var(--q-accent); outline-offset: 6px; }
+/* in a card: at the foot, on the card's left edge, above its link */
+.q-card .q-card-logos { margin-top: auto; padding-top: 20px; min-height: 70px; align-items: center; --q-logo-scale: 0.9; }
+.q-card .q-card-logos + .q-foot { margin-top: 16px; }
+/* in a hero: above the eyebrow, following the title's alignment (q.js) */
+.q-hero-logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px 36px; width: 100%; position: relative; z-index: 2; --q-logo-scale: 1.3; }
+/* in a Compass answer: under the text */
+.q-msg-logos { margin-top: 14px; gap: 12px 28px; --q-logo-scale: 0.8; }
+@media (max-width: 809.98px) { .q-hero-logos { --q-logo-scale: 1.1; } .q-logos { gap: 14px 28px; } }
+
+/* outcomes panel: a section's own "Outcomes to work toward" list, in the image slot when no live photo is left */
+.q-outcomes { position: relative; isolation: isolate; display: flex; align-items: center; aspect-ratio: 4 / 3; padding: clamp(24px, 3.2vw, 44px); border-radius: 15px; border: 1px solid var(--q-border); background: var(--q-surface); overflow: hidden; }
+.q-outcomes::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(55% 65% at 0% 100%, rgba(242, 98, 2, 0.2), transparent 70%), radial-gradient(55% 65% at 100% 0%, rgba(164, 24, 245, 0.24), transparent 70%); }
+.q-outcomes::after { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0.55; background-image: linear-gradient(var(--q-border) 1px, transparent 1px), linear-gradient(90deg, var(--q-border) 1px, transparent 1px); background-size: 34px 34px; -webkit-mask: radial-gradient(75% 70% at 50% 50%, #000 20%, transparent 100%); mask: radial-gradient(75% 70% at 50% 50%, #000 20%, transparent 100%); }
+.q-outcomes-card { width: 100%; }
+.q-outcomes-label { display: block; margin-bottom: 18px; font: 600 12px/1 var(--q-sans); letter-spacing: 0.18em; text-transform: uppercase; color: var(--q-accent-text); }
+.q-outcomes ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.q-outcomes li { position: relative; padding: 14px 16px 14px 46px; border-radius: 12px; border: 1px solid var(--q-border); background: color-mix(in srgb, var(--q-bg) 72%, transparent); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); font: 500 15.5px/1.45 var(--q-sans); letter-spacing: 0.2px; color: var(--q-text);
+  transition: opacity 0.5s var(--q-ease-out), transform 0.5s var(--q-ease-out); }
+html.q-js .q-outcomes:not(.q-in) li { opacity: 0; transform: translateY(8px); }
+.q-outcomes li::first-letter { text-transform: uppercase; }
+.q-outcomes li::before { top: 15px; }
+.q-outcomes.q-in li { opacity: 1; transform: none; }
+.q-outcomes.q-in li:nth-child(2) { transition-delay: 60ms; }
+.q-outcomes.q-in li:nth-child(3) { transition-delay: 120ms; }
+.q-outcomes.q-in li:nth-child(4) { transition-delay: 180ms; }
+.q-outcomes.q-in li:nth-child(5) { transition-delay: 240ms; }
+.q-outcomes.q-in li:nth-child(n + 6) { transition-delay: 300ms; }
+/* a text-only section: the first paragraph lines up with the heading, not the small number above it */
+@media (min-width: 810px) { .q-noimg > .q-body { padding-top: 28px; } }
+/* consecutive text-only sections read as one list: a tighter rhythm with a hairline between them */
+.q-section:has(> .q-container > .q-noimg):has(+ .q-section > .q-container > .q-noimg) { padding-bottom: 52px; }
+.q-section:has(> .q-container > .q-noimg) + .q-section:has(> .q-container > .q-noimg) { padding-top: 0; }
+.q-section:has(> .q-container > .q-noimg) + .q-section:has(> .q-container > .q-noimg) .q-noimg { padding-top: 52px; border-top: 1px solid var(--q-border); }
+
+/* cards */
+.q-grid { display: grid; gap: 20px; }
+.q-cols-1 { grid-template-columns: minmax(0, 760px); justify-content: center; }
+.q-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* three columns wrap so an incomplete last row (5 or 7 cards) sits centred instead of leaving an empty slot */
+.q-cols-3 { display: flex; flex-wrap: wrap; justify-content: center; }
+.q-cols-3 > * { flex: 0 0 calc((100% - 40px) / 3); min-width: 0; }
+.q-card { display: flex; flex-direction: column; gap: 12px; padding: 30px; border-radius: 15px; background: var(--q-surface); border: 1px solid var(--q-border); text-decoration: none; color: inherit; transition: transform 0.25s var(--q-ease-out), border-color 0.25s ease; }
+@media (hover: hover) and (pointer: fine) { a.q-card:hover { transform: translateY(-3px); border-color: color-mix(in srgb, var(--q-accent) 55%, var(--q-border)); } }
+.q-card img, .q-card-art { width: calc(100% + 60px); margin: -30px -30px 6px; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 14px 14px 0 0; display: block; }
+.q-card.q-cover img { aspect-ratio: 2 / 1; }
+/* a card without a photo in a row of photo cards: the brand glow and grid of the outcomes panel, so the row lines up */
+.q-card-art { position: relative; overflow: hidden; background: radial-gradient(60% 85% at 0% 100%, rgba(242, 98, 2, 0.22), transparent 70%), radial-gradient(60% 85% at 100% 0%, rgba(164, 24, 245, 0.26), transparent 70%), var(--q-surface2); }
+.q-card-art::after { content: ""; position: absolute; inset: 0; opacity: 0.6; background-image: linear-gradient(var(--q-border) 1px, transparent 1px), linear-gradient(90deg, var(--q-border) 1px, transparent 1px); background-size: 30px 30px; -webkit-mask: radial-gradient(70% 70% at 50% 50%, #000 15%, transparent 100%); mask: radial-gradient(70% 70% at 50% 50%, #000 15%, transparent 100%); }
+/* card titles (practice names, routes, cases) are semi-bold so they read as headings, as on the live site */
+.q-card h3 { font-weight: 600; font-size: 24px; line-height: 1.2; letter-spacing: -0.6px; }
+.q-card p { font: 500 15px/1.6 var(--q-sans); color: var(--q-muted); letter-spacing: 0.4px; }
+.q-card .q-question { font: italic 400 20px/1.35 var(--q-serif); color: var(--q-text); letter-spacing: -0.2px; }
+.q-card .q-num { font: 600 12px/1 var(--q-sans); letter-spacing: 0.18em; color: var(--q-accent-text); }
+.q-card .q-foot { margin-top: auto; padding-top: 6px; }
+.q-tag { font: 600 11.5px/1 var(--q-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--q-accent-text); }
+
+/* buttons & links (live: orange pill, 30px radius) */
+.q-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+.q-center { justify-content: center; }
+.q-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 18px 12px 22px; border-radius: 30px; background: var(--q-accent); color: #fff !important; font: 600 14px/1.2 var(--q-sans); letter-spacing: 0.3px; text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: transform 160ms var(--q-ease-out), background 0.2s ease; box-shadow: 0 10px 30px -12px rgba(242, 97, 2, 0.7); }
+@media (hover: hover) and (pointer: fine) { .q-btn:hover { transform: translateY(-1px); background: #ff6a0a; } }
+.q-wrap a:focus-visible, .q-wrap button:focus-visible, .q-menu a:focus-visible, .q-mobile a:focus-visible, .q-mobile button:focus-visible, .q-chat button:focus-visible, .q-launch:focus-visible, [data-q-hero] a:focus-visible { outline: 2px solid var(--q-accent); outline-offset: 3px; }
+.q-btn svg, .q-link svg { width: 13px; height: 13px; }
+/* secondary action: the same pill as an orange outline */
+.q-btn-ghost { background: transparent; color: var(--q-accent-text) !important; border: 1.5px solid var(--q-accent-text); box-shadow: none; }
+@media (hover: hover) and (pointer: fine) { .q-btn-ghost:hover { background: color-mix(in srgb, var(--q-accent) 10%, transparent); } }
+.q-btn[disabled] { opacity: 0.55; cursor: not-allowed; transform: none; }
+.q-link { display: inline-flex; align-items: center; gap: 6px; color: var(--q-accent-text) !important; font: 600 14.5px/1.3 var(--q-sans); text-decoration: none; }
+.q-hero-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 26px; position: relative; z-index: 4; pointer-events: none; }
+.q-hero-actions a { pointer-events: auto; position: relative; z-index: 30; }
+[data-q-hero] a[data-q-content-link] { pointer-events: auto; position: relative; z-index: 30; cursor: pointer; }
+#overlay { pointer-events: none !important; }
+/* hero buttons match the live hero pill (16px semibold label, 50px tall); in-page buttons stay the compact 43px */
+.q-hero-actions .q-btn { min-height: 50px; padding: 0 24px 0 28px; font-size: 16px; justify-content: center; }
+@media (max-width: 809.98px) { .q-hero-actions .q-btn { min-height: 44px; font-size: 15px; } }
+
+/* Azure lifecycle: eight numbered stages in one row (wrapping on smaller screens); a page's own stages are lit */
+.q-life { list-style: none; margin: 0 auto; padding: 0; max-width: 1100px; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 10px; counter-reset: none; }
+.q-life-step > a, .q-life-step > span { position: relative; display: flex; flex-direction: column; gap: 8px; height: 100%; padding: 16px 14px; border-radius: 12px; border: 1px solid var(--q-border); background: var(--q-surface); color: var(--q-text); text-decoration: none; transition: border-color 0.2s ease, transform 160ms var(--q-ease-out); }
+.q-life-step:not(:last-child) > a::after, .q-life-step:not(:last-child) > span::after { content: "→"; position: absolute; right: -10px; top: 50%; transform: translate(50%, -50%); font: 600 13px/1 var(--q-sans); color: var(--q-muted); }
+.q-life-n { font: 600 11.5px/1 var(--q-sans); letter-spacing: 0.14em; color: var(--q-muted); }
+.q-life-t { font: 600 16px/1.2 var(--q-sans); }
+.q-life-step.q-on > a, .q-life-step.q-on > span { border-color: var(--q-accent); background: color-mix(in srgb, var(--q-accent) 10%, var(--q-surface)); }
+.q-life-step.q-on .q-life-n { color: var(--q-accent-text); }
+@media (hover: hover) and (pointer: fine) { .q-life-step > a:hover { border-color: color-mix(in srgb, var(--q-accent) 60%, var(--q-border)); transform: translateY(-2px); } }
+@media (max-width: 1023.98px) { .q-life { grid-template-columns: repeat(4, minmax(0, 1fr)); } .q-life-step:nth-child(4) > a::after, .q-life-step:nth-child(4) > span::after { content: none; } }
+@media (max-width: 559.98px) { .q-life { grid-template-columns: repeat(2, minmax(0, 1fr)); } .q-life-step:nth-child(2n) > a::after, .q-life-step:nth-child(2n) > span::after { content: none; } }
+
+/* Assessments: a complimentary mark and two links per card */
+.q-assess { position: relative; }
+.q-assess-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 6px; }
+.q-free { align-self: center; padding: 5px 10px; border-radius: 20px; font: 700 11px/1 var(--q-sans); letter-spacing: 0.06em; text-transform: uppercase; color: var(--q-accent-text); background: color-mix(in srgb, var(--q-accent) 12%, transparent); border: 1px solid color-mix(in srgb, var(--q-accent) 55%, transparent); }
+.q-assess-foot { display: flex; flex-wrap: wrap; gap: 8px 22px; }
+.q-link-quiet { color: var(--q-muted) !important; }
+
+/* Happy Customers case library: filtered-out cards, the no-results message, "Load more" */
+.q-grid > .q-card[hidden], .q-cases-empty[hidden], .q-cases-more[hidden] { display: none !important; }
+.q-cases-empty { max-width: 640px; margin: 8px auto 0; text-align: center; }
+.q-cases-empty .q-h2 { font-size: clamp(26px, 3vw, 36px); }
+.q-cases-more { margin-top: 36px; }
+.q-filters input[type="search"] { -webkit-appearance: none; appearance: none; }
+
+/* partner credentials: one card per tier / designation, centred so a short list does not stretch */
+.q-creds { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+.q-cred { flex: 0 1 260px; min-width: 0; display: flex; flex-direction: column; gap: 10px; padding: 22px 24px; border-radius: 15px; background: var(--q-surface); border: 1px solid var(--q-border); }
+.q-wrap .q-cred h3 { font-weight: 600; font-size: 20px; line-height: 1.25; letter-spacing: -0.4px; }
+.q-cred-mark .q-ico, .q-assess-head .q-ico { width: 48px; height: 48px; border-radius: 12px; }
+.q-cred-mark .q-ico-brand img, .q-assess-head .q-ico-brand img { max-width: 32px; max-height: 28px; }
+.q-cred-mark .q-ico svg, .q-assess-head .q-ico svg { width: 22px; height: 22px; }
+/* the partner's mark sits in one fixed-height slot, so titles line up whether a card has an AWS badge or a logo tile */
+.q-cred-mark { display: flex; align-items: flex-start; height: 64px; margin-bottom: 2px; }
+.q-cred-badge { height: 64px; width: auto; padding: 5px; border-radius: 10px; background: #fff; border: 1px solid rgba(9, 9, 11, 0.06); }
+@media (max-width: 809.98px) { .q-creds { gap: 10px; } .q-cred { flex-basis: calc(50% - 5px); padding: 16px; } .q-wrap .q-cred h3 { font-size: 17px; } .q-cred-mark { height: 52px; } .q-cred-badge { height: 52px; } }
+@media (max-width: 359.98px) { .q-cred { flex-basis: 100%; } }
+
+/* chips: a plain topic is a slim pill; a link to a related page is a small card with its kind, its name and an arrow
+   badge that lights up and nudges forward on hover */
+.q-chips { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; max-width: 1080px; margin: 0 auto; }
+.q-chip { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; border: 1px solid var(--q-border); background: var(--q-surface); color: var(--q-text) !important; font: 600 14px/1.2 var(--q-sans); text-decoration: none; }
+a.q-chip { flex: 0 1 auto; min-width: 200px; max-width: 300px; justify-content: space-between; gap: 18px; padding: 14px 14px 14px 20px; border-radius: 16px; text-align: left; transition: transform 160ms var(--q-ease-out), border-color 0.2s ease, background-color 0.2s ease; }
+.q-chip-text { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.q-chip-kind { font: 600 10.5px/1 var(--q-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--q-muted); }
+.q-chip-name { font: 600 15px/1.3 var(--q-sans); color: var(--q-text); text-wrap: balance; }
+.q-chip-go { flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--q-border); color: var(--q-text); transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease; }
+.q-chip-go svg { width: 13px; height: 13px; transition: transform 200ms var(--q-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  a.q-chip:hover { border-color: color-mix(in srgb, var(--q-accent) 60%, var(--q-border)); background: color-mix(in srgb, var(--q-accent) 6%, var(--q-surface)); }
+  a.q-chip:hover .q-chip-go { background: var(--q-accent); border-color: var(--q-accent); color: #fff; }
+  a.q-chip:hover .q-chip-go svg { transform: translateX(2px); }
+}
+a.q-chip:focus-visible { outline: 2px solid var(--q-accent); outline-offset: 3px; }
+
+/* "Connected expertise" diagram: this page as the hub between two columns of related pages; q.js draws hairline
+   connectors and lights one while its page is hovered or focused. One visual language: every related page is the
+   same quiet row (a neutral tile with its icon or logo, its name, an arrow that slides in on hover). */
+.q-map { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; column-gap: 104px; max-width: 1040px; margin: 12px auto 0; }
+.q-map-col { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; }
+.q-map-left { align-items: flex-end; }
+.q-map-right { align-items: flex-start; }
+.q-node { position: relative; display: flex; align-items: center; gap: 14px; width: 100%; max-width: 300px; min-height: 60px; padding: 9px 16px 9px 9px; border-radius: 14px; border: 1px solid var(--q-border); background: var(--q-surface); color: var(--q-text) !important; text-decoration: none; transition: border-color 0.2s ease, background-color 0.2s ease, transform 160ms var(--q-ease-out); }
+.q-node-name { flex: 1; min-width: 0; font: 600 14.5px/1.3 var(--q-sans); letter-spacing: 0.1px; text-wrap: balance; }
+.q-node-go { flex: none; display: grid; place-items: center; width: 14px; color: var(--q-accent-text); opacity: 0; transform: translateX(-4px); transition: opacity 0.2s ease, transform 0.2s var(--q-ease-out); }
+.q-node-go svg { width: 14px; height: 14px; }
+@media (hover: hover) and (pointer: fine) {
+  .q-node:hover { border-color: color-mix(in srgb, var(--q-accent) 50%, var(--q-border)); background: color-mix(in srgb, var(--q-accent) 5%, var(--q-surface)); }
+  .q-node:hover .q-node-go { opacity: 1; transform: none; }
+  .q-node:hover .q-ico:not(.q-ico-brand) { color: var(--q-accent-text); }
+}
+.q-node:focus-visible { outline: 2px solid var(--q-accent); outline-offset: 3px; }
+.q-node:focus-visible .q-node-go { opacity: 1; transform: none; }
+.q-node:active { transform: scale(0.98); }
+
+/* tiles: all the same size and neutral. Icons are muted grey (orange on hover); logos keep their own colours, except
+   the ones with dark lettering, which use their white version on the dark theme, as those brands do on dark grounds */
+.q-ico { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; color: var(--q-muted); background: var(--q-surface2); border: 1px solid var(--q-border); transition: color 0.2s ease; }
+.q-ico svg { width: 20px; height: 20px; }
+.q-ico-brand img { max-width: 28px; max-height: 24px; width: auto; height: auto; object-fit: contain; }
+.q-ico-brand svg { width: 19px; height: 19px; }
+.q-ico-veeam img, .q-ico-aws img { max-width: 30px; }
+.q-ico-logo img { max-width: 30px; max-height: 26px; }
+html[data-q-theme="dark"] .q-ico-aws img, html[data-q-theme="dark"] .q-ico-fortinet img { filter: brightness(0) invert(1); opacity: 0.9; }
+html[data-q-theme="dark"] .q-ico-logo .q-logo-light, html[data-q-theme="light"] .q-ico-logo .q-logo-dark { display: none; }
+html:not([data-q-theme]) .q-ico-logo .q-logo-dark { display: none; }
+/* a plain list of page links (outside the diagram): the same rows in a balanced grid (2 across, 4 when they fit) */
+.q-nodes { display: grid; grid-template-columns: repeat(2, minmax(0, 300px)); justify-content: center; gap: 10px; margin: 0 auto; }
+@media (min-width: 1180px) { .q-nodes { grid-template-columns: repeat(4, minmax(0, 280px)); } }
+@media (max-width: 639.98px) { .q-nodes { grid-template-columns: minmax(0, 1fr); } }
+.q-nodes .q-node { max-width: none; }
+/* a logo inside a card's tile is not a card photo */
+.q-card .q-ico img { width: auto; height: auto; margin: 0; aspect-ratio: auto; border-radius: 0; object-fit: contain; }
+.q-cred .q-tag { line-height: 1.45; }
+/* link chips elsewhere carry the same tile */
+a.q-chip { gap: 14px; padding-left: 14px; }
+a.q-chip .q-chip-text { flex: 1; }
+
+/* the hub: one calm circle with a thin outer ring and a soft accent shadow */
+.q-map-hub { position: relative; z-index: 1; width: 176px; aspect-ratio: 1; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 22px; text-align: center; background: var(--q-surface); border: 1px solid color-mix(in srgb, var(--q-accent) 55%, var(--q-border)); box-shadow: 0 0 0 8px var(--q-bg), 0 0 0 9px var(--q-border), 0 24px 60px -24px color-mix(in srgb, var(--q-accent) 45%, transparent); }
+.q-map-hub .q-ico { width: 44px; height: 44px; border-radius: 12px; color: var(--q-accent-text); background: color-mix(in srgb, var(--q-accent) 10%, var(--q-surface2)); border-color: color-mix(in srgb, var(--q-accent) 30%, var(--q-border)); }
+.q-map-hub .q-ico svg { width: 22px; height: 22px; }
+.q-map-hub .q-ico-brand img { max-width: 32px; max-height: 28px; }
+.q-map-hub-text { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.q-map-hub-kind { font: 600 10px/1 var(--q-sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--q-muted); }
+.q-map-hub-name { font: 500 19px/1.15 var(--q-serif); color: var(--q-text); letter-spacing: -0.2px; text-wrap: balance; }
+.q-map-hub.q-map-hub-long { width: 200px; padding: 20px; }
+.q-map-hub-long .q-map-hub-name { font-size: 16.5px; }
+
+/* connectors: hairlines that brighten to the accent for the page under the pointer */
+.q-map-lines { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: visible; }
+.q-map-lines path { fill: none; stroke: color-mix(in srgb, var(--q-text) 15%, transparent); stroke-width: 1; transition: stroke 0.2s ease, stroke-width 0.2s ease; }
+.q-map-lines circle { fill: color-mix(in srgb, var(--q-text) 28%, transparent); transition: fill 0.2s ease; }
+.q-map-lines .q-on path { stroke: var(--q-accent); stroke-width: 1.5; }
+.q-map-lines .q-on circle { fill: var(--q-accent); }
+
+/* one related page: hub and node side by side */
+.q-map.q-map-one { grid-template-columns: auto minmax(0, 300px); justify-content: center; }
+.q-map.q-map-one .q-map-left { display: none; }
+/* narrower screens: a tree, the hub on top and every page off one rail */
+@media (max-width: 899.98px) {
+  .q-map, .q-map.q-map-one { grid-template-columns: minmax(0, 1fr); row-gap: 0; max-width: 520px; }
+  .q-map-hub, .q-map-hub.q-map-hub-long { order: -1; width: auto; aspect-ratio: auto; border-radius: 16px; flex-direction: row; justify-content: flex-start; gap: 14px; padding: 14px 18px; text-align: left; box-shadow: 0 16px 40px -24px color-mix(in srgb, var(--q-accent) 40%, transparent); }
+  .q-map-hub-text { align-items: flex-start; }
+  .q-map-hub-name, .q-map-hub-long .q-map-hub-name { font-size: 18px; }
+  .q-map-col, .q-map-left, .q-map-right { align-items: stretch; margin-left: 22px; padding: 12px 0 0 22px; border-left: 1px solid color-mix(in srgb, var(--q-text) 15%, transparent); }
+  .q-map-empty { display: none; }
+  .q-node { max-width: none; }
+  .q-node::before { content: ""; position: absolute; left: -23px; top: 50%; width: 22px; height: 1px; background: color-mix(in srgb, var(--q-text) 15%, transparent); }
+  /* the rail stops at the last branch */
+  .q-map-right .q-node:last-child::after { content: ""; position: absolute; left: -25px; top: calc(50% + 1px); bottom: -2px; width: 4px; background: var(--q-bg); }
+  .q-map-lines { display: none; }
+}
+@media (max-width: 559.98px) { a.q-chip { flex: 1 1 100%; max-width: none; } }
+
+/* closing call to action (live "Let's Architect Your …" band) */
+.q-cta-card { position: relative; overflow: hidden; isolation: isolate; text-align: center; padding: 80px 40px; border-radius: 24px; background: var(--q-surface); border: 1px solid var(--q-border); }
+.q-cta-card::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(40% 70% at 12% 100%, rgba(242, 98, 2, 0.22), transparent 70%), radial-gradient(40% 70% at 88% 0%, rgba(164, 24, 245, 0.28), transparent 70%); }
+.q-cta-card .q-lede { max-width: 640px; margin-left: auto; margin-right: auto; }
+
+/* previews: forms, The Compass, case filters (not connected) */
+.q-panel { max-width: 820px; margin: 0 auto; padding: 34px; border-radius: 22px; background: var(--q-surface); border: 1px solid var(--q-border); }
+.q-note { display: flex; align-items: center; gap: 8px; font: 700 11.5px/1 var(--q-sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--q-muted); margin-bottom: 18px; }
+.q-note::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #40c5ff; }
+.q-field { display: grid; gap: 8px; margin-bottom: 16px; font: 600 13px/1.3 var(--q-sans); color: var(--q-text); }
+.q-input, .q-field input, .q-field textarea, .q-field select { width: 100%; padding: 14px 18px; border-radius: 14px; border: 1px solid var(--q-border); background: var(--q-bg); color: var(--q-body); font: 500 15px/1.4 var(--q-sans); }
+.q-row { display: grid; grid-template-columns: 1fr auto; gap: 10px; align-items: center; }
+.q-row .q-input { border-radius: 30px; }
+.q-filters { display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 14px; align-items: end; }
+.q-compass { max-width: 900px; margin: 0 auto; padding: 2px; border-radius: 26px; background: linear-gradient(120deg, rgba(242, 97, 2, 0.75), rgba(164, 24, 245, 0.75)); }
+.q-compass > div { border-radius: 24px; background: var(--q-surface2); padding: 36px; }
+.q-starters { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 14px 0 18px; }
+.q-starters li { padding: 10px 16px; border-radius: 30px; border: 1px solid var(--q-border); background: var(--q-surface); font: 500 14px/1.3 var(--q-sans); color: var(--q-body); }
+.q-small { font: 500 13px/1.5 var(--q-sans); color: var(--q-muted); }
+.q-gate { max-width: 780px; margin: 0 auto; padding: 16px 20px; border: 1px dashed var(--q-border); border-radius: 15px; text-align: center; font: 500 14px/1.5 var(--q-sans); color: var(--q-muted); }
+
+/* navigation panels (content.json navigation, opened from the live nav) */
+.q-menu { position: fixed; z-index: 10000; left: 50%; transform: translateX(-50%) translateY(6px); width: min(1100px, calc(100vw - 32px)); max-height: min(72vh, 680px); overflow: auto; pointer-events: auto;
+  background: var(--q-panel); border: 1px solid var(--q-border); border-radius: 24px; padding: 26px 30px 30px; box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.85);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); opacity: 0; visibility: hidden; transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s; }
+.q-menu.q-open { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.q-menu-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px solid var(--q-border); }
+.q-menu-top a { font: 500 26px/1.1 var(--q-serif); color: var(--q-text); text-decoration: none; letter-spacing: -0.5px; }
+.q-menu-top a:hover { color: var(--q-accent); }
+.q-menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 22px 28px; }
+/* menu group headings (Microsoft, AWS, Google Cloud… in Technology Practices) are bold titles, easy to scan */
+.q-menu h4 { margin: 0 0 10px; padding-bottom: 8px; border-bottom: 1px solid var(--q-border); font: 700 15px/1.3 var(--q-sans); letter-spacing: 0.01em; color: var(--q-text); }
+.q-menu ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.q-menu a.q-ml { font: 500 14px/1.35 var(--q-sans); color: var(--q-muted); text-decoration: none; }
+.q-menu a.q-ml:hover, .q-menu a.q-ml[aria-current] { color: var(--q-text); }
+.q-menu a.q-sub { padding-left: 12px; font-size: 13px; }
+
+.q-mobile { position: fixed; inset: 0; z-index: 1001; background: var(--q-panel); overflow: auto; padding: 84px 22px 40px; opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s; }
+.q-mobile.q-open { opacity: 1; visibility: visible; }
+.q-mobile-close { position: fixed; top: 18px; right: 18px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--q-border); background: var(--q-surface); color: var(--q-text); font: 400 24px/1 var(--q-sans); cursor: pointer; }
+.q-mobile details { border-bottom: 1px solid var(--q-border); }
+.q-mobile summary, .q-mobile > a { display: block; padding: 16px 4px; font: 600 17px/1.2 var(--q-sans); color: var(--q-text); text-decoration: none; list-style: none; cursor: pointer; }
+.q-mobile summary::-webkit-details-marker { display: none; }
+.q-mobile .q-menu-grid { grid-template-columns: 1fr; padding: 0 4px 16px; gap: 16px; }
+.q-mobile .q-btn { margin-top: 22px; }
+
+/* ---------- The Compass chat ---------- */
+.q-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.q-compass-section { overflow: hidden; }
+.q-compass-stage { position: relative; max-width: 920px; margin: 0 auto; }
+.q-compass-stage::before { content: ""; position: absolute; inset: -60px -80px; z-index: 0; pointer-events: none; background: radial-gradient(40% 50% at 20% 30%, rgba(242, 98, 2, 0.18), transparent 70%), radial-gradient(45% 55% at 85% 70%, rgba(164, 24, 245, 0.22), transparent 70%); filter: blur(10px); }
+.q-chat { position: relative; z-index: 1; display: flex; flex-direction: column; border-radius: 24px; background: color-mix(in srgb, var(--q-surface2) 92%, transparent); border: 1px solid var(--q-border); box-shadow: 0 40px 100px -40px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.04); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); overflow: hidden; font-family: var(--q-sans); }
+.q-chat-inline { height: 640px; }
+.q-chat::after { content: ""; position: absolute; inset: 0; border-radius: 24px; padding: 1px; pointer-events: none; background: linear-gradient(135deg, rgba(242, 98, 2, 0.55), transparent 35%, transparent 65%, rgba(164, 24, 245, 0.55)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+.q-chat-head { display: flex; align-items: center; gap: 12px; padding: 16px 18px; border-bottom: 1px solid var(--q-border); }
+/* The Compass star on the live button's orange gradient (home page "The Compass" button) */
+.q-chat-avatar, .q-msg-av { display: inline-grid; place-items: center; flex-shrink: 0; border-radius: 50%; color: #fff; background: linear-gradient(135deg, #f26102, #ff8a47); box-shadow: 0 6px 20px rgba(242, 97, 2, 0.3); }
+.q-chat-avatar { width: 42px; height: 42px; }
+.q-chat-avatar svg { width: 21px; height: 21px; }
+.q-chat-title { display: grid; gap: 3px; min-width: 0; flex: 1; }
+.q-chat-title b { font: 600 17px/1.1 var(--q-serif); color: var(--q-text); letter-spacing: -0.2px; font-size: 20px; }
+.q-chat-status { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--q-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.q-chat-status i { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6); animation: q-pulse 2s infinite; }
+@keyframes q-pulse { 70% { box-shadow: 0 0 0 7px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+.q-chat-new, .q-chat-close { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--q-border); background: transparent; color: var(--q-muted); display: inline-grid; place-items: center; cursor: pointer; font: 400 22px/1 var(--q-sans); }
+.q-chat-new svg { width: 17px; height: 17px; }
+.q-chat-new:hover, .q-chat-close:hover { color: var(--q-text); border-color: var(--q-text); }
+.q-chat-log { flex: 1; overflow-y: auto; padding: 24px 22px 12px; display: flex; flex-direction: column; gap: 18px; overscroll-behavior: contain; }
+.q-chat-log::-webkit-scrollbar { width: 8px; }
+.q-chat-log::-webkit-scrollbar-thumb { background: var(--q-border); border-radius: 8px; }
+.q-msg { display: flex; gap: 11px; max-width: 88%; animation: q-in 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes q-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.q-msg-av { width: 32px; height: 32px; margin-top: 2px; }
+.q-msg-av svg { width: 16px; height: 16px; stroke-width: 2.2; }
+.q-bubble { padding: 13px 16px; border-radius: 18px 18px 18px 6px; background: var(--q-surface); border: 1px solid var(--q-border); color: var(--q-body); font: 500 15px/1.62 var(--q-sans); letter-spacing: 0.2px; min-width: 0; }
+.q-bubble p { margin: 0; }
+.q-me { margin-left: auto; }
+.q-me .q-bubble { border: 0; border-radius: 18px 18px 6px 18px; color: #fff; background: linear-gradient(135deg, #f26202 0%, #d9366b 60%, #a418f5 120%); box-shadow: 0 10px 30px -14px rgba(242, 98, 2, 0.8); }
+.q-msg-label { display: block; margin-bottom: 6px; font: 700 10.5px/1 var(--q-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--q-accent-text); }
+.q-typing { display: inline-flex; gap: 4px; vertical-align: middle; margin-right: 10px; }
+.q-typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--q-accent); animation: q-dot 1.2s infinite ease-in-out; }
+.q-typing i:nth-child(2) { animation-delay: 0.15s; background: #d9366b; }
+.q-typing i:nth-child(3) { animation-delay: 0.3s; background: #a418f5; }
+@keyframes q-dot { 0%, 80%, 100% { transform: translateY(0); opacity: 0.45; } 40% { transform: translateY(-5px); opacity: 1; } }
+.q-typing-text { font-size: 14px; color: var(--q-muted); background: linear-gradient(90deg, var(--q-muted), var(--q-text), var(--q-muted)); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; animation: q-shimmer 1.6s linear infinite; }
+@keyframes q-shimmer { to { background-position: -200% 0; } }
+.q-sources { display: grid; gap: 8px; margin-top: 14px; }
+.q-source { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; border: 1px solid var(--q-border); background: var(--q-bg); text-decoration: none; color: var(--q-text); transition: border-color 0.2s, transform 0.2s; }
+@media (hover: hover) and (pointer: fine) { .q-source:hover { border-color: var(--q-accent); transform: translateX(2px); } }
+.q-source-n { width: 22px; height: 22px; border-radius: 7px; display: inline-grid; place-items: center; font: 700 11px/1 var(--q-sans); color: #fff; background: var(--q-grad); flex-shrink: 0; }
+.q-source-t { display: grid; gap: 2px; min-width: 0; flex: 1; }
+.q-source-t b { font: 600 13.5px/1.3 var(--q-sans); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q-source-t small { font-size: 11.5px; color: var(--q-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.q-source-go { color: var(--q-muted); }
+.q-msg-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.q-chip-btn { padding: 8px 14px; border-radius: 30px; border: 1px solid var(--q-border); color: var(--q-text) !important; text-decoration: none; font: 600 13px/1.2 var(--q-sans); }
+.q-chip-btn.q-primary { background: var(--q-accent); border-color: var(--q-accent); color: #fff !important; }
+.q-msg-tools { display: flex; align-items: center; gap: 4px; margin: 10px -6px -6px; }
+.q-msg-tools button { position: relative; width: 30px; height: 30px; border-radius: 8px; border: 0; background: transparent; color: var(--q-muted); display: inline-grid; place-items: center; cursor: pointer; }
+.q-msg-tools button svg { width: 16px; height: 16px; }
+.q-msg-tools button:hover, .q-msg-tools button[aria-pressed="true"] { color: var(--q-accent); background: color-mix(in srgb, var(--q-accent) 10%, transparent); }
+.q-tool-note { font-size: 12px; color: var(--q-muted); margin-left: 4px; }
+.q-starter-block { margin-left: 43px; display: grid; gap: 10px; animation: q-in 0.4s 0.1s both; }
+.q-starter-label { font: 700 10.5px/1 var(--q-sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--q-muted); }
+.q-starter-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.q-starter { padding: 9px 14px; border-radius: 14px; border: 1px solid var(--q-border); background: var(--q-surface); color: var(--q-body); font: 500 13.5px/1.35 var(--q-sans); text-align: left; cursor: pointer; transition: border-color 0.2s, color 0.2s, transform 0.2s; }
+@media (hover: hover) and (pointer: fine) { .q-starter:hover { border-color: var(--q-accent); color: var(--q-text); transform: translateY(-1px); } }
+.q-chat-form { display: flex; align-items: flex-end; gap: 10px; margin: 6px 16px 0; padding: 8px 8px 8px 18px; border-radius: 20px; border: 1px solid var(--q-border); background: var(--q-bg); transition: border-color 0.2s, box-shadow 0.2s; }
+.q-chat-form:focus-within { border-color: color-mix(in srgb, var(--q-accent) 70%, var(--q-border)); box-shadow: 0 0 0 4px rgba(242, 97, 2, 0.12); }
+.q-chat-form textarea { flex: 1; resize: none; border: 0; outline: 0; background: transparent; color: var(--q-text); font: 500 15px/1.5 var(--q-sans); padding: 9px 0; max-height: 140px; }
+.q-chat-form textarea::placeholder { color: var(--q-muted); }
+.q-chat-send { width: 42px; height: 42px; border-radius: 50%; border: 0; display: inline-grid; place-items: center; background: var(--q-accent); color: #fff; cursor: pointer; transition: transform 0.2s, background 0.2s, opacity 0.2s; box-shadow: 0 8px 22px -8px rgba(242, 97, 2, 0.9); }
+.q-chat-send svg { width: 19px; height: 19px; }
+@media (hover: hover) and (pointer: fine) { .q-chat-send:hover:not(:disabled) { transform: translateY(-1px); background: #ff6a0a; } }
+.q-chat-send:disabled { opacity: 0.35; cursor: default; box-shadow: none; }
+.q-chat-foot { margin: 0; padding: 10px 18px 14px; text-align: center; font-size: 11.5px; line-height: 1.45; color: var(--q-muted); }
+
+/* launcher: the live "The Compass" button (orange gradient pill, white star) */
+.q-launch { position: fixed; right: 18px; bottom: 18px; z-index: 950; display: inline-flex; align-items: center; gap: 10px; padding: 14px 26px 14px 22px; border-radius: 30px; border: 0; background: linear-gradient(135deg, #f26102, #ff8a47); color: #fff; font: 700 15px/1 var(--q-sans); letter-spacing: 0.2px; cursor: pointer; box-shadow: 0 6px 20px rgba(242, 97, 2, 0.3); transition: transform 160ms var(--q-ease-out), box-shadow 0.2s ease; }
+@media (hover: hover) and (pointer: fine) { .q-launch:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(242, 97, 2, 0.4); } }
+.q-launch-orb { display: inline-grid; place-items: center; }
+.q-launch-orb svg { width: 20px; height: 20px; }
+.q-launch.q-hide { display: none; }
+.q-chat-pop { position: fixed; right: 18px; bottom: 18px; z-index: 1002; width: min(420px, calc(100vw - 24px)); height: min(640px, calc(100vh - 110px)); animation: q-in 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+.q-chat-pop:not([hidden]) { display: flex; flex-direction: column; }
+.q-chat-pop[hidden] { display: none; }
+.q-chat-pop .q-chat { flex: 1; min-height: 0; }
+.q-chat-log { min-height: 0; } /* lets the conversation scroll inside the panel instead of stretching it */
+@media (max-width: 809.98px) {
+  .q-chat-inline { height: 600px; }
+  .q-chat-log { padding: 18px 14px 10px; }
+  .q-msg { max-width: 94%; }
+  .q-starter-block { margin-left: 0; }
+  .q-chat-form { margin: 6px 10px 0; }
+  .q-chat-pop { right: 0; bottom: 0; width: 100vw; height: 100dvh; }
+  .q-chat-pop .q-chat { border-radius: 0; }
+  .q-launch span:last-child { display: none; }
+  .q-launch { padding: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .q-msg, .q-starter-block, .q-typing i, .q-typing-text, .q-chat-status i { animation: none; } }
+
+/* Framer logo ticker, scrolled by CSS (row doubled by the builder) */
+.q-ticker { width: max-content !important; max-width: none !important; animation: q-marquee 60s linear infinite; }
+.q-ticker > li { flex-shrink: 0; }
+@keyframes q-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) { .q-ticker { animation: none; } }
+.q-effect { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* live nav pieces that normally need Framer's script */
+nav a[aria-label="Theme switch"] { width: 30px; height: 30px; color: var(--q-text); }
+nav a[aria-label="Theme switch"] .q-sun { display: none; }
+html[data-q-theme="light"] nav a[aria-label="Theme switch"] .q-sun { display: block; }
+html[data-q-theme="light"] nav a[aria-label="Theme switch"] .q-moon { display: none; }
+nav button[aria-label="Search Icon"] { display: none !important; }
+/* the live phone nav is laid out 376px wide: on a 360px phone it pushed the page sideways. Keep it to the screen. */
+[class*="-container"]:has(> .ssr-variant > nav), [class*="-container"]:has(> nav) { max-width: 100vw; }
+/* footer links ("Talk to an Architect") sit in narrow phone columns: let a long label wrap instead of running off */
+@media (max-width: 400px) {
+  [data-framer-name="Link [sm]"] > div { flex-shrink: 1 !important; min-width: 0; max-width: 100%; white-space: normal !important; }
+  [data-framer-name="Link [sm]"] p { white-space: normal !important; }
+}
+/* kept live sections carry decorative layers a little wider than a phone (the recognition card's glow is 392px) */
+[data-q-live], [data-q-after] { overflow-x: clip !important; }
+/* restored live sections are laid out at the live phone width (390px): never wider than the screen */
+[data-q-live], [data-q-after] { max-width: 100% !important; }
+/* the live phone footer's bottom row (copyright, Privacy policy, Terms of Use) needs 350px: let it wrap on small phones */
+@media (max-width: 400px) { [data-framer-name$="[Mobile]"] > div { flex-wrap: wrap; row-gap: 8px; } }
+
+/* the local-copy label sits in the page flow just above the footer, so it never covers content */
+.q-wrap .q-badge { display: block; width: fit-content; margin: 0 auto 48px; position: relative; z-index: 1; padding: 7px 12px; border-radius: 20px; background: var(--q-surface); border: 1px solid var(--q-border); color: var(--q-muted); font: 600 11px/1 var(--q-sans); letter-spacing: 0.06em; text-decoration: none; }
+.q-badge b { color: var(--q-accent); }
+
+/* entrance on scroll, as progressive enhancement: content is visible unless q.js is running (html.q-js, set in the
+   page head and dropped after 4s if q.js never starts), so a blocked script or a missed observer never hides copy */
+.q-reveal { transition: opacity 0.7s var(--q-ease-out), transform 0.7s var(--q-ease-out); }
+html.q-js .q-reveal:not(.q-in) { opacity: 0; transform: translateY(18px); }
+@media print { html.q-js .q-reveal:not(.q-in), html.q-js .q-outcomes:not(.q-in) li { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .q-reveal, .q-outcomes li, html.q-js .q-reveal:not(.q-in), html.q-js .q-outcomes:not(.q-in) li { opacity: 1; transform: none; transition: none; } }
+
+@media (max-width: 1080px) { .q-cols-3 > * { flex-basis: calc((100% - 20px) / 2); } }
+@media (max-width: 809.98px) {
+  .q-section { padding: 70px 0; }
+  .q-container { padding: 0 20px; }
+  .q-split, .q-split.q-noimg { grid-template-columns: 1fr; gap: 28px; }
+  .q-split.q-flip > .q-media { order: 0; }
+  .q-cols-2 { grid-template-columns: 1fr; }
+  .q-cols-3 > * { flex-basis: 100%; }
+  .q-card { padding: 24px; }
+  .q-card img, .q-card-art { width: calc(100% + 48px); margin: -24px -24px 4px; }
+  .q-cta-card { padding: 56px 22px; }
+  .q-filters, .q-row { grid-template-columns: 1fr; }
+  .q-compass > div, .q-panel { padding: 22px; }
+  .q-intro p { font-size: 18px; }
+  .q-outcomes { aspect-ratio: auto; }
+  .q-outcomes li { font-size: 15px; }
+}
+
+/* press feedback: pressable things scale down slightly while held (last, so it wins over hover lifts) */
+.q-btn:active, .q-chip:active, a.q-card:active, .q-starter:active, .q-chat-send:active:not(:disabled), .q-launch:active, .q-chip-btn:active { transform: scale(0.97); }
+
+/* nothing on a page may push it sideways: small decorative overflows (a live section 3px wider than a phone) are clipped at the edge */
+body { overflow-x: clip; }
+
+.q-msg-tools button::before { content: ""; position: absolute; inset: -5px; } /* 40px tap area around the 30px icon */
+
+/* crisper text on the added components */
+.q-wrap, .q-chat, .q-menu, .q-mobile, .q-launch, .q-badge { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+/* the recognition card puts its heading over the globe: a soft dark halo keeps the words readable (the card is dark in both themes) */
+[data-q-live]:has(canvas) h1, [data-q-live]:has(canvas) h2, [data-q-live]:has(canvas) h3 { text-shadow: 0 0 28px rgba(0, 0, 0, 0.95), 0 0 12px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6); }
+
+/* a card without a link in a row of linked cards keeps an invisible link line, so logos and text line up across the row */
+.q-foot-spacer { visibility: hidden; }
+
+
+/* /home-v2 only: a square grid behind the hero, a few cells softly lit in the brand tints */
+html[data-q-theme="dark"] .q-v2-grid { --g-line: rgba(255, 255, 255, 0.075); --g-w: rgba(255, 255, 255, 0.035); --g-o: rgba(242, 97, 2, 0.11); --g-v: rgba(164, 24, 245, 0.13); }
+html[data-q-theme="light"] .q-v2-grid { --g-line: rgba(9, 9, 11, 0.065); --g-w: rgba(9, 9, 11, 0.028); --g-o: rgba(242, 97, 2, 0.085); --g-v: rgba(164, 24, 245, 0.075); }
+.q-v2-grid { position: absolute; z-index: 0; top: 0; bottom: 0; left: 50%; width: calc(var(--cell) * 30); margin-left: calc(var(--cell) * -15); pointer-events: none; background-image: linear-gradient(to right, var(--g-line) 1px, transparent 1px), linear-gradient(to bottom, var(--g-line) 1px, transparent 1px); background-size: var(--cell) var(--cell); -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 96%); mask-image: linear-gradient(to bottom, #000 0%, #000 62%, transparent 96%); }
+.q-v2-cell { position: absolute; left: calc((15 + var(--c)) * var(--cell) + 1px); top: calc(var(--r) * var(--cell) + 1px); width: calc(var(--cell) - 1px); height: calc(var(--cell) - 1px); }
+.q-v2-w { background: var(--g-w); }
+.q-v2-o { background: var(--g-o); }
+.q-v2-v { background: var(--g-v); }
+[data-q-v2] { --cell: 96px; }
+@media (max-width: 810px) { [data-q-v2] { --cell: 64px; } }
+/* the spotlight (q.js moves it after the mouse pointer): one soft light, resting at the top left (warm white to brand orange, a violet edge), a faint violet
+   wash top right; it replaces the live hero's colour blobs. The grid lines read like window frames across the light. */
+[data-q-v2] [data-framer-name="BG Gradient"] { display: none !important; }
+html[data-q-theme="dark"] .q-v2-light { --l1: rgba(255, 236, 222, 0.88); --l2: rgba(255, 190, 140, 0.5); --l3: rgba(242, 97, 2, 0.24); --l4: rgba(164, 24, 245, 0.08); --l5: rgba(164, 24, 245, 0.2); }
+html[data-q-theme="light"] .q-v2-light { --l1: rgba(255, 196, 158, 0.95); --l2: rgba(250, 165, 112, 0.52); --l3: rgba(242, 97, 2, 0.14); --l4: rgba(242, 97, 2, 0.04); mix-blend-mode: multiply; --l5: rgba(196, 90, 240, 0.15); }
+html[data-q-theme="dark"] [data-q-v2] .q-v2-grid { --g-line: rgba(150, 150, 165, 0.1); --g-w: rgba(255, 255, 255, 0.03); }
+html[data-q-theme="light"] [data-q-v2] .q-v2-grid { --g-line: rgba(9, 9, 11, 0.06); }
+.q-v2-light { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.q-v2-light i, .q-v2-light b { position: absolute; border-radius: 50%; }
+.q-v2-light i { left: calc(50% - 880px); top: -170px; width: 1140px; height: 640px; transform: rotate(-16deg); translate: var(--dx, 0px) var(--dy, 0px); background: radial-gradient(closest-side, var(--l1) 0%, var(--l2) 22%, var(--l3) 46%, var(--l4) 72%, transparent 100%); filter: blur(36px); will-change: translate; }
+.q-v2-light b { right: calc(50% - 820px); top: -300px; width: 860px; height: 540px; background: radial-gradient(closest-side, var(--l5), transparent); filter: blur(30px); }
+/* where the light falls: brighter grid lines and a scatter of lit cells, masked to the light (q.js sets --mx/--my) */
+html[data-q-theme="dark"] .q-v2-reveal { --r-line: rgba(255, 240, 230, 0.16); --r-cell: rgba(255, 238, 225, 0.11); }
+html[data-q-theme="light"] .q-v2-reveal { --r-line: rgba(160, 60, 0, 0.1); --r-cell: rgba(255, 255, 255, 0.55); }
+.q-v2-reveal { position: absolute; inset: 0; z-index: 0; pointer-events: none; background-image: linear-gradient(to right, var(--r-line) 1px, transparent 1px), linear-gradient(to bottom, var(--r-line) 1px, transparent 1px); background-size: var(--cell) var(--cell); background-position: calc(50% + var(--cell) / 2) 0; --spot: radial-gradient(ellipse 520px 360px at var(--mx, calc(50% - 310px)) var(--my, 150px), #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 100%); -webkit-mask-image: var(--spot); mask-image: var(--spot); }
+.q-v2-reveal span { position: absolute; left: calc(50% + var(--c) * var(--cell) + 1px); top: calc(var(--r) * var(--cell) + 1px); width: calc(var(--cell) - 1px); height: calc(var(--cell) - 1px); background: var(--r-cell); opacity: var(--a); }
+/* the client logos: one narrower strip that fades out at both ends, in one quiet tone */
+[data-q-v2] div:has(> section > ul.q-ticker) { max-width: min(880px, 100%); opacity: 1 !important; -webkit-mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent); }
+html[data-q-theme="dark"] [data-q-v2] ul.q-ticker { filter: grayscale(1) brightness(1.5); opacity: 0.75; }
+html[data-q-theme="light"] [data-q-v2] ul.q-ticker { filter: grayscale(1); opacity: 0.6; }
+@media (max-width: 810px) { .q-v2-reveal { --spot: radial-gradient(ellipse 340px 240px at calc(50% - 170px) 70px, #000 0%, rgba(0, 0, 0, 0.55) 45%, transparent 100%); } .q-v2-light i { left: calc(50% - 520px); top: -150px; width: 700px; height: 440px; } .q-v2-light b { right: calc(50% - 520px); width: 560px; height: 380px; } }
+/* blocks that pop out of the grid inside the light (q.js): a lifted tile with a lit top edge and a warm shadow */
+html[data-q-theme="dark"] .q-v2-reveal { --p-fill: linear-gradient(160deg, rgba(255, 238, 224, 0.3), rgba(255, 238, 224, 0.07)); --p-edge: rgba(255, 228, 206, 0.32); --p-top: rgba(255, 255, 255, 0.4); --p-shadow: 0 16px 30px -12px rgba(242, 97, 2, 0.6), 0 0 26px rgba(255, 168, 110, 0.16); }
+html[data-q-theme="light"] .q-v2-reveal { --p-fill: linear-gradient(160deg, #fff, rgba(255, 255, 255, 0.78)); --p-edge: rgba(242, 97, 2, 0.16); --p-top: #fff; --p-shadow: 0 16px 28px -12px rgba(242, 97, 2, 0.42), 0 2px 6px rgba(160, 60, 0, 0.08); }
+.q-v2-pop { position: absolute; left: calc(50% + var(--c) * var(--cell) + 1px); top: calc(var(--r) * var(--cell) + 1px); width: calc(var(--cell) - 1px); height: calc(var(--cell) - 1px); border-radius: 3px; background: var(--p-fill); box-shadow: inset 0 1px 0 var(--p-top), inset 0 0 0 1px var(--p-edge), var(--p-shadow); animation: q-v2-pop 1.9s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+@keyframes q-v2-pop { 0% { opacity: 0; transform: scale(0.82); } 14% { opacity: 1; transform: translateY(-4px) scale(1.07); } 42% { opacity: 1; transform: translateY(-2px) scale(1.03); } 100% { opacity: 0; transform: none; } }
+/* /home-v2: the recognition section without its card: full width, no corners; dark band in the light theme too */
+[data-q-v2-globe] { width: 100% !important; max-width: none !important; border-radius: 0 !important; }
+html[data-q-theme="dark"] [data-q-v2-globe] { background: transparent !important; }
+html[data-q-theme="light"] [data-q-v2-globe] { background: #08080a !important; }
+/* /home-v2 opening: html.q-v2-intro (set in the page head; lifted after 6s whatever happens) holds everything back;
+   q.js adds .q-v2-go when it starts, and the sequence runs from that moment: the grid sweeps in from the light's corner
+   while a wave of blocks pops (q.js) and the light fades up; then the hero text rises in slowly, eyebrow → title →
+   intro → buttons; then the top bar comes down, the client logos and The Compass last. */
+@keyframes q-v2-sweep { from { clip-path: circle(0px at calc(50% - 310px) 0); } to { clip-path: circle(2600px at calc(50% - 310px) 0); } }
+@keyframes q-v2-rise { from { opacity: 0; translate: 0 22px; filter: blur(8px); } to { opacity: 1; translate: 0 0; filter: blur(0); } }
+@keyframes q-v2-drop { from { opacity: 0; translate: 0 -26px; } to { opacity: 1; translate: 0 0; } }
+@keyframes q-v2-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes q-v2-ipop { 0% { opacity: 0; transform: scale(0.82); } 22% { opacity: 1; transform: translateY(-3px) scale(1.05); } 100% { opacity: 0; transform: none; } }
+html.q-v2-intro .q-v2-grid { clip-path: circle(0px at calc(50% - 310px) 0); }
+/* held back until the sequence starts (!important: framer sets some of these inline); once it runs, each animation's
+   backwards fill keeps its part hidden until its turn */
+html.q-v2-intro:not(.q-v2-go) .q-v2-light, html.q-v2-intro:not(.q-v2-go) .q-v2-reveal, html.q-v2-intro:not(.q-v2-go) [data-q-v2] [data-q-eyebrow], html.q-v2-intro:not(.q-v2-go) [data-q-v2] [data-q-title], html.q-v2-intro:not(.q-v2-go) [data-q-v2] [data-q-intro], html.q-v2-intro:not(.q-v2-go) [data-q-v2] [data-q-v2-btn], html.q-v2-intro:not(.q-v2-go) nav, html.q-v2-intro:not(.q-v2-go) [data-q-v2] [data-q-v2-trusted], html.q-v2-intro:not(.q-v2-go) .q-launch { opacity: 0 !important; }
+html.q-v2-intro.q-v2-go .q-v2-grid { animation: q-v2-sweep 1.6s cubic-bezier(0.33, 0, 0.2, 1) both; }
+html.q-v2-intro.q-v2-go .q-v2-light, html.q-v2-intro.q-v2-go .q-v2-reveal { animation: q-v2-fade 1.6s ease-out 0.35s both; }
+html.q-v2-intro.q-v2-go [data-q-v2] [data-q-eyebrow] { animation: q-v2-rise 1.1s cubic-bezier(0.23, 1, 0.32, 1) 1.6s both; }
+html.q-v2-intro.q-v2-go [data-q-v2] [data-q-title] { animation: q-v2-rise 1.2s cubic-bezier(0.23, 1, 0.32, 1) 1.8s both; }
+html.q-v2-intro.q-v2-go [data-q-v2] [data-q-intro] { animation: q-v2-rise 1.1s cubic-bezier(0.23, 1, 0.32, 1) 2.1s both; }
+html.q-v2-intro.q-v2-go [data-q-v2] [data-q-v2-btn] { animation: q-v2-rise 1s cubic-bezier(0.23, 1, 0.32, 1) 2.35s both; }
+html.q-v2-intro.q-v2-go [data-q-v2] [data-q-v2-btn] + [data-q-v2-btn], html.q-v2-intro.q-v2-go [data-q-v2] div:has(> [data-q-v2-btn]) + div [data-q-v2-btn] { animation-delay: 2.47s; }
+html.q-v2-intro.q-v2-go nav { animation: q-v2-drop 0.8s cubic-bezier(0.23, 1, 0.32, 1) 2.9s both; }
+html.q-v2-intro.q-v2-go [data-q-v2] [data-q-v2-trusted] { animation: q-v2-fade 0.9s ease-out 3.15s both; }
+html.q-v2-intro.q-v2-go .q-launch { animation: q-v2-fade 0.6s ease-out 3.35s both; }
+/* Top bar (homepage look, on every rebuilt page; live-copy pages get the same bar from topbar.css): the top bar has no box of its own (no fill, border or shadow), so it sits in the hero; once the page is
+   scrolled (q.js), a soft see-through backing fades in so the links stay readable over the sections below */
+html[data-q-theme] nav.framer-1YWaq, html[data-q-theme] nav.framer-1YWaq [data-framer-name="Main Area"] { background: transparent !important; background-color: transparent !important; box-shadow: none !important; --border-color: transparent !important; border-color: transparent !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; transition: background-color 0.4s ease, -webkit-backdrop-filter 0.4s ease, backdrop-filter 0.4s ease; }
+html[data-q-theme] nav.framer-1YWaq [data-framer-name="Main Area"]::before, html[data-q-theme] nav.framer-1YWaq [data-framer-name="Main Area"]::after, html[data-q-theme] nav.framer-1YWaq::after { border-color: transparent !important; box-shadow: none !important; }
+html[data-q-theme="dark"].q-v2-scrolled nav.framer-1YWaq [data-framer-name="Main Area"] { background-color: rgba(0, 0, 0, 0.55) !important; -webkit-backdrop-filter: blur(14px) !important; backdrop-filter: blur(14px) !important; }
+html[data-q-theme="light"].q-v2-scrolled nav.framer-1YWaq [data-framer-name="Main Area"] { background-color: rgba(255, 255, 255, 0.72) !important; -webkit-backdrop-filter: blur(14px) !important; backdrop-filter: blur(14px) !important; }
+html[data-q-theme="dark"].q-v2-scrolled nav.framer-1YWaq:not(:has([data-framer-name="Main Area"])) { background-color: rgba(0, 0, 0, 0.55) !important; -webkit-backdrop-filter: blur(14px) !important; backdrop-filter: blur(14px) !important; }
+html[data-q-theme="light"].q-v2-scrolled nav.framer-1YWaq:not(:has([data-framer-name="Main Area"])) { background-color: rgba(255, 255, 255, 0.72) !important; -webkit-backdrop-filter: blur(14px) !important; backdrop-filter: blur(14px) !important; }
+/* the opening's popping blocks, in grid coordinates */
+html[data-q-theme="dark"] .q-v2-grid { --ip-fill: rgba(255, 238, 224, 0.16); --ip-edge: rgba(255, 228, 206, 0.28); }
+html[data-q-theme="light"] .q-v2-grid { --ip-fill: rgba(242, 97, 2, 0.1); --ip-edge: rgba(242, 97, 2, 0.24); }
+.q-v2-ipop { position: absolute; left: calc((15 + var(--c)) * var(--cell) + 1px); top: calc(var(--r) * var(--cell) + 1px); width: calc(var(--cell) - 1px); height: calc(var(--cell) - 1px); border-radius: 2px; background: var(--ip-fill); box-shadow: inset 0 0 0 1px var(--ip-edge); animation: q-v2-ipop 1.15s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+/* /home-v2 scroll animations (site_src/home_v2_scroll.js, GSAP): headings are split into words that rise inside a
+   clipping box; the page's own CSS reveal transitions step aside so they never fight GSAP */
+.q-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.12em; margin-bottom: -0.12em; }
+.q-wi { display: inline-block; }
+html.q-gsap .q-reveal, html.q-gsap .q-card, html.q-gsap .q-chip { transition-property: border-color, background-color, box-shadow, color !important; }
+/* /home-v2 Compass prompt input (compass.js promptInput): a pill that springs open into a writing box; the round
+   button turns between microphone, send and stop; level bars show while it listens. The spring is a soft overshoot. */
+.q-chat .q-chat-form.q-pi { --pi-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; display: block; width: calc(100% - 32px); max-width: 360px; height: 48px; margin: 8px auto 0; padding: 0; border-radius: 24px; border: 1px solid var(--q-border); background: var(--q-surface); overflow: hidden; transition: max-width 0.4s var(--pi-spring), height 0.4s var(--pi-spring), border-color 0.2s, box-shadow 0.2s; }
+.q-chat .q-chat-form.q-pi.is-open { max-width: 760px; height: var(--pi-h, 100px); }
+.q-chat .q-pi textarea { position: absolute; top: 0; left: 0; right: 0; z-index: 1; width: 100%; max-height: none; padding: 14px 54px 6px 18px; font: 500 15px/22px var(--q-sans); opacity: 0; transform: translateY(-4px) scale(0.97); transform-origin: left top; pointer-events: none; transition: opacity 0.3s ease-out, transform 0.3s ease-out, height 0.4s var(--pi-spring); }
+.q-chat .q-pi.is-open textarea { opacity: 1; transform: none; pointer-events: auto; }
+.q-pi-ph { position: absolute; inset: 0 50px 0 0; z-index: 1; border: 0; background: none; padding: 0 20px; text-align: left; font: 500 15px/1 var(--q-sans); color: var(--q-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: text; transition: opacity 0.3s ease-out, transform 0.4s var(--pi-spring); }
+.q-pi.is-open .q-pi-ph { opacity: 0; transform: translateY(4px) scale(1.04); pointer-events: none; }
+.q-pi-fade { position: absolute; left: 16px; right: 54px; z-index: 2; height: 24px; pointer-events: none; opacity: 0; }
+.q-pi-top { top: 0; background: linear-gradient(var(--q-surface), transparent); }
+.q-pi-bot { top: calc(var(--pi-h, 100px) - 68px); background: linear-gradient(transparent, var(--q-surface)); transition: top 0.4s var(--pi-spring); }
+.q-pi-bar { position: absolute; left: 20px; right: 58px; bottom: 8px; z-index: 3; display: flex; align-items: center; height: 32px; opacity: 0; transform: translateY(8px); filter: blur(4px); pointer-events: none; transition: opacity 0.3s var(--pi-spring), transform 0.3s var(--pi-spring), filter 0.3s var(--pi-spring); }
+.q-pi.is-open:not(.is-rec) .q-pi-bar { opacity: 1; transform: none; filter: none; }
+.q-pi-hint { font: 500 12px/1 var(--q-sans); color: var(--q-muted); }
+.q-chat .q-pi .q-chat-send { position: absolute; right: 6px; bottom: 6px; z-index: 4; width: 34px; height: 34px; box-shadow: none; }
+.q-chat .q-pi .q-chat-send:disabled { opacity: 0.45; }
+.q-pi-i { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transform: scale(0.5) rotate(45deg); filter: blur(1px); transition: opacity 0.3s var(--pi-spring), transform 0.3s var(--pi-spring), filter 0.3s var(--pi-spring); }
+.q-pi-mic { transform: scale(0.5) rotate(-45deg); }
+.q-chat .q-pi .q-pi-i svg { width: 14px; height: 14px; }
+.q-pi[data-mode="up"] .q-pi-up, .q-pi[data-mode="mic"] .q-pi-mic, .q-pi[data-mode="stop"] .q-pi-stop { opacity: 1; transform: none; filter: none; }
+.q-pi-wave { position: absolute; right: 48px; bottom: 6px; z-index: 3; display: flex; align-items: center; justify-content: flex-end; gap: 3px; width: 0; height: 34px; overflow: hidden; opacity: 0; transform: translateX(16px); pointer-events: none; transition: width 0.4s var(--pi-spring), opacity 0.4s var(--pi-spring), transform 0.4s var(--pi-spring); }
+.q-pi.is-rec .q-pi-wave { width: 64px; opacity: 1; transform: none; }
+.q-pi-wave i { width: 4px; height: 4px; border-radius: 4px; background: var(--q-accent); transition: height 75ms ease-out; }
+@media (prefers-reduced-motion: reduce) { .q-chat .q-chat-form.q-pi, .q-chat .q-pi textarea, .q-pi-ph, .q-pi-bar, .q-pi-i, .q-pi-wave, .q-pi-bot { transition: none; } }
+/* /home-v2 Compass: a medium-sized chat. Its opening (compass.js adds .q-ci, then .q-ci-1 … .q-ci-4 as it scrolls into
+   view): 1 an orange circle with the Compass star pops in; 2 the star turns into the microphone; 3 the circle stretches
+   into the question box; 4 the chat window grows around it and its header, welcome and questions ease in. */
+.q-chat-inline.q-medium { height: 520px; }
+.q-ci { transition: height 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.6s ease; }
+.q-ci:not(.q-ci-4) { height: 66px; background-color: transparent; border-color: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.q-ci:not(.q-ci-4)::after, .q-ci:not(.q-ci-4) .q-chat-head, .q-ci:not(.q-ci-4) .q-chat-log, .q-ci:not(.q-ci-4) .q-chat-foot { display: none; }
+.q-ci.q-ci-4 .q-chat-head { animation: q-in 0.5s 0.2s both; }
+.q-ci.q-ci-4 .q-chat-log { animation: q-in 0.55s 0.35s both; }
+.q-ci.q-ci-4 .q-chat-foot, .q-ci.q-ci-4::after { animation: q-in 0.5s 0.5s both; }
+/* the question box: hidden, then a circle (the round button alone, larger), then the pill */
+.q-ci .q-chat-form.q-pi { transition: max-width 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275), height 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.35s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.3s ease, background-color 0.3s ease; }
+.q-ci:not(.q-ci-1) .q-chat-form.q-pi { opacity: 0; transform: scale(0.3); }
+.q-ci:not(.q-ci-3) .q-chat-form.q-pi { max-width: 50px; border-color: transparent; background-color: transparent; }
+.q-ci .q-pi .q-chat-send { transition: width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), height 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease; }
+.q-ci:not(.q-ci-3) .q-pi .q-chat-send { right: 0; bottom: 0; width: 48px; height: 48px; box-shadow: 0 12px 30px -8px rgba(242, 97, 2, 0.65); }
+.q-ci:not(.q-ci-3) .q-pi-ph { opacity: 0; }
+/* the button's icon: the Compass star until step 2, then the microphone (send / stop as usual afterwards) */
+.q-pi-star { transform: scale(0.5) rotate(-90deg); }
+.q-chat .q-pi .q-pi-star svg { width: 20px; height: 20px; }
+.q-ci:not(.q-ci-2) .q-pi .q-pi-i { opacity: 0; transform: scale(0.5) rotate(90deg); filter: blur(1px); }
+.q-ci:not(.q-ci-2) .q-pi .q-pi-star { opacity: 1; transform: none; filter: none; }
+@media (prefers-reduced-motion: reduce) { .q-ci, .q-ci .q-chat-form.q-pi, .q-ci .q-pi .q-chat-send { transition: none; } }
+/* /home-v2 Compass touches (compass.js): topic icons on the suggested questions, which lift on hover; follow-up
+   questions under each answer; the closed box's example questions swap softly; the glow breathes while it works */
+.q-chat .q-starter:has(.q-st-ico) { display: inline-flex; align-items: center; gap: 9px; padding-left: 8px; transition: transform 0.25s var(--q-ease-out), border-color 0.25s ease, background-color 0.25s ease; }
+.q-st-ico { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 8px; background: rgba(242, 97, 2, 0.12); color: var(--q-accent-text); }
+.q-st-ico svg { width: 14px; height: 14px; }
+@media (hover: hover) and (pointer: fine) { .q-chat .q-starter:has(.q-st-ico):hover { transform: translateY(-2px); border-color: rgba(242, 97, 2, 0.45); } }
+.q-follow { display: grid; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--q-border); }
+.q-pi-ph.is-swapping { opacity: 0; transform: translateY(-6px); }
+.q-compass-stage::before { transition: opacity 0.6s ease; }
+.q-compass-stage:has(.q-chat.is-thinking)::before { animation: q-glow-breathe 1.5s ease-in-out infinite alternate; }
+@keyframes q-glow-breathe { from { opacity: 0.6; transform: scale(1); } to { opacity: 1; transform: scale(1.05); } }
+@media (prefers-reduced-motion: reduce) { .q-compass-stage:has(.q-chat.is-thinking)::before { animation: none; } .q-chat .q-starter:has(.q-st-ico):hover { transform: none; } }
+/* /home-v2 backgrounds: the tinted bands (The Compass, Happy Customers, Perspectives) fade in and out at their top and
+   bottom instead of meeting the page in a hard line; the chat card's shadow is soft in the light theme; the chat header
+   shows its name only (no "Local preview" line) */
+html:has([data-q-v2]) .q-wrap .q-section.q-band { background: linear-gradient(to bottom, transparent 0, var(--q-band) 160px, var(--q-band) calc(100% - 160px), transparent 100%); }
+html[data-q-theme="light"]:has([data-q-v2]) .q-chat { box-shadow: 0 30px 70px -40px rgba(80, 50, 30, 0.22); }
+html:has([data-q-v2]) .q-chat-status { display: none; }
+/* the Compass keeps its finished size from the start, so its opening never moves the section's background or the
+   content below; the circle starts at the top and the chat window opens downward from it */
+html:has([data-q-v2]) .q-compass-stage { display: flex; flex-direction: column; justify-content: flex-start; height: 520px; } /* fixed: the spring's brief overshoot spills over without moving anything */
+/* /home-v2 notched route cards (build_live_copy.js notchedCard): the notch (80px block, 64px arrow disc, 28px curves)
+   is painted in the page colour; the cover stays in full colour and zooms a touch on hover or focus, the arrow fills orange */
+.q-notch-card { display: flex; flex-direction: column; color: var(--q-text); text-decoration: none; border-radius: 28px; outline: none; }
+.q-nc-media { position: relative; }
+.q-nc-cover { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 28px; background: var(--q-surface); }
+.q-nc-cover img, .q-nc-cover .q-card-art { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; border-radius: 0; object-fit: cover; aspect-ratio: auto; transition: scale 0.6s var(--q-ease-out); }
+.q-notch-card:hover .q-nc-cover img, .q-notch-card:focus-visible .q-nc-cover img { scale: 1.04; }
+.q-nc-notch { position: absolute; right: 0; bottom: 0; width: 80px; height: 80px; border-top-left-radius: 48px; background: var(--q-bg); }
+.q-nc-fillet { position: absolute; width: 28px; height: 28px; background: radial-gradient(circle at top left, transparent 27.5px, var(--q-bg) 28px); }
+.q-nc-f1 { right: 0; bottom: 80px; }
+.q-nc-f2 { right: 80px; bottom: 0; }
+.q-nc-arrow { position: absolute; right: 0; bottom: 0; display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--q-surface2); border: 1px solid var(--q-border); color: var(--q-text); transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, scale 0.3s var(--q-ease-out); }
+.q-nc-arrow svg { width: 22px; height: 22px; transition: translate 0.3s var(--q-ease-out); }
+.q-notch-card:hover .q-nc-arrow, .q-notch-card:focus-visible .q-nc-arrow { background: var(--q-accent); border-color: var(--q-accent); color: #fff; scale: 1.05; }
+.q-notch-card:hover .q-nc-arrow svg, .q-notch-card:focus-visible .q-nc-arrow svg { translate: 2px -2px; }
+.q-notch-card:focus-visible .q-nc-cover { box-shadow: 0 0 0 2px var(--q-bg), 0 0 0 4px var(--q-accent); }
+.q-notch-card h3 { margin: 22px 0 0; font: 500 28px/1.15 var(--q-serif); letter-spacing: -0.02em; color: var(--q-text); }
+.q-notch-card .q-question { margin: 8px 0 0; font: italic 400 19px/1.4 var(--q-serif); color: var(--q-text); letter-spacing: -0.2px; }
+.q-notch-card p:not(.q-question) { margin: 10px 0 0; font-size: 15px; line-height: 1.6; color: var(--q-muted); }
+.q-grid:has(> .q-notch-card) { gap: 56px 32px; }
+@media (max-width: 809.98px) { .q-notch-card h3 { font-size: 24px; } .q-grid:has(> .q-notch-card) { gap: 44px; } }
+@media (prefers-reduced-motion: reduce) { .q-nc-cover img, .q-nc-arrow, .q-nc-arrow svg { transition: none; } .q-notch-card:hover .q-nc-cover img { scale: none; } }
+/* /home-v2 pop-up chat (compass.js popTouches): status under the name, topic chips above the box, quick buttons under it,
+   the visitor's messages in solid orange */
+html:has([data-q-v2]) .q-chat-pop .q-chat-status { display: inline-flex; align-items: center; gap: 6px; }
+.q-pop-v2 .q-me .q-bubble { background: var(--q-accent); color: #fff; }
+.q-pop-v2 .q-starter-block { display: none; }
+.q-topics { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 16px 4px; border-top: 1px solid var(--q-border); }
+.q-topic { padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(242, 97, 2, 0.28); background: rgba(242, 97, 2, 0.08); color: var(--q-accent-text); font: 600 13px/1 var(--q-sans); cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s var(--q-ease-out); }
+@media (hover: hover) and (pointer: fine) { .q-topic:hover { background: rgba(242, 97, 2, 0.16); border-color: rgba(242, 97, 2, 0.5); transform: translateY(-1px); } }
+.q-quick { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 10px 16px 0; }
+.q-quick a { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 42px; padding: 0 10px; border-radius: 12px; border: 1px solid var(--q-border); background: var(--q-bg); color: var(--q-text); font: 600 13.5px/1 var(--q-sans); text-decoration: none; transition: border-color 0.2s ease, transform 0.2s var(--q-ease-out); }
+.q-quick a svg { width: 16px; height: 16px; color: var(--q-accent-text); flex: none; }
+@media (hover: hover) and (pointer: fine) { .q-quick a:hover { border-color: rgba(242, 97, 2, 0.45); transform: translateY(-1px); } }
+
+/* /home-v2 floating button: the brand-orange round button with the white Compass star (as on the live site); it opens
+   into "Ask The Compass" on hover or focus, and a plain orange "Hello!" bubble pops above it once the page has settled */
+.q-launch.q-launch-v2 { gap: 0; padding: 0 4px 0 0; min-width: 60px; height: 60px; border-radius: 30px; border: 0; background: var(--q-accent); color: #fff; box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.35); overflow: visible; transition: box-shadow 0.3s ease, transform 0.3s var(--q-ease-out), background-color 0.2s ease; }
+.q-launch-v2 .q-launch-orb { width: 60px; height: 60px; flex: none; color: #fff; }
+.q-launch-v2 .q-launch-orb svg { width: 24px; height: 24px; }
+.q-launch-label { max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap; font: 600 16px/1 var(--q-sans); color: #fff; transition: max-width 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease, margin 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.q-launch-v2:hover .q-launch-label, .q-launch-v2:focus-visible .q-launch-label, .q-launch-v2.is-hello .q-launch-label { max-width: 220px; opacity: 1; margin-right: 22px; }
+@media (hover: hover) and (pointer: fine) { .q-launch.q-launch-v2:hover { transform: translateY(-2px); background: #ff6a0a; box-shadow: 0 10px 24px -8px rgba(0, 0, 0, 0.4); } }
+.q-hello { position: absolute; right: 0; bottom: calc(100% + 16px); padding: 12px 22px; border-radius: 22px; background: var(--q-accent); color: #fff; font: 700 18px/1 var(--q-sans); white-space: nowrap; box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.35); pointer-events: none; opacity: 0; transform: translateY(8px) scale(0.6); transform-origin: 85% 120%; transition: opacity 0.25s ease, transform 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.q-hello::after { content: ""; position: absolute; right: 22px; bottom: -6px; width: 14px; height: 14px; background: var(--q-accent); border-radius: 2px; transform: rotate(45deg); }
+.q-launch-v2.is-hello .q-hello { opacity: 1; transform: none; }
+@media (max-width: 809.98px) { .q-launch.q-launch-v2 .q-hello { display: block; font-size: 16px; padding: 10px 18px; } .q-launch-label { font-size: 15px; } }
+@media (prefers-reduced-motion: reduce) { .q-launch-label, .q-hello { transition: none; } }
+/* /home-v2 "One Architect" section: the statement on the left, the archway scene on the right, warm orange light from
+   the top-right and bottom-left corners */
+.q-arch-section { position: relative; overflow: hidden; }
+/* soft top and bottom edges: the light and the planet fade into the page instead of stopping in a line */
+.q-arch-section::before, .q-arch-section::after { content: ""; position: absolute; left: 0; right: 0; height: 140px; z-index: 1; pointer-events: none; }
+.q-arch-section::before { top: 0; background: linear-gradient(var(--q-bg), transparent); }
+.q-arch-section::after { bottom: 0; background: linear-gradient(transparent, var(--q-bg)); }
+.q-arch-section > .q-container { position: relative; z-index: 2; }
+html[data-q-theme="dark"] .q-arch-section { background: radial-gradient(55% 75% at 100% 0%, rgba(242, 97, 2, 0.32), transparent 62%), radial-gradient(35% 55% at 0% 100%, rgba(242, 97, 2, 0.16), transparent 70%); --arch-a: rgba(255, 255, 255, 0.16); --arch-b: rgba(255, 255, 255, 0.03); --arch-line: rgba(255, 255, 255, 0.1); --arch-edge: rgba(255, 255, 255, 0.3); --planet-a: #1d1d21; --planet-b: rgba(13, 13, 15, 0); }
+html[data-q-theme="light"] .q-arch-section { background: radial-gradient(55% 75% at 100% 0%, rgba(242, 97, 2, 0.16), transparent 62%), radial-gradient(35% 55% at 0% 100%, rgba(242, 97, 2, 0.08), transparent 70%); --arch-a: rgba(255, 255, 255, 0.95); --arch-b: rgba(255, 255, 255, 0.5); --arch-line: rgba(9, 9, 11, 0.1); --arch-edge: rgba(9, 9, 11, 0.16); --planet-a: #efeceb; --planet-b: rgba(250, 250, 250, 0); }
+.q-arch { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: center; gap: 48px; }
+.q-arch .q-head { max-width: 640px; margin: 0; text-align: left; }
+.q-arch .q-actions { justify-content: flex-start; }
+.q-arch-art { position: relative; width: 100%; aspect-ratio: 600 / 520; }
+.q-arch-art svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.q-arch-line { fill: none; stroke: url(#qa-path); stroke-width: 1.8; stroke-linecap: round; }
+.q-arch-glow { fill: none; stroke: #f26102; stroke-width: 7; stroke-opacity: 0.35; stroke-linecap: round; }
+/* the blueprint scene: drafting grid and corner marks, the practices' threads and labels, the stage rings and names */
+html[data-q-theme="dark"] .q-arch-section { --bp-line: rgba(255, 255, 255, 0.07); --bp-thread: rgba(255, 255, 255, 0.24); --bp-pill-bg: rgba(255, 255, 255, 0.05); --bp-pill-edge: rgba(255, 255, 255, 0.18); --bp-text: rgba(255, 255, 255, 0.78); --bp-tick: rgba(255, 255, 255, 0.32); }
+html[data-q-theme="light"] .q-arch-section { --bp-line: rgba(9, 9, 11, 0.07); --bp-thread: rgba(9, 9, 11, 0.22); --bp-pill-bg: #fff; --bp-pill-edge: rgba(9, 9, 11, 0.14); --bp-text: rgba(9, 9, 11, 0.72); --bp-tick: rgba(9, 9, 11, 0.3); }
+.q-bp-gridline { fill: none; stroke: var(--bp-line); stroke-width: 1; }
+.q-bp-tick { fill: none; stroke: var(--bp-tick); stroke-width: 1.2; }
+.q-bp-thread { fill: none; stroke: var(--bp-thread); stroke-width: 1.2; stroke-linecap: round; }
+.q-bp-pill rect { fill: var(--bp-pill-bg); stroke: var(--bp-pill-edge); stroke-width: 1; }
+.q-bp-pill text { fill: var(--bp-text); font: 600 12px var(--q-sans); }
+.q-bp-ring { fill: var(--q-bg); stroke: #f26102; stroke-width: 2; }
+.q-bp-core { fill: #f26102; }
+.q-bp-stage { fill: var(--bp-text); font: 700 11px var(--q-sans); letter-spacing: 0.14em; text-transform: uppercase; }
+html.q-gsap .q-arch-dot { opacity: 0; transition: opacity 0.6s ease; }
+html.q-gsap .q-arch-art.is-drawn .q-arch-dot { opacity: 1; }
+@media (max-width: 809.98px) { .q-arch { grid-template-columns: 1fr; gap: 28px; } .q-arch-art { max-width: 460px; margin: 16px auto 0; } }
+@media (prefers-reduced-motion: reduce) { .q-arch-dot { display: none; } }
+/* /home-v2 "Depth where it matters": the practices as one architecture stack. Four layers (people down to the
+   foundation), Cybersecurity down the side joined to every layer, Managed operations under them all. One soft light
+   follows the cursor across the whole stack (home_v2_scroll.js sets --mx/--my on each part). */
+html[data-q-theme="dark"] .q-stack { --layer-bg: #0f0f11; --layer-glow: rgba(242, 97, 2, 0.16); }
+html[data-q-theme="light"] .q-stack { --layer-bg: #fff; --layer-glow: rgba(242, 97, 2, 0.1); }
+.q-stack { display: grid; grid-template-columns: minmax(0, 1fr) 260px; grid-template-areas: "l1 sec" "l2 sec" "l3 sec" "l4 sec" "ops ops"; gap: 12px; max-width: 1040px; margin: 0 auto 56px; }
+.q-layer { --mx: -999px; --my: -999px; position: relative; display: grid; grid-template-columns: 128px minmax(0, 1fr) 36px; grid-template-rows: auto auto; column-gap: 24px; row-gap: 4px; align-items: center; padding: 22px 24px 22px 26px; border-radius: 18px; border: 1px solid var(--q-border); background: radial-gradient(340px circle at var(--mx) var(--my), var(--layer-glow), transparent 70%), var(--layer-bg); color: var(--q-text); text-decoration: none; transition: border-color 0.3s ease; }
+.q-layer-l1 { grid-area: l1; } .q-layer-l2 { grid-area: l2; } .q-layer-l3 { grid-area: l3; } .q-layer-l4 { grid-area: l4; } .q-layer-l1, .q-layer-l2, .q-layer-l3, .q-layer-l4 { z-index: 1; } .q-layer-sec { grid-area: sec; } .q-layer-ops { grid-area: ops; }
+.q-layer-tag { grid-column: 1; grid-row: 1 / span 2; font: 700 11px/1.3 var(--q-sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--q-accent-text); }
+.q-layer-name { grid-column: 2; grid-row: 1; font: 500 26px/1.15 var(--q-serif); letter-spacing: -0.3px; }
+.q-layer-line { grid-column: 2; grid-row: 2; font: 500 15px/1.5 var(--q-sans); color: var(--q-muted); }
+.q-layer-go { grid-column: 3; grid-row: 1 / span 2; display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--q-border); color: var(--q-text); transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.35s var(--q-ease-out); }
+.q-layer-go svg { width: 16px; height: 16px; }
+a.q-layer:hover, a.q-layer:focus-visible { border-color: rgba(242, 97, 2, 0.55); outline: none; }
+a.q-layer:hover .q-layer-go, a.q-layer:focus-visible .q-layer-go { background: #f26102; border-color: #f26102; color: #fff; transform: rotate(45deg); }
+/* each layer is joined to the Cybersecurity column by a short orange bridge */
+.q-layer-l1::after, .q-layer-l2::after, .q-layer-l3::after, .q-layer-l4::after { content: ""; position: absolute; top: 50%; right: -13px; width: 13px; height: 2px; margin-top: -1px; background: linear-gradient(90deg, var(--q-border), #f26102); }
+.q-layer-l1::before, .q-layer-l2::before, .q-layer-l3::before, .q-layer-l4::before { content: ""; position: absolute; z-index: 1; top: 50%; right: -17px; width: 8px; height: 8px; margin-top: -4px; border-radius: 50%; background: #f26102; box-shadow: 0 0 0 3px var(--q-bg), 0 0 12px rgba(242, 97, 2, 0.6); }
+/* Cybersecurity: one tall column with an orange spine, across every layer */
+.q-layer-sec { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; padding: 26px 24px 24px 30px; }
+.q-layer-sec::before { content: ""; position: absolute; left: 0; top: 22px; bottom: 22px; width: 2px; border-radius: 2px; background: linear-gradient(#f26102, rgba(242, 97, 2, 0.15)); }
+.q-layer-sec .q-layer-line { flex: 1; }
+/* Managed operations: the base the whole stack stands on, marked by a dashed orange line along its top */
+.q-layer-ops::before { content: ""; position: absolute; left: 26px; right: 26px; top: -1px; height: 1px; background: repeating-linear-gradient(90deg, rgba(242, 97, 2, 0.75) 0 6px, transparent 6px 12px); }
+@media (max-width: 809.98px) {
+  .q-stack { grid-template-columns: minmax(0, 1fr); grid-template-areas: "l1" "l2" "l3" "l4" "sec" "ops"; gap: 10px; }
+  .q-layer { grid-template-columns: minmax(0, 1fr) 36px; grid-template-rows: auto auto auto; row-gap: 6px; column-gap: 16px; padding: 20px; }
+  .q-layer-tag { grid-column: 1; grid-row: 1; }
+  .q-layer-name { grid-column: 1; grid-row: 2; font-size: 23px; }
+  .q-layer-line { grid-column: 1; grid-row: 3; }
+  .q-layer-go { grid-column: 2; grid-row: 1 / span 3; }
+  .q-layer-l1::after, .q-layer-l2::after, .q-layer-l3::after, .q-layer-l4::after, .q-layer-l1::before, .q-layer-l2::before, .q-layer-l3::before, .q-layer-l4::before { display: none; }
+  .q-layer-sec { padding: 20px 20px 20px 24px; }
+}
+/* /home-v2 stack end */
+/* /home-v2 Happy Customers: the stories as an open book. Each story is a double page with its photo across both
+   pages, folding at the spine; the others stack folded at the sides (home_v2_scroll.js turns them). The story's text,
+   round previous/next buttons, a count and a thin autoplay line sit under the book. A faint grid drifts behind. */
+.q-stories-section { overflow: hidden; }
+.q-stories-section::before { content: ""; position: absolute; inset: -50% -50%; pointer-events: none; background-image: linear-gradient(to right, var(--st-grid) 1px, transparent 1px), linear-gradient(to bottom, var(--st-grid) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(40% 40% at 50% 50%, #000, transparent); mask-image: radial-gradient(40% 40% at 50% 50%, #000, transparent); animation: q-st-grid 40s linear infinite alternate; }
+@keyframes q-st-grid { to { transform: translate(48px, 24px); } }
+html[data-q-theme="dark"] .q-stories-section { --st-grid: rgba(255, 255, 255, 0.06); --jr-floor: rgba(0, 0, 0, 0.85); --jr-paper: #1d1d21; }
+html[data-q-theme="light"] .q-stories-section { --st-grid: rgba(9, 9, 11, 0.06); --jr-floor: rgba(9, 9, 11, 0.12); --jr-paper: #efebe3; }
+.q-stories-section > .q-container { position: relative; z-index: 1; }
+.q-journal { position: relative; margin: 0 auto 56px; outline: none; }
+.q-journal:focus-visible { box-shadow: 0 0 0 2px var(--q-accent); border-radius: 16px; }
+/* the book */
+.q-jr-stage { position: relative; height: clamp(320px, 42vw, 560px); touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none; }
+.q-jr-stage.is-dragging { cursor: grabbing; }
+.q-jr-floor { position: absolute; left: 50%; top: 50%; width: calc(var(--jw, 600px) * 1.5); height: calc(var(--jh, 480px) * 0.5); transform: translate(-50%, calc(var(--jh, 480px) * 0.32)); background: var(--jr-floor); opacity: 0.6; filter: blur(calc(var(--jw, 600px) * 0.04)); border-radius: 50%; pointer-events: none; }
+.q-jr-view { position: absolute; inset: 0; perspective: calc(var(--jw, 600px) * 2.3); perspective-origin: 50% 46%; }
+.q-jr-scene { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-style: preserve-3d; }
+.q-jr-item { position: absolute; left: 0; top: 0; transform-style: preserve-3d; visibility: hidden; }
+.q-jr-page { position: absolute; top: calc(var(--jh, 480px) * -0.5); width: calc(var(--jw, 600px) * 0.5); height: var(--jh, 480px); overflow: hidden; background: var(--jr-paper); backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.q-jr-page[data-side="l"] { left: calc(var(--jw, 600px) * -0.5); transform-origin: 100% 50%; border-radius: calc(var(--jw, 600px) * 0.03) 0 0 calc(var(--jw, 600px) * 0.03); }
+.q-jr-page[data-side="r"] { left: 0; transform-origin: 0 50%; border-radius: 0 calc(var(--jw, 600px) * 0.03) calc(var(--jw, 600px) * 0.03) 0; }
+.q-jr-sheet { position: absolute; top: 0; width: var(--jw, 600px); height: var(--jh, 480px); pointer-events: none; }
+.q-jr-page[data-side="l"] > .q-jr-sheet { left: 0; }
+.q-jr-page[data-side="r"] > .q-jr-sheet { left: calc(var(--jw, 600px) * -0.5); }
+.q-wrap .q-jr-bg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; -webkit-user-drag: none; }
+/* the fold: a soft shadow into the spine on each page, and a shade that deepens as a page turns away */
+.q-jr-gutter { position: absolute; inset: 0; }
+.q-jr-page[data-side="l"] .q-jr-gutter { background: linear-gradient(90deg, transparent 80%, rgba(0, 0, 0, 0.1) 92%, rgba(0, 0, 0, 0.32)); }
+.q-jr-page[data-side="r"] .q-jr-gutter { background: linear-gradient(270deg, transparent 80%, rgba(0, 0, 0, 0.1) 92%, rgba(0, 0, 0, 0.32)); }
+.q-jr-shade { position: absolute; inset: 0; background: #000; opacity: var(--s, 0); }
+/* the story under the book */
+.q-journal .q-stories-copy { display: flex; flex-direction: column; align-items: center; max-width: 680px; margin: 28px auto 0; text-align: center; }
+.q-stories-slides { display: grid; width: 100%; }
+.q-story { grid-area: 1 / 1; display: flex; flex-direction: column; align-items: center; opacity: 0; transform: translateY(16px); visibility: hidden; transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0s linear 0.3s; }
+.q-story[hidden] { display: flex; }
+.q-story.is-active { opacity: 1; transform: none; visibility: visible; transition: opacity 0.3s ease-in-out 0.25s, transform 0.3s ease-in-out 0.25s, visibility 0s; }
+.q-story.is-leaving { transform: translateY(-16px); }
+.q-story-tag { font: 700 12px/1.2 var(--q-sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--q-accent-text); }
+.q-wrap .q-story-title { margin-top: 12px; font: 500 clamp(26px, 2.6vw, 34px)/1.15 var(--q-serif); letter-spacing: -0.4px; }
+.q-wrap .q-story-body { margin: 14px 0 0; font: 500 17px/1.6 var(--q-sans); color: var(--q-body); }
+.q-story-link { margin-top: 18px; }
+.q-stories-ctrl { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 32px; }
+.q-stories-btn { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%; border: 1px solid var(--q-border); background: var(--q-surface); color: var(--q-text); cursor: pointer; transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.15s ease; }
+.q-stories-btn svg { width: 20px; height: 20px; transition: transform 0.3s var(--q-ease-out); }
+.q-stories-btn:hover, .q-stories-btn:focus-visible { background: #f26102; border-color: #f26102; color: #fff; outline: none; }
+.q-stories-btn:active { transform: scale(0.94); }
+.q-stories-prev:hover svg { transform: translateX(-3px); }
+.q-stories-next:hover svg { transform: translateX(3px); }
+.q-stories-count { margin-left: 8px; font: 600 14px/1 var(--q-sans); font-variant-numeric: tabular-nums; color: var(--q-muted); }
+.q-stories-count b { color: var(--q-text); font-weight: 700; }
+.q-stories-timer { width: 96px; height: 2px; border-radius: 2px; background: var(--q-border); overflow: hidden; }
+.q-stories-timer i { display: block; height: 100%; background: #f26102; transform: scaleX(0); transform-origin: 0 50%; }
+.q-stories.is-playing .q-stories-timer i { animation: q-st-timer 5s linear forwards; }
+.q-stories.is-paused .q-stories-timer i { animation-play-state: paused; }
+.q-stories.is-stopped .q-stories-timer { visibility: hidden; }
+@keyframes q-st-timer { to { transform: scaleX(1); } }
+@media (max-width: 809.98px) {
+  .q-jr-stage { height: clamp(300px, 92vw, 420px); }
+  .q-wrap .q-story-body { font-size: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .q-stories-section::before { animation: none; }
+  .q-story, .q-story.is-active { transition: none; }
+  .q-stories-timer { display: none; }
+}
+/* /home-v2 stories end */
+/* /home-v2 Perspectives: the founder's posts as a coverflow. The covers stand in a row, the centre one facing you and
+   its neighbours raked back in 3D (home_v2_scroll.js poses them); the centred post's date, title and Read link sit
+   under the row, with dots, and round buttons at the sides. */
+.q-cf { --cf-card: clamp(300px, 42vw, 580px); margin: 0 auto 56px; }
+.q-cf-section { overflow: hidden; }
+.q-cf-wrap { position: relative; }
+.q-cf-frame { overflow: hidden; margin: 0 calc(50% - 50vw); padding: 40px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); perspective: calc(var(--cf-card) * 3); touch-action: pan-y; cursor: grab; outline: none; border-radius: 16px; }
+.q-cf-frame:focus-visible { -webkit-mask-image: none; mask-image: none; box-shadow: inset 0 0 0 2px var(--q-accent); }
+.q-cf-frame.is-dragging { cursor: grabbing; }
+.q-cf-track { position: relative; height: calc(var(--cf-card) * 0.5); transform-style: preserve-3d; pointer-events: none; user-select: none; -webkit-user-select: none; }
+.q-cf-card { position: absolute; left: 50%; top: 0; width: var(--cf-card); aspect-ratio: 2 / 1; overflow: hidden; pointer-events: auto; border-radius: 18px; background: var(--q-surface); box-shadow: var(--cf-shadow); transform: translateX(-50%); will-change: transform; -webkit-user-drag: none; }
+.q-wrap .q-cf-card img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+/* a soft edge on the centre cover */
+.q-cf-card::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px var(--cf-edge); pointer-events: none; }
+html[data-q-theme="dark"] .q-cf-section { --cf-shadow: 0 24px 50px -18px rgba(0, 0, 0, 0.9); --cf-edge: rgba(255, 255, 255, 0.08); }
+html[data-q-theme="light"] .q-cf-section { --cf-shadow: 0 24px 50px -22px rgba(9, 9, 11, 0.35); --cf-edge: rgba(9, 9, 11, 0.06); }
+.q-cf-prev, .q-cf-next { position: absolute; top: 50%; z-index: 200; margin-top: -22px; }
+.q-cf-prev { left: 8px; }
+.q-cf-next { right: 8px; }
+.q-cf-caption { display: flex; flex-direction: column; align-items: center; max-width: 640px; margin: 8px auto 0; text-align: center; }
+.q-cf-dots { display: flex; justify-content: center; gap: 4px; margin-top: 22px; }
+.q-cf-dot { width: 28px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; display: grid; place-items: center; }
+.q-cf-dot::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: var(--q-text); opacity: 0.25; transition: opacity 0.25s ease, width 0.3s var(--q-ease-out), background-color 0.25s ease; }
+.q-cf-dot[aria-current="true"]::before { width: 22px; opacity: 1; background: #f26102; }
+.q-cf-dot:focus-visible { outline: 2px solid var(--q-accent); outline-offset: 2px; border-radius: 999px; }
+@media (max-width: 809.98px) {
+  .q-cf { --cf-card: min(80vw, 360px); }
+  .q-cf-frame { padding: 28px 0; }
+  .q-cf-prev, .q-cf-next { display: none; }
+}
+/* /home-v2 coverflow end */
+/* /home-v2 polish: brand orange only (no violet glows) on The Compass section, the chat and the closing call to action;
+   the chat pop-up drawn solid (on a phone it filled the screen with the page showing through); the chat box's first
+   line no longer collapses; the coverflow buttons stay under the top bar; the preview-only marks are quieter. */
+html:has([data-q-v2]) .q-compass { background: linear-gradient(120deg, rgba(242, 97, 2, 0.75), rgba(242, 97, 2, 0.12) 70%); }
+html:has([data-q-v2]) .q-compass-stage::before { background: radial-gradient(40% 50% at 20% 30%, rgba(242, 98, 2, 0.16), transparent 70%), radial-gradient(45% 55% at 85% 70%, rgba(242, 98, 2, 0.07), transparent 70%); }
+html:has([data-q-v2]) .q-chat::after { background: linear-gradient(135deg, rgba(242, 98, 2, 0.5), transparent 40%, transparent 70%, rgba(242, 98, 2, 0.14)); }
+html:has([data-q-v2]) .q-me .q-bubble { background: #f26102; }
+html:has([data-q-v2]) .q-typing i:nth-child(3) { background: #f26102; }
+html:has([data-q-v2]) .q-source-n { background: #f26102; }
+html:has([data-q-v2]) .q-cta-card::before { background: radial-gradient(40% 70% at 12% 100%, rgba(242, 98, 2, 0.22), transparent 70%), radial-gradient(40% 70% at 88% 0%, rgba(242, 98, 2, 0.1), transparent 70%); }
+html:has([data-q-v2]) .q-chat-pop .q-chat { background: var(--q-surface2); -webkit-backdrop-filter: none; backdrop-filter: none; }
+html:has([data-q-v2]) .q-chat-form:not(.q-pi) textarea { min-height: 42px; }
+html:has([data-q-v2]) .q-cf-wrap { isolation: isolate; }
+html:has([data-q-v2]) .q-badge { display: none; }
+html:has([data-q-v2]) .q-note::before { background: var(--q-accent); }
+html:has([data-q-v2]) .q-panel .q-btn:disabled { opacity: 1; background: transparent; border: 1px solid rgba(242, 97, 2, 0.5); color: var(--q-accent-text); box-shadow: none; cursor: not-allowed; }
+/* /home-v2 polish end */
+/* /home-v2 side chat, redesigned quiet and editorial: a plain bordered panel (no gradient edge or glow), a compass
+   mark in a thin ring, the name in the serif with a quiet line under it (no pulsing dot), replies without avatar
+   badges, neutral topic chips, a calm question box, and the quick links as light text links. Brand orange is kept
+   for what you act on: the send button, your own messages, hover and focus. */
+html:has([data-q-v2]) .q-chat-pop .q-chat { border-radius: 20px; border: 1px solid var(--q-border); box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.75), 0 2px 8px rgba(0, 0, 0, 0.2); }
+html[data-q-theme="light"]:has([data-q-v2]) .q-chat-pop .q-chat { box-shadow: 0 30px 80px -34px rgba(9, 9, 11, 0.35), 0 2px 8px rgba(9, 9, 11, 0.06); }
+html:has([data-q-v2]) .q-chat-pop .q-chat::after { display: none; }
+/* header */
+html:has([data-q-v2]) .q-chat-pop .q-chat-head { padding: 18px 18px 16px 20px; gap: 14px; }
+html:has([data-q-v2]) .q-chat-pop .q-chat-avatar { width: 38px; height: 38px; background: none; box-shadow: none; border: 1px solid var(--q-border); color: var(--q-accent-text); }
+html:has([data-q-v2]) .q-chat-pop .q-chat-avatar svg { width: 19px; height: 19px; }
+html:has([data-q-v2]) .q-chat-pop .q-chat-title b { font: 500 22px/1.05 var(--q-serif); letter-spacing: -0.3px; }
+html:has([data-q-v2]) .q-chat-pop .q-chat-status { font-size: 12px; letter-spacing: 0.02em; }
+html:has([data-q-v2]) .q-chat-pop .q-chat-status i { display: none; }
+/* messages: no badge beside each reply; the reply reads as text on a quiet card */
+html:has([data-q-v2]) .q-chat-pop .q-msg-av { display: none; }
+html:has([data-q-v2]) .q-chat-pop .q-bot .q-bubble { border-radius: 16px 16px 16px 6px; background: var(--q-surface); border: 1px solid var(--q-border); box-shadow: none; }
+html:has([data-q-v2]) .q-chat-pop .q-me .q-bubble { box-shadow: none; }
+html:has([data-q-v2]) .q-chat-pop .q-source-n { border-radius: 6px; background: none; border: 1px solid var(--q-border); color: var(--q-accent-text); }
+/* suggestions: neutral chips under a small label */
+html:has([data-q-v2]) .q-chat-pop .q-topics { gap: 6px; padding: 14px 18px 6px; }
+html:has([data-q-v2]) .q-chat-pop .q-topics::before { content: "Suggested"; flex-basis: 100%; margin-bottom: 2px; font: 700 10.5px/1 var(--q-sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--q-muted); }
+html:has([data-q-v2]) .q-chat-pop .q-topic { padding: 7px 12px; border: 1px solid var(--q-border); background: transparent; color: var(--q-text); font: 500 12.5px/1 var(--q-sans); }
+@media (hover: hover) and (pointer: fine) { html:has([data-q-v2]) .q-chat-pop .q-topic:hover { background: transparent; border-color: rgba(242, 97, 2, 0.6); color: var(--q-accent-text); transform: none; } }
+/* the question box: a calm border, orange only when it has focus (no glow ring) */
+html:has([data-q-v2]) .q-chat-pop .q-chat-form { margin: 8px 18px 0; border-radius: 14px; background: var(--q-bg); }
+html:has([data-q-v2]) .q-chat-pop .q-chat-form:focus-within { border-color: rgba(242, 97, 2, 0.7); box-shadow: none; }
+html:has([data-q-v2]) .q-chat-pop .q-chat-send { box-shadow: none; }
+html:has([data-q-v2]) .q-chat-pop .q-chat-send:disabled { background: var(--q-border); color: var(--q-muted); opacity: 1; }
+/* quick links: light text links in a row */
+html:has([data-q-v2]) .q-chat-pop .q-quick { display: flex; justify-content: center; gap: 4px 18px; flex-wrap: wrap; margin: 12px 18px 0; }
+html:has([data-q-v2]) .q-chat-pop .q-quick a { min-height: 28px; padding: 0; gap: 6px; border: 0; border-radius: 0; background: none; color: var(--q-muted); font: 600 12.5px/1 var(--q-sans); }
+html:has([data-q-v2]) .q-chat-pop .q-quick a svg { width: 14px; height: 14px; color: currentColor; }
+@media (hover: hover) and (pointer: fine) { html:has([data-q-v2]) .q-chat-pop .q-quick a:hover { color: var(--q-accent-text); transform: none; border: 0; } }
+html:has([data-q-v2]) .q-chat-pop .q-chat-foot { padding: 10px 22px 16px; font-size: 11px; opacity: 0.8; }
+@media (max-width: 809.98px) {
+  html:has([data-q-v2]) .q-chat-pop .q-chat { border-radius: 0; border: 0; }
+  html:has([data-q-v2]) .q-chat-pop .q-chat-form { margin: 8px 12px 0; }
+  html:has([data-q-v2]) .q-chat-pop .q-topics { padding: 12px 12px 6px; }
+}
+/* /home-v2 side chat end */
+/* the globe shows as a large dome below the text and button (never behind them), India in view, its lower part fading
+   out; the text stays on top */
+[data-q-v2-globe] > [data-framer-name="Content"] { z-index: 3; }
+/* the square globe frame is not capped at 1200px, so the globe can be large (q.js draws it on its own canvas) */
+[data-q-v2-globe] div[style*="aspect-ratio"] { max-width: none !important; }
+@media (min-width: 810px) {
+  [data-q-v2-globe] { height: 960px !important; justify-content: flex-start !important; }
+  /* the partner logos follow the globe closely, with no empty band above or below them */
+  [data-q-v2-logos] { height: auto !important; padding: 30px 15px 110px !important; }
+  [data-q-v2-globe] > div:has(canvas):not(:first-child) { top: 400px !important; bottom: auto !important; height: auto !important; left: 50% !important; right: auto !important; width: 1800px !important; transform: translateX(-50%); -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 400px, transparent 500px) !important; mask-image: linear-gradient(to bottom, #000 0, #000 400px, transparent 500px) !important; }
+  [data-q-v2-globe] > div:has(canvas):not(:first-child) div { -webkit-mask-image: none !important; mask-image: none !important; }
+}
+@media (max-width: 809.98px) {
+  [data-q-v2-globe] { width: 100% !important; height: 640px !important; justify-content: flex-start !important; padding-top: 44px !important; }
+  [data-q-v2-globe] > div:has(canvas) { inset: auto !important; top: 238px !important; left: 50% !important; width: 860px !important; height: auto !important; transform: translateX(-50%); -webkit-mask: linear-gradient(to bottom, #000 0, #000 220px, transparent 282px) !important; mask: linear-gradient(to bottom, #000 0, #000 220px, transparent 282px) !important; }
+  [data-q-v2-globe] > div:has(canvas) div { -webkit-mask-image: none !important; mask-image: none !important; }
+}
+/* /home-v2 perspective cards: the image drifts inside its own frame (home_v2_scroll.js), which takes over the image's
+   bleed to the card edges, so the enlarged image never covers the text or widens the page */
+.q-card .q-cover-frame { display: block; flex: none; overflow: hidden; width: calc(100% + 60px); margin: -30px -30px 6px; border-radius: 14px 14px 0 0; }
+.q-card .q-cover-frame img { width: 100%; margin: 0; border-radius: 0; }
+@media (max-width: 809.98px) { .q-card .q-cover-frame { width: calc(100% + 48px); margin: -24px -24px 4px; } }

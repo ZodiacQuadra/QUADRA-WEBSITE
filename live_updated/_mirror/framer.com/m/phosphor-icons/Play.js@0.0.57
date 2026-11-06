@@ -1,0 +1,8 @@
+/*
+ * Play (phosphor-icons/Play@0.0.57)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "http://localhost:8081/_mirror/framerusercontent.com/modules/ag2KtnH7tMkIxmuWQxFW/KcSVdcwkM6gDBbAPb9vn/Play.js"
+export { default } from "http://localhost:8081/_mirror/framerusercontent.com/modules/ag2KtnH7tMkIxmuWQxFW/KcSVdcwkM6gDBbAPb9vn/Play.js"

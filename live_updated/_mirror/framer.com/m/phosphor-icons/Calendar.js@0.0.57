@@ -1,0 +1,8 @@
+/*
+ * Calendar (phosphor-icons/Calendar@0.0.57)
+ *
+ * Learn More: https://www.framer.com/asset-urls
+ */
+
+export * from "http://localhost:8081/_mirror/framerusercontent.com/modules/LfEDUS6eZ2eSC7DzKLAy/RyGtEWkuxnWkjBSN2Zzo/Calendar.js"
+export { default } from "http://localhost:8081/_mirror/framerusercontent.com/modules/LfEDUS6eZ2eSC7DzKLAy/RyGtEWkuxnWkjBSN2Zzo/Calendar.js"
