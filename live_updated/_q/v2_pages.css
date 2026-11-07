@@ -145,3 +145,17 @@ html[data-q-v2p].q-v2-intro.q-v2-go nav { animation-duration: 0.5s; animation-de
 html[data-q-v2p].q-v2-intro.q-v2-go [data-q-v2] [data-q-v2-trusted] { animation-duration: 0.5s; animation-delay: 0.8s; }
 html[data-q-v2p].q-v2-intro.q-v2-go .q-launch { animation-duration: 0.4s; animation-delay: 0.9s; }
 html[data-q-v2p] .q-v2-ipop { animation-duration: 0.6s !important; }
+
+/* Tables in the content (BluForge Security Operations: "BluForge capability coverage"). The table scrolls inside its
+   own frame on narrow screens; the first column names the row. */
+.q-table-wrap { max-width: 1100px; margin: 8px auto 0; overflow-x: auto; border: 1px solid var(--q-border); border-radius: 20px; background: var(--q-surface); }
+.q-table-wrap:focus-visible { outline: 2px solid var(--q-accent); outline-offset: 3px; }
+.q-table { width: 100%; min-width: 720px; border-collapse: collapse; font: 400 15px/1.55 var(--q-sans); color: var(--q-body); text-align: left; }
+.q-table caption { caption-side: top; padding: 22px 24px 6px; font: 600 20px/1.3 var(--q-serif); color: var(--q-text); text-align: left; }
+.q-table thead th { padding: 14px 24px; font: 700 11px/1.3 var(--q-sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--q-accent-text); border-bottom: 1px solid var(--q-border); }
+.q-table tbody th, .q-table tbody td { padding: 16px 24px; vertical-align: top; border-top: 1px solid var(--q-border); }
+.q-table tbody tr:first-child th, .q-table tbody tr:first-child td { border-top: 0; }
+.q-table tbody th { width: 22%; font-weight: 600; color: var(--q-muted); }
+.q-table tbody td:nth-child(2) { width: 28%; font-weight: 600; color: var(--q-text); }
+.q-table-note { max-width: 1100px; margin: 18px auto 0; font-size: 14px; color: var(--q-muted); }
+@media (max-width: 809.98px) { .q-table { font-size: 14px; } .q-table tbody th, .q-table tbody td, .q-table thead th { padding: 12px 16px; } }

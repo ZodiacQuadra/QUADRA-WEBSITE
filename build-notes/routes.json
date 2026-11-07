@@ -106,6 +106,11 @@
    "template": "/technology/microsoft/modern-work"
   },
   {
+   "id": "ispg-bluforge",
+   "path": "/technology/microsoft/security/bluforge-security-operations",
+   "template": "/technology/microsoft/security"
+  },
+  {
    "id": "aws",
    "path": "/technology/aws",
    "template": "/technology/aws"
@@ -339,11 +344,6 @@
    "id": "assessments",
    "path": "/assessments",
    "template": "/solutions"
-  },
-  {
-   "id": "home-v2",
-   "path": "/home-v2",
-   "template": "/"
   },
   {
    "id": "gcp-security-health-check",
