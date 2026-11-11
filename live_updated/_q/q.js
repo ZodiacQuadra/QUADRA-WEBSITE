@@ -498,6 +498,8 @@
       }
       function draw(now) {
         if (drag || ((Math.abs(phi - layerPhi) > 0.0004 || Math.abs(tilt - layerTilt) > 0.0004 || now - lastLayer > 240) && now - lastLayer > 90)) renderLayer(now);
+        // a globe section hidden at this screen size has nothing to draw into (11 Nov: this threw on every frame)
+        if (!layer.width || !layer.height) return;
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, out.width, out.height);
         ctx.drawImage(layer, 0, 0);

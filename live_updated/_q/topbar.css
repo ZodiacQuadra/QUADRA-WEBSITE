@@ -44,6 +44,11 @@ html[data-q-theme="light"].q-v2-scrolled .q-tb nav [data-framer-name="Main Area"
 .q-menu a.q-ml, .q-mobile a.q-ml { font: 500 14px/1.35 var(--q-sans); color: var(--q-muted); text-decoration: none; }
 .q-menu a.q-ml:hover, .q-menu a.q-ml[aria-current], .q-mobile a.q-ml:hover { color: var(--q-text); }
 .q-menu a.q-sub, .q-mobile a.q-sub { padding-left: 12px; font-size: 13px; }
+/* column headings link to the practice overview (the separate "… overview" entries were folded into them, 11 Nov) */
+.q-menu h4 a.q-mh, .q-mobile h4 a.q-mh { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s ease; }
+.q-menu h4 a.q-mh::after, .q-mobile h4 a.q-mh::after { content: "→"; font-weight: 500; opacity: 0; transform: translateX(-4px); transition: opacity 0.2s ease, transform 0.2s ease; }
+.q-menu h4 a.q-mh:hover, .q-menu h4 a.q-mh:focus-visible, .q-mobile h4 a.q-mh:hover, .q-menu h4 a.q-mh[aria-current], .q-mobile h4 a.q-mh[aria-current] { color: var(--q-accent); }
+.q-menu h4 a.q-mh:hover::after, .q-menu h4 a.q-mh:focus-visible::after { opacity: 1; transform: none; }
 .q-mobile { position: fixed; inset: 0; z-index: 1001; background: var(--q-panel); overflow: auto; padding: 84px 22px 40px; opacity: 0; visibility: hidden; transition: opacity 0.2s ease, visibility 0.2s; }
 .q-mobile.q-open { opacity: 1; visibility: visible; }
 .q-mobile-close { position: fixed; top: 18px; right: 18px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--q-border); background: var(--q-surface); color: var(--q-text); font: 400 24px/1 var(--q-sans); cursor: pointer; }
