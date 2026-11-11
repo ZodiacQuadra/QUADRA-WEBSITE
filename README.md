@@ -36,7 +36,7 @@ the pages load their scripts, fonts and images from `http://localhost:8081/_mirr
 ## Inside `live_updated/`
 
 Pages are filed by the site menu, one numbered folder per menu, with each menu's inner pages inside it. Every folder
-holds an `index.html` (the page) and folders for the pages under it. 306 pages in all.
+holds an `index.html` (the page) and folders for the pages under it. 307 pages in all.
 
 | Folder | Menu | What is inside | Page address |
 | --- | --- | --- | --- |
@@ -62,9 +62,9 @@ The page addresses did not change: `server/folders.json` maps each address to it
 - **Rebuilt pages (70):** every page of the content pack (Solutions, Technology Practices, Why Quadra, Assessments,
   Contact, Happy Customers index, homepage). They carry the new copy in the live design, load `_q/q.css` and
   `_q/q.js`, and (all but the homepage and Happy Customers) the homepage design via `_q/v2_pages.css`.
-- **Live-site pages (236):** case studies, blogs, newsroom, events, careers, privacy, AWS microsites and similar,
+- **Live-site pages (237):** case studies, blogs, newsroom, events, careers, privacy, AWS microsites and similar,
   kept exactly as on the live site. Their only change is the new top bar (`_q/topbar.css`, `_q/topbar.js`, inserted
-  between `<!--q-topbar-->` markers).
+  between `<!--q-topbar-->` markers); `/llms-txt` has no menu, so it has none.
 
 ## Content status (11 November 2026)
 
