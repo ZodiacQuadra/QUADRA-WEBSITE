@@ -43,9 +43,9 @@
         if (!r.width || r.bottom < vh * 0.25 || r.top > vh * 0.75) return;
         var next = box.querySelector(".q-cf-next"), dots = [].slice.call(box.querySelectorAll(".q-cf-dot"));
         if (!next || !dots.length) return;
-        var at = dots.findIndex(function (d) { return d.getAttribute("aria-current") === "true"; });
+        // the carousel loops (home_v2_scroll.js), so "next" always continues, from the last post round to the first
         ours = true;
-        if (at >= dots.length - 1) dots[0].click(); else next.click();
+        next.click();
         ours = false;
       }, 4500);
     })();

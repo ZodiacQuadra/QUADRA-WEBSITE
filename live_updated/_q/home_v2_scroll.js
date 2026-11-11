@@ -192,20 +192,30 @@
   var ROTATE = 44, DEPTH = 0.6, FALLOFF = 0.56, FADE = 0.1, GAP = 0.05;
   var start = +box.getAttribute("data-start") || 0;
   var pos = start, target = start, W = 0, raf = 0, drag = null, selected = start, moved = false;
-  var clamp = function (v) { return Math.max(0, Math.min(n - 1, v)); };
+  // A loop (11 Nov): the position runs on without limit and each cover sits at its nearest place around it, so there is
+  // always a cover on both sides and "next" after the last post brings the first one in from the right. A cover fades
+  // out as it reaches the far edge (half the covers away), so it never visibly jumps from one side to the other.
+  var clamp = function (v) { return v; };
+  var mod = function (k) { return ((k % n) + n) % n; };
+  var toward = function (j) { var cur = Math.round(target), d = mod(j - cur); if (d > n / 2) d -= n; return cur + d; };
+  var EDGE = n / 2;
 
   function paint() {
     if (!W) return;
     var pitch = W * (1 + GAP);
     cards.forEach(function (c, i) {
-      var off = i - pos, d = Math.abs(off), ramp = Math.pow(d, FALLOFF);
+      var off = mod(i - pos); if (off > EDGE) off -= n;
+      var d = Math.abs(off), ramp = Math.pow(d, FALLOFF);
       var tilt = Math.min(ROTATE * ramp, 82) * Math.sign(off);
       c.style.transform = "translateX(calc(-50% + " + (off * pitch).toFixed(2) + "px)) translateZ(" + (-DEPTH * W * ramp).toFixed(2) + "px) rotateY(" + (-tilt).toFixed(2) + "deg)";
-      c.style.opacity = Math.max(0, 1 - FADE * d);
+      var o = 1 - FADE * d;
+      if (d > EDGE - 0.5) o *= Math.max(0, (EDGE - d) / 0.5);
+      c.style.opacity = Math.max(0, o);
       c.style.zIndex = 100 - Math.round(d);
     });
   }
   function select(k) {
+    k = mod(k);
     if (k === selected) return;
     var old = caps[selected];
     if (old) { old.classList.remove("is-active"); old.classList.add("is-leaving"); old.setAttribute("aria-hidden", "true"); setTimeout(function () { old.classList.remove("is-leaving"); }, 320); }
@@ -236,7 +246,7 @@
 
   box.querySelector(".q-cf-prev").addEventListener("click", function () { nudge(-1); });
   box.querySelector(".q-cf-next").addEventListener("click", function () { nudge(1); });
-  dots.forEach(function (d, j) { d.addEventListener("click", function () { settle(j); }); });
+  dots.forEach(function (d, j) { d.addEventListener("click", function () { settle(toward(j)); }); });
   frame.addEventListener("keydown", function (e) {
     if (e.key === "ArrowLeft") { e.preventDefault(); nudge(-1); }
     else if (e.key === "ArrowRight") { e.preventDefault(); nudge(1); }
@@ -273,7 +283,7 @@
     c.style.cursor = "pointer";
     c.addEventListener("click", function () {
       if (moved) { moved = false; return; }
-      if (i !== Math.round(target)) settle(i);
+      if (i !== mod(Math.round(target))) settle(toward(i));
       else if (c.getAttribute("data-href")) location.href = c.getAttribute("data-href");
     });
   });
