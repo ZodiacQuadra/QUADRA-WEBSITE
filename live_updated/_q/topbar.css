@@ -43,7 +43,11 @@ html[data-q-theme="light"].q-v2-scrolled .q-tb nav [data-framer-name="Main Area"
 .q-menu ul, .q-mobile ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
 .q-menu a.q-ml, .q-mobile a.q-ml { font: 500 14px/1.35 var(--q-sans); color: var(--q-muted); text-decoration: none; }
 .q-menu a.q-ml:hover, .q-menu a.q-ml[aria-current], .q-mobile a.q-ml:hover { color: var(--q-text); }
-.q-menu a.q-sub, .q-mobile a.q-sub { padding-left: 12px; font-size: 13px; }
+.q-menu a.q-sub, .q-mobile a.q-sub { padding-left: 0; font-size: 13px; }
+/* sub-pages hang off their parent page on a thin guide line (11 Nov) */
+.q-menu li:has(> a.q-sub), .q-mobile li:has(> a.q-sub) { margin: -7px 0 0 5px; padding: 7px 0 0 14px; border-left: 1px solid color-mix(in srgb, var(--q-muted) 45%, transparent); transition: border-color 0.2s ease; }
+.q-menu li:has(> a.q-sub:hover), .q-menu li:has(> a.q-sub[aria-current]), .q-mobile li:has(> a.q-sub:hover) { border-left-color: var(--q-accent); }
+.q-menu li:has(+ li > a.q-sub) > a.q-ml:not(.q-sub), .q-mobile li:has(+ li > a.q-sub) > a.q-ml:not(.q-sub) { color: var(--q-text); font-weight: 600; }
 /* column headings link to the practice overview (the separate "… overview" entries were folded into them, 11 Nov) */
 .q-menu h4 a.q-mh, .q-mobile h4 a.q-mh { color: inherit; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; transition: color 0.2s ease; }
 .q-menu h4 a.q-mh::after, .q-mobile h4 a.q-mh::after { content: "→"; font-weight: 500; opacity: 0; transform: translateX(-4px); transition: opacity 0.2s ease, transform 0.2s ease; }
