@@ -1,0 +1,123 @@
+/* Homepage opening film: "21 Years of Global Recognition". Shown every time the homepage opens, skippable.
+   Layout: one full-screen dark stage; a 7×3 block of the homepage's grid squares lights up in a diagonal wave behind a
+   large gradient "21", then the eyebrow, a drawn rule and the title rise in; after ~4.4 s the stage lifts away like a
+   curtain and the homepage's own opening plays underneath. Always the dark, cinematic look (both site themes).
+   All motion is predetermined CSS (runs off the main thread while the page loads); announce21.js only times the exit. */
+.q-ann {
+  --ann-ease: cubic-bezier(0.23, 1, 0.32, 1);        /* strong ease-out: everything entering */
+  --ann-move: cubic-bezier(0.77, 0, 0.175, 1);       /* strong ease-in-out: the curtain moving on screen */
+  --ann-cell: clamp(44px, 7.4vw, 104px);
+  --ann-total: 4400ms;
+  --ann-ink: #f4f1ec;
+  --ann-muted: rgba(244, 241, 236, 0.62);
+  position: fixed; inset: 0; z-index: 2147483000;
+  display: grid; place-items: center; overflow: hidden;
+  background: #050506; color: var(--ann-ink);
+  font-family: var(--q-sans, Raleway, "Helvetica Neue", Arial, sans-serif);
+  cursor: pointer;
+}
+html:has(.q-ann:not(.is-out)) { overflow: hidden; }
+
+/* warm light, as on the homepage hero */
+.q-ann-light {
+  position: absolute; inset: -20%; pointer-events: none;
+  background:
+    radial-gradient(38% 42% at 34% 30%, rgba(242, 98, 2, 0.38), transparent 70%),
+    radial-gradient(34% 40% at 72% 68%, rgba(164, 24, 245, 0.26), transparent 72%);
+  opacity: 0; animation: q-ann-fade 1400ms var(--ann-ease) 100ms both;
+}
+.q-ann::after { /* vignette + faint grid lines for depth */
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.75) 100%),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / var(--ann-cell) var(--ann-cell),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px) 0 0 / var(--ann-cell) var(--ann-cell);
+}
+
+/* the 21 squares */
+.q-ann-grid {
+  position: absolute; left: 50%; top: 50%; pointer-events: none;
+  display: grid; grid-template-columns: repeat(7, var(--ann-cell)); grid-auto-rows: var(--ann-cell); gap: 1px;
+  transform: translate(-50%, -54%);
+}
+.q-ann-grid i {
+  display: block; border-radius: 2px;
+  background: radial-gradient(120% 120% at 30% 25%, rgba(255, 168, 96, 0.55), rgba(242, 98, 2, 0.18) 55%, rgba(164, 24, 245, 0.12));
+  box-shadow: inset 0 0 0 1px rgba(255, 196, 140, 0.32);
+  opacity: 0; transform: scale(0.94);
+  animation: q-ann-cell 1000ms var(--ann-ease) calc(150ms + var(--i) * 55ms) both;
+}
+
+/* the words */
+.q-ann-stage {
+  position: relative; display: grid; justify-items: center; text-align: center;
+  padding: 0 max(20px, env(safe-area-inset-left, 0px));
+  animation: q-ann-push 2800ms var(--ann-ease) 400ms both;
+}
+.q-ann-eyebrow {
+  margin: 0 0 clamp(4px, 1vw, 12px); font: 600 clamp(11px, 1.1vw, 14px)/1.2 var(--q-sans, Raleway, sans-serif);
+  letter-spacing: 0.28em; text-transform: uppercase; color: var(--ann-muted);
+  opacity: 0; animation: q-ann-rise-sm 800ms var(--ann-ease) 1150ms both;
+}
+.q-ann-num { display: flex; font: 500 clamp(150px, 27vw, 380px)/0.82 var(--q-serif, "EB Garamond", Georgia, serif); letter-spacing: -0.04em; }
+.q-ann-mask { display: block; overflow: hidden; padding: 0.06em 0.02em 0.1em; }
+.q-ann-d {
+  display: block;
+  background: var(--q-grad, linear-gradient(90deg, #f26202 0%, #a418f5 100%)); background-size: 200% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  transform: translateY(108%);
+  animation: q-ann-rise 1100ms var(--ann-ease) calc(600ms + var(--i) * 110ms) both, q-ann-sheen 3200ms linear 900ms both;
+}
+.q-ann-d:nth-child(1) { background-position: 0 0; }
+.q-ann-rule {
+  display: block; width: min(420px, 60vw); height: 1px; margin: clamp(10px, 1.6vw, 22px) 0 clamp(12px, 1.8vw, 24px);
+  background: linear-gradient(90deg, transparent, rgba(255, 200, 150, 0.85), transparent);
+  transform: scaleX(0); animation: q-ann-draw 900ms var(--ann-ease) 1350ms both;
+}
+.q-ann-title { margin: 0; font: 500 clamp(26px, 3.6vw, 52px)/1.1 var(--q-serif, "EB Garamond", Georgia, serif); letter-spacing: -0.01em; color: var(--ann-ink); text-wrap: balance; }
+.q-ann-title .q-ann-mask { display: inline-block; vertical-align: top; padding: 0.04em 0.12em 0.12em; margin: 0 -0.06em; }
+.q-ann-w { display: inline-block; transform: translateY(110%); animation: q-ann-rise 900ms var(--ann-ease) calc(1550ms + var(--i) * 80ms) both; }
+.q-ann-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.q-ann-link {
+  display: inline-flex; align-items: center; gap: 10px; margin-top: clamp(18px, 2.4vw, 34px);
+  font: 600 15px/1 var(--q-sans, Raleway, sans-serif); color: var(--ann-ink); text-decoration: none;
+  padding: 13px 22px; border-radius: 999px; border: 1px solid rgba(242, 98, 2, 0.7);
+  opacity: 0; animation: q-ann-rise-sm 700ms var(--ann-ease) 2150ms both;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+.q-ann-link svg { width: 16px; height: 16px; }
+@media (hover: hover) and (pointer: fine) { .q-ann-link:hover { background: rgba(242, 98, 2, 0.16); border-color: #f26202; } }
+.q-ann-skip {
+  position: absolute; right: max(20px, env(safe-area-inset-right, 0px)); bottom: max(24px, calc(env(safe-area-inset-bottom, 0px) + 16px));
+  font: 600 12px/1 var(--q-sans, Raleway, sans-serif); letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ann-muted); background: none; border: 0; padding: 10px 4px; cursor: pointer;
+  opacity: 0; animation: q-ann-fade 500ms ease-out 300ms both; transition: color 200ms ease;
+}
+@media (hover: hover) and (pointer: fine) { .q-ann-skip:hover { color: var(--ann-ink); } }
+.q-ann-link:focus-visible, .q-ann-skip:focus-visible { outline: 2px solid #f26202; outline-offset: 4px; }
+.q-ann-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: rgba(255, 255, 255, 0.08); }
+.q-ann-progress i { display: block; height: 100%; background: var(--q-grad, linear-gradient(90deg, #f26202, #a418f5)); transform: scaleX(0); transform-origin: left; animation: q-ann-draw var(--ann-total) linear both; }
+
+/* exit: the stage lifts away like a curtain; its words drift down and fade (parallax) */
+.q-ann.is-out { transform: translateY(-100%); transition: transform 900ms var(--ann-move); pointer-events: none; }
+.q-ann.is-out .q-ann-stage { opacity: 0; transform: translateY(14vh) scale(0.98); transition: opacity 500ms ease-out, transform 900ms var(--ann-move); animation: none; }
+
+@keyframes q-ann-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes q-ann-cell { 0% { opacity: 0; transform: scale(0.94); } 35% { opacity: 1; transform: scale(1); } 100% { opacity: 0.2; transform: scale(1); } }
+@keyframes q-ann-rise { from { transform: translateY(108%); } to { transform: translateY(0); } }
+@keyframes q-ann-rise-sm { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes q-ann-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes q-ann-sheen { from { background-position: 100% 0; } to { background-position: 0 0; } }
+@keyframes q-ann-push { from { transform: scale(0.965); } to { transform: scale(1); } }
+
+/* reduced motion: no movement, a short fade in and out, everything readable at once */
+@media (prefers-reduced-motion: reduce) {
+  .q-ann, .q-ann * { animation: none !important; }
+  .q-ann { animation: q-ann-fade 300ms ease-out both !important; }
+  .q-ann-light, .q-ann-eyebrow, .q-ann-link, .q-ann-skip { opacity: 1; }
+  .q-ann-grid i { opacity: 0.25; transform: none; }
+  .q-ann-d, .q-ann-w { transform: none; }
+  .q-ann-rule, .q-ann-progress i { transform: none; }
+  .q-ann.is-out { transform: none; opacity: 0; transition: opacity 400ms ease-out; }
+  .q-ann.is-out .q-ann-stage { transform: none; }
+}
