@@ -81,6 +81,28 @@ The page addresses did not change: `server/folders.json` maps each address to it
   the Recognition review-gate line); the claims flagged in the v0.7 pack (partner credentials, free-offer wording,
   anonymised figures) still need owner confirmation.
 
+## Changes after the handover (11 November 2026)
+
+Merged in #1 and #2. The homepage now matches the Framer trial homepage.
+
+- **Homepage** (`01-home/index.html`, `_q/home_refresh.css`, `_q/home_refresh.js`):
+  - "Where will your ambition take you?" is a priority switcher with four illustrations.
+  - "Happy Customers" is four equal story cards.
+  - A "What can we do for you?" banner after Top Tier asks The Compass.
+  - Anthropic, VMware by Broadcom and Citrix are in Top Tier.
+  - The Perspectives carousel loops and moves on by itself.
+  - The dark-theme hero glow is softer.
+  - The inline Compass section and "Stay in the conversation" are removed.
+- **Menu, on every page:**
+  - The "… overview" links are folded into the column headings.
+  - Sub-pages hang off their parent page on a thin guide line.
+  - Microsoft 365 & Workplace lists Microsoft 365 Migration, IntelliCloud Integration and Managed Services | Max-IT.
+  - Google Cloud's managed services entry reads "Managed Services | Max-IT".
+- **Fixes:**
+  - The phone menu's links are styled on the rebuilt pages.
+  - The globe no longer errors when its section is hidden.
+  - 22 new pages carry their own canonical address and `og:url` instead of their parent page's.
+
 ## Deploy (Vercel)
 
 Every push to `main` deploys to https://quadrawebsite.vercel.app. Vercel runs `node server/build_deploy.js`, which
