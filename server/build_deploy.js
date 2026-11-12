@@ -53,6 +53,16 @@ function rewrite(text, isScript) {
   return text.split("http://localhost:8081").join("");
 }
 
+// Local-only features, left out of the deployment: the homepage's 21-year opening film (announce21.css/.js and the
+// markup between the <!--q-ann--> markers). They stay in live_updated/ and run on localhost:8081.
+const LOCAL_ONLY_FILES = ["_q/announce21.css", "_q/announce21.js"];
+const LOCAL_ONLY_BLOCKS = [/<!--q-ann-head-->[\s\S]*?<!--\/q-ann-head-->/g, /<!--q-ann-->[\s\S]*?<!--\/q-ann-->/g];
+let localOnlyRemoved = 0;
+function dropLocalOnly(text) {
+  for (const re of LOCAL_ONLY_BLOCKS) text = text.replace(re, () => { localOnlyRemoved++; return ""; });
+  return text;
+}
+
 let files = 0, rewritten = 0;
 const seen = new Map();
 function copyTree(rel) {
@@ -63,6 +73,7 @@ function copyTree(rel) {
     // Framer's CMS data is read in slices (?range=a-b,c-d), which a static host can't answer: leaving these files out
     // lets vercel.json pass those requests to Framer's public CDN, which serves the slices
     if (/\.framercms$/i.test(entry.name)) continue;
+    if (LOCAL_ONLY_FILES.includes(r)) continue;
     const pub = publicPath(r);
     if (seen.has(pub)) { console.error(`Two files would publish at /${pub}: ${seen.get(pub)} and ${r}`); process.exit(1); }
     seen.set(pub, r);
@@ -70,7 +81,7 @@ function copyTree(rel) {
     fs.mkdirSync(path.dirname(d), { recursive: true });
     if (TEXT.test(entry.name)) {
       const before = fs.readFileSync(s, "utf8");
-      const after = rewrite(before, SCRIPT.test(entry.name));
+      const after = rewrite(/\.html$/i.test(entry.name) ? dropLocalOnly(before) : before, SCRIPT.test(entry.name));
       fs.writeFileSync(d, after);
       if (after !== before) rewritten++;
     } else {
@@ -91,4 +102,4 @@ for (const p of BLOCKED_SCRIPTS) {
   fs.mkdirSync(path.dirname(f), { recursive: true });
   fs.writeFileSync(f, blockedStub(p));
 }
-console.log(JSON.stringify({ out: OUT, files, rewrittenTextFiles: rewritten, mediaAddressesToCdn: cdnRefs }, null, 1));
+console.log(JSON.stringify({ out: OUT, files, rewrittenTextFiles: rewritten, mediaAddressesToCdn: cdnRefs, localOnlyBlocksRemoved: localOnlyRemoved }, null, 1));
