@@ -199,13 +199,17 @@
   var mod = function (k) { return ((k % n) + n) % n; };
   var toward = function (j) { var cur = Math.round(target), d = mod(j - cur); if (d > n / 2) d -= n; return cur + d; };
   var EDGE = n / 2;
+  // Tilt and recession by distance from the centre. Rounded off right at the centre (12 Nov), so a cover gliding
+  // through turns smoothly instead of snapping; unchanged at one cover away and beyond.
+  var SOFT = 0.25, NORM = Math.pow(Math.sqrt(1 + SOFT * SOFT) - SOFT, FALLOFF);
+  var rampOf = function (d) { return Math.pow(Math.sqrt(d * d + SOFT * SOFT) - SOFT, FALLOFF) / NORM; };
 
   function paint() {
     if (!W) return;
     var pitch = W * (1 + GAP);
     cards.forEach(function (c, i) {
       var off = mod(i - pos); if (off > EDGE) off -= n;
-      var d = Math.abs(off), ramp = Math.pow(d, FALLOFF);
+      var d = Math.abs(off), ramp = rampOf(d);
       var tilt = Math.min(ROTATE * ramp, 82) * Math.sign(off);
       c.style.transform = "translateX(calc(-50% + " + (off * pitch).toFixed(2) + "px)) translateZ(" + (-DEPTH * W * ramp).toFixed(2) + "px) rotateY(" + (-tilt).toFixed(2) + "deg)";
       var o = 1 - FADE * d;
@@ -243,6 +247,27 @@
   function measure() { W = cards[0] ? cards[0].offsetWidth : 0; paint(); }
   if ("ResizeObserver" in window) new ResizeObserver(measure).observe(frame);
   measure();
+
+  // Continuous glide (12 Nov): the covers drift slowly and loop for ever. It holds still while the visitor is using it
+  // (pressing, dragging, keyboard focus inside) and for a few seconds after any arrow, dot or cover is used; it also
+  // stops off screen, in a hidden tab, and never runs for visitors who ask for reduced motion.
+  // pace: one post every 4 s (12 Nov, was 5.5 s); it eases up to that speed after any pause instead of starting at once
+  var SPEED = 1 / 4, vel = 0, quietUntil = 0, onScreen = true, lastT = 0;
+  var hush = function () { quietUntil = Date.now() + 6000; };
+  if ("IntersectionObserver" in window) new IntersectionObserver(function (en) { onScreen = en[0].isIntersecting; }, { threshold: 0.2 }).observe(box);
+  ["pointerdown", "keydown"].forEach(function (ev) { box.addEventListener(ev, hush, true); });
+  box.addEventListener("click", hush, true);
+  function glide(t) {
+    requestAnimationFrame(glide);
+    var dt = lastT ? Math.min(0.05, (t - lastT) / 1000) : 0;
+    lastT = t;
+    if (still || drag || raf || !W || !onScreen || document.hidden || Date.now() < quietUntil || box.contains(document.activeElement)) { vel = 0; return; }
+    vel += (SPEED - vel) * Math.min(1, dt * 1.5);
+    pos += vel * dt; target = pos;
+    select(Math.round(pos));
+    paint();
+  }
+  requestAnimationFrame(glide);
 
   box.querySelector(".q-cf-prev").addEventListener("click", function () { nudge(-1); });
   box.querySelector(".q-cf-next").addEventListener("click", function () { nudge(1); });

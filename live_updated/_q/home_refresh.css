@@ -118,6 +118,103 @@ html:not([data-q-theme="light"]) [data-q-v2] .q-v2-reveal { --r-line: rgba(255, 
   .q-wrap .sc-track { scroll-behavior: auto; }
 }
 
+/* ---------- 21 years announcement (12 Nov) ---------- */
+/* (A) news badge above the hero eyebrow; fades in once the opening sequence has played */
+.q-annc-wrap { display: flex; justify-content: center; width: 100%; margin: 0 0 18px; position: relative; z-index: 2; }
+.q-annc { display: inline-flex; align-items: center; gap: 10px; padding: 5px 16px 5px 5px; border-radius: 999px; border: 1px solid rgba(242, 97, 2, 0.35); background: rgba(242, 97, 2, 0.08); color: #f4f4f5; font: 500 13px/1.2 Raleway, "Helvetica Neue", Arial, sans-serif; text-decoration: none; letter-spacing: 0.01em; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); opacity: 0; transform: translateY(8px); animation: q-annc-in 0.8s cubic-bezier(0.23, 1, 0.32, 1) 1.6s forwards; }
+html[data-q-theme="light"] .q-annc { color: #18181b; background: rgba(242, 97, 2, 0.07); }
+.q-annc-tag { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 999px; background: #f26102; color: #fff; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
+.q-annc-tag svg { width: 12px; height: 12px; }
+@keyframes q-annc-in { to { opacity: 1; transform: none; } }
+@media (max-width: 600px) { .q-annc { font-size: 12px; gap: 8px; padding-right: 12px; white-space: nowrap; } .q-annc-tag { padding: 5px; } .q-annc-tagtxt { display: none; } }
+@media (prefers-reduced-motion: reduce) { .q-annc { animation: none; opacity: 1; transform: none; } }
+/* (C) the recognition heading's "21" counts up while a strip of 21 bars fills, one per year */
+.q-num21 { display: inline-block; text-align: center; font-variant-numeric: tabular-nums; }
+.q-yr21 { display: flex; gap: 3px; width: min(400px, 78%); margin: 24px auto 0; position: relative; z-index: 2; }
+.q-yr21 i { flex: 1; height: 2px; border-radius: 1px; background: rgba(242, 97, 2, 0.16); transition: background 0.35s ease, box-shadow 0.35s ease; }
+.q-yr21 i.on { background: #f26102; }
+.q-yr21 i.on:last-child { box-shadow: 0 0 6px rgba(242, 97, 2, 0.7); }
+html[data-q-theme="light"] .q-yr21 i { background: rgba(242, 97, 2, 0.16); }
+html[data-q-theme="light"] .q-yr21 i.on { background: #f26102; }
+
+/* ---------- recognition film intro (12 Nov) ---------- */
+/* Once per session the homepage opens with a full-screen montage from Quadra's own corporate film (trophy shelf,
+   the Microsoft and Quadra timeline of award moments). When it ends, or on Skip, the picture breaks into the hero
+   grid's boxes, which turn away one by one and leave the homepage exactly as it is. */
+.q-cine { position: fixed; inset: 0; z-index: 2147483000; background: transparent; cursor: pointer; opacity: 0; transition: opacity 0.7s ease; }
+.q-cine.is-on { opacity: 1; }
+.q-cine canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.q-cine-cap { position: absolute; left: 32px; bottom: 28px; display: inline-flex; align-items: center; gap: 10px; padding: 6px 16px 6px 6px; border-radius: 999px; border: 1px solid rgba(242, 97, 2, 0.5); background: rgba(10, 10, 12, 0.5); color: #fff; font: 500 13px/1.2 Raleway, "Helvetica Neue", Arial, sans-serif; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); opacity: 0; transform: translateY(8px); transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s; pointer-events: none; }
+.q-cine-cap b { padding: 4px 10px; border-radius: 999px; background: #f26102; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.q-cine-skip { position: absolute; right: 32px; bottom: 28px; display: inline-flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.35); background: rgba(10, 10, 12, 0.5); color: #fff; font: 600 13px/1 Raleway, "Helvetica Neue", Arial, sans-serif; letter-spacing: 0.04em; cursor: pointer; opacity: 0; transform: translateY(8px); transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s, border-color 0.2s ease; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.q-cine.is-on .q-cine-cap, .q-cine.is-on .q-cine-skip { opacity: 1; transform: none; }
+.q-cine.is-leaving .q-cine-cap, .q-cine.is-leaving .q-cine-skip { opacity: 0; transition-delay: 0s; transition-duration: 0.3s; }
+.q-cine-skip:hover, .q-cine-skip:focus-visible { border-color: #f26102; outline: none; }
+html.q-cine-lock, html.q-cine-lock body { overflow: hidden !important; }
+/* the film plays as a video element; on portrait screens it is shown whole */
+.q-cine-v { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #050507; }
+.q-cine.is-portrait .q-cine-v { object-fit: contain; }
+.q-cine-v { pointer-events: none; }
+/* ---- title over the opening trophy shot (12 Nov, cinematic gold version, after the user's reference) ----
+   A warm, deep grade on the film; "MILESTONE" between gold rules; a large metallic-gold "20" that rolls to "21" (a glint
+   fires on the "1", with a soft reflection below); a gold arc sweeps across the frame with a spark travelling along it;
+   two serif lines; a gold rule that flares from its centre. Steps (classes set from the film's time): is-1 grade, arc,
+   label; is-2 numeral and first line; is-3 roll to 21, glint, second line, rule; is-out it all lifts away. */
+.q-cine-title { --ease: cubic-bezier(0.23, 1, 0.32, 1); --gold: linear-gradient(180deg, #fffaf0 0%, #f8e4bf 28%, #e9b56d 58%, #c9842f 82%, #f2c27a 100%); position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; pointer-events: none; opacity: 0; transition: opacity 1s ease;
+  background: radial-gradient(ellipse 42% 60% at 50% 50%, rgba(8, 13, 28, 0.9) 0%, rgba(8, 13, 28, 0.74) 45%, rgba(8, 13, 28, 0.36) 80%, rgba(8, 13, 28, 0.18) 100%), linear-gradient(90deg, rgba(50, 22, 4, 0.35), rgba(0, 0, 0, 0.1) 35%, rgba(0, 0, 0, 0.1) 65%, rgba(70, 34, 6, 0.35)); }
+.q-cine-title.is-1 { opacity: 1; }
+.qt-plate { position: relative; width: min(820px, 94vw); display: flex; flex-direction: column; align-items: center; text-align: center; color: #fff; transition: filter 0.9s ease, transform 0.9s ease; }
+/* the arc across the whole frame */
+.qt-arc { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.qt-arc path { fill: none; }
+.qt-arc .a { stroke: url(#qtArcG); stroke-width: 1.6; stroke-dasharray: 2200; stroke-dashoffset: 2200; filter: drop-shadow(0 0 6px rgba(255, 176, 80, 0.9)); transition: stroke-dashoffset 2.2s cubic-bezier(0.45, 0, 0.2, 1) 0.1s; }
+.qt-arc .s { stroke: #fff4dc; stroke-width: 2.6; stroke-linecap: round; stroke-dasharray: 60 2200; stroke-dashoffset: 60; opacity: 0; filter: drop-shadow(0 0 8px #ffb347) drop-shadow(0 0 16px rgba(255, 150, 40, 0.8)); }
+.q-cine-title.is-1 .qt-arc .a { stroke-dashoffset: 0; }
+.q-cine-title.is-1 .qt-arc .s { animation: qt-spark 2.6s cubic-bezier(0.45, 0, 0.2, 1) 0.3s both; }
+@keyframes qt-spark { 0% { stroke-dashoffset: 60; opacity: 0; } 10% { opacity: 1; } 85% { opacity: 1; } 100% { stroke-dashoffset: -2140; opacity: 0; } }
+/* MILESTONE between gold rules */
+.qt-k { display: inline-flex; align-items: center; gap: 26px; font: 500 clamp(14px, 1.4vw, 19px)/1 Raleway, "Helvetica Neue", Arial, sans-serif; letter-spacing: 0.55em; padding-left: 0.55em; text-transform: uppercase; color: rgba(255, 255, 255, 0.92); opacity: 0; transform: translateY(10px); letter-spacing: 0.9em; transition: opacity 0.9s ease 0.3s, transform 1s var(--ease) 0.3s, letter-spacing 1.4s var(--ease) 0.3s; }
+.qt-k::before, .qt-k::after { content: ""; width: clamp(60px, 9vw, 130px); height: 1px; background: linear-gradient(90deg, rgba(233, 181, 109, 0), #e9b56d); }
+.qt-k::after { background: linear-gradient(90deg, #e9b56d, rgba(233, 181, 109, 0)); }
+.q-cine-title.is-1 .qt-k { opacity: 1; transform: none; letter-spacing: 0.55em; }
+/* the numeral: "2" plus a rolling second digit (0, then 1), in metallic gold with a shimmer and a reflection */
+.qt-num-wrap { position: relative; display: inline-block; margin: 22px 0 18px; }
+.qt-num { display: flex; justify-content: center; font: 500 clamp(140px, 19vw, 280px)/1 "EB Garamond", Georgia, serif; letter-spacing: -0.035em; font-variant-numeric: lining-nums; color: #f3d39b; filter: drop-shadow(0 6px 22px rgba(255, 160, 50, 0.28)); -webkit-box-reflect: below -0.12em linear-gradient(transparent 62%, rgba(255, 255, 255, 0.22)); opacity: 0; transform: translateY(24px) scale(0.97); transition: opacity 1s ease, transform 1.2s var(--ease); }
+.qt-num > span:first-child, .qt-roll span { background: var(--gold); background-size: 100% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; }
+.qt-roll { display: inline-block; height: 1em; overflow: hidden; vertical-align: top; }
+.qt-roll span { display: block; height: 1em; transition: transform 1s cubic-bezier(0.7, 0, 0.2, 1.2); }
+.q-cine-title.is-2 .qt-num { opacity: 1; transform: none; }
+.q-cine-title.is-3 .qt-roll span { transform: translateY(-1em); }
+/* a light sweep across the gold */
+.qt-num-wrap::after { content: ""; position: absolute; top: 4%; bottom: 10%; left: -30%; width: 26%; background: linear-gradient(100deg, rgba(255, 255, 255, 0), rgba(255, 246, 225, 0.55), rgba(255, 255, 255, 0)); mix-blend-mode: overlay; transform: skewX(-14deg); opacity: 0; }
+.q-cine-title.is-3 .qt-num-wrap::after { animation: qt-sweep 1.4s ease-in-out 0.9s both; }
+@keyframes qt-sweep { 0% { opacity: 0; left: -30%; } 20% { opacity: 1; } 100% { opacity: 0; left: 110%; } }
+/* the glint on the "1" */
+.qt-glint { position: absolute; right: 18%; top: 8%; width: 90px; height: 90px; margin: -45px -45px 0 0; opacity: 0; transform: scale(0.2) rotate(-30deg); background: radial-gradient(closest-side, rgba(255, 250, 235, 1), rgba(255, 196, 110, 0.65) 25%, rgba(255, 150, 40, 0) 70%); border-radius: 50%; mix-blend-mode: screen; }
+.qt-glint::before, .qt-glint::after { content: ""; position: absolute; left: 50%; top: 50%; width: 220%; height: 2px; margin: -1px 0 0 -110%; background: linear-gradient(90deg, rgba(255, 220, 160, 0), #fff6e2, rgba(255, 220, 160, 0)); border-radius: 2px; }
+.qt-glint::after { transform: rotate(90deg); width: 120%; margin-left: -60%; opacity: 0.8; }
+.q-cine-title.is-3 .qt-glint { animation: qt-glint 1.8s ease-out 0.75s both; }
+@keyframes qt-glint { 0% { opacity: 0; transform: scale(0.2) rotate(-30deg); } 30% { opacity: 1; transform: scale(1.1) rotate(0deg); } 60% { opacity: 0.9; transform: scale(0.9) rotate(8deg); } 100% { opacity: 0.55; transform: scale(0.8) rotate(12deg); } }
+/* the two lines */
+.qt-a, .qt-b { margin: 0; overflow: hidden; }
+.qt-a span, .qt-b span { display: inline-block; transform: translateY(105%); transition: transform 1.1s var(--ease); }
+.qt-a { margin-top: 6px; font: 400 clamp(19px, 1.9vw, 28px)/1.3 "EB Garamond", Georgia, serif; color: rgba(236, 231, 222, 0.92); }
+.qt-b { margin-top: 10px; font: 500 clamp(36px, 4.2vw, 62px)/1.12 "EB Garamond", Georgia, serif; letter-spacing: -0.01em; color: #fff; text-shadow: 0 4px 30px rgba(0, 0, 0, 0.45); }
+.qt-b em { font-style: normal; background: linear-gradient(180deg, #ffb25a, #f26102 70%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.q-cine-title.is-2 .qt-a span { transform: none; transition-delay: 0.35s; }
+.q-cine-title.is-3 .qt-b span { transform: none; transition-delay: 0.5s; }
+/* a gold rule that flares from its centre */
+.qt-flare { position: relative; display: block; width: min(560px, 80vw); height: 1px; margin: 24px auto 0; background: linear-gradient(90deg, rgba(242, 160, 70, 0), rgba(242, 160, 70, 0.9) 50%, rgba(242, 160, 70, 0)); transform: scaleX(0); transition: transform 1.3s var(--ease) 0.7s; }
+.qt-flare::after { content: ""; position: absolute; left: 50%; top: 50%; width: 120px; height: 10px; margin: -5px 0 0 -60px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 236, 200, 1), rgba(255, 160, 50, 0.6) 45%, rgba(255, 140, 30, 0)); opacity: 0; transition: opacity 0.8s ease 1.1s; }
+.q-cine-title.is-3 .qt-flare { transform: scaleX(1); }
+.q-cine-title.is-3 .qt-flare::after { opacity: 1; }
+/* the exit: a soft lift and blur */
+.q-cine-title.is-out { opacity: 0; transition-duration: 0.9s; }
+.q-cine-title.is-out .qt-plate { filter: blur(8px); transform: translateY(-10px) scale(1.02); }
+@media (max-width: 600px) { .qt-k { gap: 14px; letter-spacing: 0.4em; } .qt-k::before, .qt-k::after { width: 36px; } .qt-glint { width: 60px; height: 60px; margin: -30px -30px 0 0; } }
+@media (max-width: 600px) { .q-cine-cap { left: 16px; bottom: 20px; font-size: 12px; } .q-cine-cap span { display: none; } .q-cine-skip { right: 16px; bottom: 20px; } }
+@media (prefers-reduced-motion: reduce) { .q-cine { display: none !important; } }
+
 
 /* "What can we do for you?" banner (same as Framer's QCompassBanner) */
 .qcb { --qcb-bg: linear-gradient(135deg, #131315 0%, #17120f 55%, #1d130b 100%); --qcb-border: #2a2a2e; --qcb-text: #fafafa; --qcb-muted: #a1a1aa; --qcb-field: #0b0b0d; --qcb-field-border: #3a3a40; --qcb-chip: #e4e4e7; --qcb-chip-border: #3f3f46; --qcb-glow: rgba(242, 97, 2, 0.18); }
