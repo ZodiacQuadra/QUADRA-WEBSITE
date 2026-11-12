@@ -121,7 +121,10 @@ html:not([data-q-theme="light"]) [data-q-v2] .q-v2-reveal { --r-line: rgba(255, 
 /* ---------- 21 years announcement (12 Nov) ---------- */
 /* (A) news badge above the hero eyebrow; fades in once the opening sequence has played */
 .q-annc-wrap { display: flex; justify-content: center; width: 100%; margin: 0 0 18px; position: relative; z-index: 2; }
-.q-annc { display: inline-flex; align-items: center; gap: 10px; padding: 5px 16px 5px 5px; border-radius: 999px; border: 1px solid rgba(242, 97, 2, 0.35); background: rgba(242, 97, 2, 0.08); color: #f4f4f5; font: 500 13px/1.2 Raleway, "Helvetica Neue", Arial, sans-serif; text-decoration: none; letter-spacing: 0.01em; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); opacity: 0; transform: translateY(8px); animation: q-annc-in 0.8s cubic-bezier(0.23, 1, 0.32, 1) 1.6s forwards; }
+.q-annc { display: inline-flex; align-items: center; gap: 10px; padding: 5px 16px 5px 5px; border-radius: 999px; border: 1px solid rgba(242, 97, 2, 0.35); background: rgba(242, 97, 2, 0.08); color: #f4f4f5; font: 500 13px/1.2 Raleway, "Helvetica Neue", Arial, sans-serif; text-decoration: none; letter-spacing: 0.01em; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease; cursor: pointer; opacity: 0; transform: translateY(8px); animation: q-annc-in 0.8s cubic-bezier(0.23, 1, 0.32, 1) 1.6s forwards; }
+.q-annc:hover, .q-annc:focus-visible { border-color: #f26102; background: rgba(242, 97, 2, 0.14); box-shadow: 0 6px 22px -10px rgba(242, 97, 2, 0.55); outline: none; }
+.q-annc-go { width: 14px; height: 14px; flex: none; transition: transform 0.25s ease; }
+.q-annc:hover .q-annc-go, .q-annc:focus-visible .q-annc-go { transform: translateX(3px); }
 html[data-q-theme="light"] .q-annc { color: #18181b; background: rgba(242, 97, 2, 0.07); }
 .q-annc-tag { display: inline-flex; align-items: center; gap: 5px; padding: 4px 9px; border-radius: 999px; background: #f26102; color: #fff; font-weight: 700; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; }
 .q-annc-tag svg { width: 12px; height: 12px; }
@@ -214,6 +217,35 @@ html.q-cine-lock, html.q-cine-lock body { overflow: hidden !important; }
 @media (max-width: 600px) { .qt-k { gap: 14px; letter-spacing: 0.4em; } .qt-k::before, .qt-k::after { width: 36px; } .qt-glint { width: 60px; height: 60px; margin: -30px -30px 0 0; } }
 @media (max-width: 600px) { .q-cine-cap { left: 16px; bottom: 20px; font-size: 12px; } .q-cine-cap span { display: none; } .q-cine-skip { right: 16px; bottom: 20px; } }
 @media (prefers-reduced-motion: reduce) { .q-cine { display: none !important; } }
+
+/* ---------- "Bring your ambition" closing section, redesigned (12 Nov) ---------- */
+/* One card with a hairline orange-to-violet border, the homepage grid faintly inside and two soft glows: the
+   message and two actions on the left, the three steps the paragraph promises on the right, joined by a line. */
+.q-wrap .nm { position: relative; isolation: isolate; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 56px; align-items: center; padding: 72px 64px; border-radius: 28px; background: var(--q-surface); }
+.q-wrap .nm::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; padding: 1px; background: linear-gradient(120deg, rgba(242, 97, 2, 0.75), rgba(242, 97, 2, 0.12) 35%, rgba(164, 24, 245, 0.12) 65%, rgba(164, 24, 245, 0.7)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
+.q-wrap .nm-grid { position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(to right, var(--q-border) 1px, transparent 1px), linear-gradient(to bottom, var(--q-border) 1px, transparent 1px); background-size: 48px 48px; background-position: center; opacity: 0.7; -webkit-mask-image: radial-gradient(ellipse 80% 90% at 30% 50%, #000 10%, transparent 75%); mask-image: radial-gradient(ellipse 80% 90% at 30% 50%, #000 10%, transparent 75%); }
+.q-wrap .nm-glow { position: absolute; z-index: -1; width: 520px; height: 520px; border-radius: 50%; filter: blur(30px); pointer-events: none; }
+.q-wrap .nm-glow.o { left: -160px; bottom: -260px; background: radial-gradient(closest-side, rgba(242, 97, 2, 0.32), transparent); }
+.q-wrap .nm-glow.v { right: -180px; top: -260px; background: radial-gradient(closest-side, rgba(164, 24, 245, 0.22), transparent); }
+.q-wrap .nm-k { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 18px; font: 700 12px/1 var(--q-sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--q-accent-text, #f26102); }
+.q-wrap .nm-k::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #f26102; box-shadow: 0 0 0 4px rgba(242, 97, 2, 0.18); }
+.q-wrap .nm .q-h2 { margin: 0; text-align: left; }
+.q-wrap .nm .q-lede { margin: 18px 0 0; max-width: 560px; text-align: left; }
+.q-wrap .nm .q-actions { justify-content: flex-start; margin-top: 30px; gap: 12px; flex-wrap: wrap; }
+.q-wrap .nm .q-btn-ghost { background: transparent; color: var(--q-text); border: 1px solid var(--q-border); box-shadow: none; }
+.q-wrap .nm .q-btn-ghost:hover { border-color: var(--q-accent); color: var(--q-accent); }
+.q-wrap .nm-steps { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 14px; }
+.q-wrap .nm-steps::before { content: ""; position: absolute; left: 27px; top: 28px; bottom: 28px; width: 1px; background: linear-gradient(180deg, rgba(242, 97, 2, 0.6), rgba(164, 24, 245, 0.45)); }
+.q-wrap .nm-steps li { position: relative; display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 4px 16px; align-items: center; margin: 0; padding: 16px 18px 16px 0; border-radius: 16px; transition: background 0.25s ease, transform 0.25s ease; }
+.q-wrap .nm-steps li:hover { background: color-mix(in srgb, var(--q-surface) 70%, rgba(242, 97, 2, 0.08)); transform: translateX(4px); }
+.q-wrap .nm-steps b { grid-row: span 2; z-index: 1; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 50%; background: var(--q-surface); border: 1px solid var(--q-border); font: 500 18px/1 var(--q-serif); color: var(--q-text); box-shadow: 0 8px 22px -14px rgba(242, 97, 2, 0.6); }
+.q-wrap .nm-steps li:first-child b { border-color: rgba(242, 97, 2, 0.6); color: #f26102; }
+.q-wrap .nm-steps strong { font: 600 17px/1.3 var(--q-sans); color: var(--q-text); }
+.q-wrap .nm-steps span { font: 500 14px/1.5 var(--q-sans); color: var(--q-muted); }
+@media (max-width: 960px) {
+  .q-wrap .nm { grid-template-columns: 1fr; gap: 36px; padding: 48px 26px; border-radius: 22px; }
+  .q-wrap .nm .q-h2, .q-wrap .nm .q-lede { text-align: left; }
+}
 
 
 /* "What can we do for you?" banner (same as Framer's QCompassBanner) */
