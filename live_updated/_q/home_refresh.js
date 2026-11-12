@@ -23,32 +23,7 @@
       var all = [].slice.call(acc.querySelectorAll("details"));
       all.forEach(function (d) { d.addEventListener("toggle", function () { if (d.open) all.forEach(function (o) { if (o !== d) o.open = false; }); }); });
     });
-    // Perspectives coverflow (requested 11 Nov): advances on its own, slowly, using its own "next" button. It pauses
-    // while hovered or focused, for a while after the visitor moves it, off screen and in a hidden tab; it does not run
-    // for visitors who ask for reduced motion.
-    // The coverflow's markup can arrive after this runs, so it is looked up on every tick.
-    (function () {
-      if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      var quietUntil = 0, ours = false;
-      var inBox = function (e) { return e.target instanceof Element && e.target.closest(".q-cf"); };
-      var touched = function (e) { if (!ours && inBox(e)) quietUntil = Date.now() + 9000; };
-      document.addEventListener("pointerdown", touched, true);
-      document.addEventListener("click", touched, true);
-      document.addEventListener("keydown", touched, true);
-      setInterval(function () {
-        var box = document.querySelector(".q-cf");
-        if (!box || document.hidden || Date.now() < quietUntil) return;
-        if (box.matches(":hover") || box.contains(document.activeElement)) return;
-        var r = box.getBoundingClientRect(), vh = innerHeight || 0;
-        if (!r.width || r.bottom < vh * 0.25 || r.top > vh * 0.75) return;
-        var next = box.querySelector(".q-cf-next"), dots = [].slice.call(box.querySelectorAll(".q-cf-dot"));
-        if (!next || !dots.length) return;
-        // the carousel loops (home_v2_scroll.js), so "next" always continues, from the last post round to the first
-        ours = true;
-        next.click();
-        ours = false;
-      }, 4500);
-    })();
+    // (Perspectives: the continuous glide lives in home_v2_scroll.js since 12 Nov.)
 
     // Story cards: snapping row with arrows, progress and count
     [].forEach.call(document.querySelectorAll(".q-wrap [data-sc]"), function (sec) {
@@ -75,6 +50,274 @@
       addEventListener("resize", update);
       update();
     });
+  })();
+
+  // 21 years announcement (12 Nov). Wording is the site's approved "21 Years of Global Recognition". The badge is an
+  // announcement only, with no link (12 Nov: the Awards page is not ready to be the destination yet).
+  (function () {
+    var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // (A) news badge above the hero eyebrow ("Architecting Ambition")
+    var eyebrow = document.querySelector("[data-q-eyebrow]") || [].slice.call(document.querySelectorAll('section[data-framer-name="Hero Section"] h3')).filter(function (h) { return /Architecting Ambition/i.test(h.textContent); })[0];
+    var holder = eyebrow && (eyebrow.closest('[data-framer-component-type="RichTextContainer"]') || eyebrow);
+    if (holder && holder.parentNode && !document.querySelector(".q-annc")) {
+      var wrap = document.createElement("div");
+      wrap.className = "q-annc-wrap";
+      wrap.innerHTML = '<p class="q-annc" style="margin:0"><span class="q-annc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span class="q-annc-tagtxt">Milestone</span></span><span>21 Years of Global Recognition</span></p>';
+      holder.parentNode.insertBefore(wrap, holder);
+    }
+    // (C) count-up and year strip in each recognition heading ("21 Years of / Global Recognition")
+    [].forEach.call(document.querySelectorAll("section h2"), function (h2) {
+      if (!/21\s*Years of/i.test(h2.textContent) || !/Global Recognition/i.test(h2.textContent) || h2.querySelector(".q-num21")) return;
+      var walker = document.createTreeWalker(h2, NodeFilter.SHOW_TEXT), node, num = null;
+      while ((node = walker.nextNode())) {
+        var at = node.nodeValue.indexOf("21");
+        if (at < 0) continue;
+        var rest = node.splitText(at); rest.splitText(2);
+        num = document.createElement("span"); num.className = "q-num21"; num.textContent = "21";
+        rest.parentNode.replaceChild(num, rest);
+        break;
+      }
+      if (!num) return;
+      num.style.width = num.getBoundingClientRect().width ? num.getBoundingClientRect().width + "px" : "";
+      var holder2 = h2.closest('[data-framer-component-type="RichTextContainer"]') || h2;
+      var strip = document.createElement("div");
+      strip.className = "q-yr21"; strip.setAttribute("aria-hidden", "true");
+      strip.innerHTML = new Array(22).join("<i></i>");
+      holder2.parentNode.insertBefore(strip, holder2.nextSibling);
+      var bars = [].slice.call(strip.children);
+      var run = function () {
+        if (still) { bars.forEach(function (b) { b.classList.add("on"); }); return; }
+        num.textContent = "0";
+        var t0 = performance.now(), DUR = 1600;
+        (function tick(t) {
+          var p = Math.min(1, (t - t0) / DUR), e = 1 - Math.pow(1 - p, 3), k = Math.round(21 * e);
+          num.textContent = String(k);
+          bars.forEach(function (b, i) { b.classList.toggle("on", i < k); });
+          if (p < 1) requestAnimationFrame(tick);
+        })(t0);
+      };
+      if (!("IntersectionObserver" in window)) return run();
+      var io = new IntersectionObserver(function (en) {
+        if (!en[0].isIntersecting) return;
+        io.disconnect(); run();
+      }, { threshold: 0.45 });
+      io.observe(h2);
+    });
+  })();
+
+  // Recognition film intro (12 Nov). Once per browser session the homepage opens with a ~13 s full-screen montage cut
+  // from Quadra's corporate film (no sound). When it ends, or on Skip (a click anywhere, or Esc), its last frame breaks
+  // into the hero grid's boxes, and each box turns like a 3D box, within its own grid cell and in a random direction
+  // (up, down, left or right): the film face turns away as a glass face turns in, which then fades. They go from the
+  // centre outwards, onto the homepage as it always is.
+  // A dark cover set in the page head (html.q-cine-pre) means the visitor goes straight to the film without seeing the
+  // page first. Skipped for reduced-motion and data-saver visitors, and if the film is not ready within 4 s.
+  // Performance: the film plays as a normal video element; the roll is drawn on one canvas from a single still frame.
+  (function () {
+    var root = document.documentElement, started = false;
+    // the homepage's opening sequence waits while the film plays; it runs as the boxes turn (or at once if the film
+    // does not play), and the announcement badge replays its entrance with it
+    var release = function () {
+      if (!root.classList.contains("q-cine-hold")) return;
+      root.classList.remove("q-cine-hold");
+      var go = window.__qIntroGo; window.__qIntroGo = null;
+      if (!go) return;
+      if (!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches)) root.classList.add("q-v2-intro");
+      requestAnimationFrame(function () {
+        go();
+        var a = document.querySelector(".q-annc");
+        if (a) { a.style.animation = "none"; void a.offsetWidth; a.style.animation = ""; }
+      });
+    };
+    var uncover = function () { root.classList.remove("q-cine-pre"); if (!started || gaveUp || ended0) release(); };
+    var ended0 = false;
+    var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var conn = navigator.connection || {};
+    var seen = false;
+    try { seen = sessionStorage.getItem("q-cine-done") === "1"; } catch (e) {}
+    if (still || seen || conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "") || window.scrollY > 40) return uncover();
+    var remember = function () { try { sessionStorage.setItem("q-cine-done", "1"); } catch (e) {} };
+    var grid = document.querySelector(".q-v2-grid");
+    var cell = (grid && parseFloat(getComputedStyle(grid).getPropertyValue("--cell"))) || 96;
+
+    var video = document.createElement("video");
+    video.className = "q-cine-v";
+    video.muted = true; video.defaultMuted = true; video.playsInline = true; video.preload = "auto";
+    video.setAttribute("muted", ""); video.setAttribute("playsinline", "");
+    // no picture-in-picture, cast or download buttons over the film
+    video.disablePictureInPicture = true; video.disableRemotePlayback = true;
+    video.setAttribute("disablepictureinpicture", ""); video.setAttribute("disableremoteplayback", "");
+    video.setAttribute("controlslist", "nodownload nofullscreen noremoteplayback");
+    video.src = window.Q_CINE_SRC || "/_q/media/quadra-recognition.mp4";
+    var gaveUp = false;
+    var ready = new Promise(function (res) {
+      video.addEventListener("canplaythrough", res, { once: true });
+      video.addEventListener("loadeddata", function () { setTimeout(res, 400); }, { once: true });
+    });
+    setTimeout(function () { if (!started) { gaveUp = true; uncover(); video.removeAttribute("src"); video.load(); } }, 4000);
+    ready.then(function () { setTimeout(start, 60); });
+
+    function start() {
+      if (started || gaveUp || document.hidden || window.scrollY > 40) return uncover();
+      started = true;
+      var box = document.createElement("div"), cv = document.createElement("canvas");
+      var cap = document.createElement("div"), skip = document.createElement("button");
+      box.className = "q-cine"; box.setAttribute("role", "dialog"); box.setAttribute("aria-label", "21 Years of Global Recognition: a short film");
+      cv.setAttribute("aria-hidden", "true"); cv.style.visibility = "hidden";
+      cap.className = "q-cine-cap"; cap.innerHTML = "<b>Milestone</b><span>21 Years of Global Recognition</span>";
+      skip.className = "q-cine-skip"; skip.type = "button"; skip.textContent = "Skip";
+      // over the opening trophy shot (the first ~4.8 s of the film), cinematic gold: "MILESTONE", a gold "20" rolling to
+      // "21" with a glint, a gold arc across the frame, "Twenty consecutive years of global recognition." and "Now, we step
+      // into our 21st."
+      var title = document.createElement("div");
+      title.className = "q-cine-title";
+      title.innerHTML =
+        '<svg class="qt-arc" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="qtArcG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e9a24a" stop-opacity="0"/><stop offset="0.25" stop-color="#ffcf8a"/><stop offset="0.7" stop-color="#f2a04a"/><stop offset="1" stop-color="#ffdca0" stop-opacity="0.2"/></linearGradient></defs>' +
+        '<path class="a" d="M 120 900 C 20 760, 60 560, 420 470 C 800 375, 1240 360, 1640 160"/><path class="s" d="M 120 900 C 20 760, 60 560, 420 470 C 800 375, 1240 360, 1640 160"/></svg>' +
+        '<div class="qt-plate"><span class="qt-k">Milestone</span>' +
+        '<div class="qt-num-wrap"><div class="qt-num" aria-hidden="true"><span>2</span><span class="qt-roll"><span>0</span><span>1</span></span></div><i class="qt-glint"></i></div>' +
+        '<p class="qt-a"><span>Twenty consecutive years of global recognition.</span></p>' +
+        '<p class="qt-b"><span>Now, we step into our <em>21st.</em></span></p><i class="qt-flare"></i></div>';
+      box.appendChild(video); box.appendChild(title); box.appendChild(cv); box.appendChild(cap); box.appendChild(skip);
+      // steps by the film's own time: plate in, "20" and first line, roll to "21" and second line, then away
+      var STEPS = [["is-1", 0.2], ["is-2", 0.9], ["is-3", 2.2], ["is-out", 4.1]];
+      var cue = setInterval(function () {
+        if (phase !== "play") { title.classList.add("is-out"); return clearInterval(cue); }
+        var t = video.currentTime;
+        STEPS.forEach(function (st) { title.classList.toggle(st[0], t >= st[1]); });
+      }, 80);
+      document.body.appendChild(box);
+      root.classList.add("q-cine-lock");
+      var portrait = function () { return innerHeight > innerWidth * 1.1; };
+      if (portrait()) box.classList.add("is-portrait");
+
+      var light = root.getAttribute("data-q-theme") === "light";
+      var W, H, dpr = Math.min(window.devicePixelRatio || 1, 2), ctx = cv.getContext("2d"), cells = [], maxD = 0;
+      function layout() {
+        W = innerWidth; H = innerHeight;
+        cells = []; maxD = 0;
+        // the boxes sit exactly on the hero grid: columns centred on the page, rows from the top of the page
+        var cx = W / 2, cols = Math.ceil(cx / cell) + 1, rows = Math.ceil(H / cell);
+        for (var r = 0; r < rows; r++) for (var c = -cols; c < cols; c++) {
+          var x = cx + c * cell, y = r * cell;
+          if (x + cell < 0 || x > W) continue;
+          var dx = (x + cell / 2 - cx) / W, dy = (y + cell / 2 - H * 0.45) / H;
+          var d = Math.sqrt(dx * dx + dy * dy) * 1500 + Math.random() * 200;
+          cells.push({ x: x + 1, y: y + 1, d: d, dir: Math.floor(Math.random() * 4) });
+          if (d > maxD) maxD = d;
+        }
+      }
+      layout();
+
+      var phase = "play", raf = 0, ended = false, DUR = 950, GLASS = 800, FADE = 600, snap = null, t0 = 0;
+      var ease = function (p) { return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+
+      // the still frame, as it was on screen (cover; on portrait screens shown whole over a dimmed, enlarged copy)
+      function grabFrame() {
+        snap = document.createElement("canvas");
+        snap.width = Math.round(W * dpr); snap.height = Math.round(H * dpr);
+        var sc = snap.getContext("2d"), vw = video.videoWidth, vh = video.videoHeight;
+        sc.scale(dpr, dpr);
+        var kc = Math.max(W / vw, H / vh), cw = vw * kc, ch = vh * kc;
+        if (portrait()) {
+          sc.fillStyle = "#050507"; sc.fillRect(0, 0, W, H);
+          sc.globalAlpha = 0.35; sc.drawImage(video, (W - cw) / 2, (H - ch) / 2, cw, ch); sc.globalAlpha = 1;
+          var nh = vh * (W / vw);
+          sc.drawImage(video, 0, (H - nh) / 2, W, nh);
+        } else sc.drawImage(video, (W - cw) / 2, (H - ch) / 2, cw, ch);
+      }
+      // the glass face (like the hero's lit cells): translucent, a warm glow on the edge it turns in from. Painted once
+      // per direction (0 up: glass comes from below, 1 down: from above, 2 left: from the right, 3 right: from the left)
+      // and then only stretched into place each frame.
+      var sprites = [];
+      function makeSprites() {
+        var s = cell - 1, n = Math.round(s * dpr);
+        for (var dir = 0; dir < 4; dir++) {
+          var c = document.createElement("canvas"); c.width = c.height = n;
+          var g = c.getContext("2d"); g.scale(dpr, dpr);
+          var f = g.createLinearGradient(0, 0, s * 0.4, s);
+          if (light) { f.addColorStop(0, "rgba(255,255,255,0.98)"); f.addColorStop(1, "rgba(255,255,255,0.8)"); }
+          else { f.addColorStop(0, "rgba(255,238,224,0.34)"); f.addColorStop(1, "rgba(255,238,224,0.08)"); }
+          g.fillStyle = f; g.fillRect(0, 0, s, s);
+          var ends = [[0, s * 0.6, 0, s], [0, s * 0.4, 0, 0], [s * 0.6, 0, s, 0], [s * 0.4, 0, 0, 0]][dir];
+          var o = g.createLinearGradient(ends[0], ends[1], ends[2], ends[3]);
+          o.addColorStop(0, "rgba(242,97,2,0)"); o.addColorStop(1, light ? "rgba(242,97,2,0.16)" : "rgba(242,97,2,0.3)");
+          g.fillStyle = o; g.fillRect(0, 0, s, s);
+          g.strokeStyle = light ? "rgba(242,97,2,0.22)" : "rgba(255,228,206,0.38)"; g.lineWidth = 1;
+          g.strokeRect(0.5, 0.5, s - 1, s - 1);
+          sprites[dir] = c;
+        }
+      }
+      function glass(x, y, w, h, alpha, dir) {
+        if (w < 0.5 || h < 0.5 || alpha <= 0) return;
+        ctx.globalAlpha = alpha;
+        ctx.drawImage(sprites[dir], x, y, w, h);
+        ctx.globalAlpha = 1;
+      }
+      function roll(now) {
+        if (ended) return;
+        raf = requestAnimationFrame(roll);
+        var el = now - t0, s = cell - 1, alive = false;
+        ctx.clearRect(0, 0, W, H);
+        for (var i = 0; i < cells.length; i++) {
+          var q = cells[i], p = Math.min(1, Math.max(0, (el - q.d) / DUR));
+          var fade = Math.min(1, Math.max(0, (el - q.d - GLASS) / FADE));
+          if (fade >= 1) continue;
+          alive = true;
+          // a box turning a quarter turn inside its own cell: the two visible faces always fill the cell exactly,
+          // shared in proportion to how much of each faces the viewer
+          var a = ease(p) * Math.PI / 2, ca = Math.cos(a), sa = Math.sin(a), f = ca / (ca + sa), nf = s * f, ng = s - nf;
+          var shade = "rgba(0,0,0," + (0.55 * sa).toFixed(3) + ")", fx = q.x, fy = q.y, fw = s, fh = s, gx = q.x, gy = q.y, gw = s, gh = s;
+          if (q.dir === 0) { fh = nf; gy = q.y + nf; gh = ng; }
+          else if (q.dir === 1) { fy = q.y + ng; fh = nf; gh = ng; }
+          else if (q.dir === 2) { fw = nf; gx = q.x + nf; gw = ng; }
+          else { fx = q.x + ng; fw = nf; gw = ng; }
+          if (fw > 0.5 && fh > 0.5) {
+            ctx.drawImage(snap, q.x * dpr, q.y * dpr, s * dpr, s * dpr, fx, fy, fw, fh);
+            if (sa > 0.01) { ctx.fillStyle = shade; ctx.fillRect(fx, fy, fw, fh); }
+          }
+          if (p > 0) glass(gx, gy, gw, gh, 1 - fade, q.dir);
+        }
+        if (!alive && el > 100) finish();
+      }
+      function leave() {
+        if (phase !== "play" || ended) return;
+        phase = "turn"; video.pause();
+        setTimeout(release, 150);
+        box.classList.add("is-leaving"); box.style.pointerEvents = "none";
+        root.classList.remove("q-cine-lock");
+        layout();
+        cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        grabFrame(); makeSprites();
+        ctx.drawImage(snap, 0, 0, W, H);
+        cv.style.visibility = "visible";
+        video.style.visibility = "hidden";
+        requestAnimationFrame(function (t) { t0 = t; raf = requestAnimationFrame(roll); });
+      }
+      function finish() {
+        if (ended) return;
+        ended = true; cancelAnimationFrame(raf);
+        video.pause(); video.removeAttribute("src"); video.load();
+        ended0 = true;
+        box.remove(); root.classList.remove("q-cine-lock"); uncover(); release();
+        remember();
+      }
+      box.addEventListener("click", leave);
+      skip.addEventListener("click", function (e) { e.stopPropagation(); leave(); });
+      addEventListener("keydown", function (e) { if (e.key === "Escape") leave(); });
+      video.addEventListener("ended", leave);
+      video.addEventListener("timeupdate", function () { if (video.duration && video.currentTime > video.duration - 0.25) leave(); });
+      document.addEventListener("visibilitychange", function () {
+        if (ended || phase !== "play") return;
+        if (document.hidden) video.pause(); else video.play().catch(function () {});
+      });
+      video.play().then(function () {
+        requestAnimationFrame(function () { box.classList.add("is-on"); });
+        setTimeout(uncover, 800);
+        skip.focus({ preventScroll: true });
+      }).catch(finish);
+    }
   })();
 
 (function () {
