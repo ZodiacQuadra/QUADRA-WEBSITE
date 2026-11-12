@@ -52,8 +52,8 @@
     });
   })();
 
-  // 21 years announcement (12 Nov). Wording is the site's approved "21 Years of Global Recognition". The badge is an
-  // announcement only, with no link (12 Nov: the Awards page is not ready to be the destination yet).
+  // 21 years announcement (12 Nov). Wording is the site's approved "21 Years of Global Recognition". The badge links to
+  // the Awards page (12 Nov, restored as a call to action).
   (function () {
     var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     // (A) news badge above the hero eyebrow ("Architecting Ambition")
@@ -62,7 +62,7 @@
     if (holder && holder.parentNode && !document.querySelector(".q-annc")) {
       var wrap = document.createElement("div");
       wrap.className = "q-annc-wrap";
-      wrap.innerHTML = '<p class="q-annc" style="margin:0"><span class="q-annc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span class="q-annc-tagtxt">Milestone</span></span><span>21 Years of Global Recognition</span></p>';
+      wrap.innerHTML = '<a class="q-annc" href="/awards" aria-label="21 Years of Global Recognition: explore our recognition"><span class="q-annc-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg><span class="q-annc-tagtxt">Milestone</span></span><span>21 Years of Global Recognition</span><svg class="q-annc-go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>';
       holder.parentNode.insertBefore(wrap, holder);
     }
     // (C) count-up and year strip in each recognition heading ("21 Years of / Global Recognition")
@@ -105,7 +105,7 @@
     });
   })();
 
-  // Recognition film intro (12 Nov). Once per browser session the homepage opens with a ~13 s full-screen montage cut
+  // Recognition film intro (12 Nov). Every time the homepage loads (or is refreshed) it opens with a ~13 s full-screen montage cut
   // from Quadra's corporate film (no sound). When it ends, or on Skip (a click anywhere, or Esc), its last frame breaks
   // into the hero grid's boxes, and each box turns like a 3D box, within its own grid cell and in a random direction
   // (up, down, left or right): the film face turns away as a glass face turns in, which then fades. They go from the
@@ -134,9 +134,9 @@
     var still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
     var conn = navigator.connection || {};
     var seen = false;
-    try { seen = sessionStorage.getItem("q-cine-done") === "1"; } catch (e) {}
+    // (12 Nov) plays on every homepage load and refresh; no once-per-session memory
     if (still || seen || conn.saveData || /(^|-)2g$/.test(conn.effectiveType || "") || window.scrollY > 40) return uncover();
-    var remember = function () { try { sessionStorage.setItem("q-cine-done", "1"); } catch (e) {} };
+    var remember = function () {};
     var grid = document.querySelector(".q-v2-grid");
     var cell = (grid && parseFloat(getComputedStyle(grid).getPropertyValue("--cell"))) || 96;
 
@@ -167,7 +167,7 @@
       cap.className = "q-cine-cap"; cap.innerHTML = "<b>Milestone</b><span>21 Years of Global Recognition</span>";
       skip.className = "q-cine-skip"; skip.type = "button"; skip.textContent = "Skip";
       // over the opening trophy shot (the first ~4.8 s of the film), cinematic gold: "MILESTONE", a gold "20" rolling to
-      // "21" with a glint, a gold arc across the frame, "Twenty consecutive years of global recognition." and "Now, we step
+      // "21" with a glint, a gold arc across the frame, "Twenty years of global recognition." and "Now, we step
       // into our 21st."
       var title = document.createElement("div");
       title.className = "q-cine-title";
@@ -176,7 +176,7 @@
         '<path class="a" d="M 120 900 C 20 760, 60 560, 420 470 C 800 375, 1240 360, 1640 160"/><path class="s" d="M 120 900 C 20 760, 60 560, 420 470 C 800 375, 1240 360, 1640 160"/></svg>' +
         '<div class="qt-plate"><span class="qt-k">Milestone</span>' +
         '<div class="qt-num-wrap"><div class="qt-num" aria-hidden="true"><span>2</span><span class="qt-roll"><span>0</span><span>1</span></span></div><i class="qt-glint"></i></div>' +
-        '<p class="qt-a"><span>Twenty consecutive years of global recognition.</span></p>' +
+        '<p class="qt-a"><span>Twenty years of global recognition.</span></p>' +
         '<p class="qt-b"><span>Now, we step into our <em>21st.</em></span></p><i class="qt-flare"></i></div>';
       box.appendChild(video); box.appendChild(title); box.appendChild(cv); box.appendChild(cap); box.appendChild(skip);
       // steps by the film's own time: plate in, "20" and first line, roll to "21" and second line, then away
