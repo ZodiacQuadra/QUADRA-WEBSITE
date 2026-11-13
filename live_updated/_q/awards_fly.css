@@ -28,9 +28,9 @@
   position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform, filter;
   object-fit: contain; filter: drop-shadow(0 18px 22px rgba(60, 40, 0, 0.3));
 }
-/* while the copy is on screen, the two real trophies stay in place but invisible (no layout shift) */
-html.q-aw-flying [data-q-aw-from], html.q-aw-flying [data-q-aw-to] { visibility: hidden; }
-html.q-aw-landed .q-aw-fly, html.q-aw-home .q-aw-fly { visibility: hidden; }
+/* while the copy is in flight, awards_fly.js hides the two real trophies at the ends of that flight (visibility only,
+   so nothing shifts); at rest the copy is hidden and the real trophy shows */
+.q-aw-flight { visibility: hidden; }
 
 @media (max-width: 700px) { .q-aw-stage { height: clamp(300px, 52vh, 460px); } }
 @media (prefers-reduced-motion: reduce) { .q-aw-flight { display: none; } }
