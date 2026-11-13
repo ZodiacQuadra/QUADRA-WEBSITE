@@ -78,7 +78,8 @@
         break;
       }
       if (!num) return;
-      num.style.width = num.getBoundingClientRect().width ? num.getBoundingClientRect().width + "px" : "";
+      var fit = function () { var t = num.textContent; num.style.minWidth = ""; num.textContent = "21"; var w = num.getBoundingClientRect().width, fs = parseFloat(getComputedStyle(num).fontSize); num.textContent = t; if (w && fs) num.style.minWidth = (w / fs + 0.04).toFixed(3) + "em"; };
+      fit(); if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
       var holder2 = h2.closest('[data-framer-component-type="RichTextContainer"]') || h2;
       var strip = document.createElement("div");
       strip.className = "q-yr21"; strip.setAttribute("aria-hidden", "true");
