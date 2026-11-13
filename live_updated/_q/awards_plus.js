@@ -1,6 +1,6 @@
 // Awards & Recognition — section upgrades (styles in awards_plus.css; Awards page only):
 // reveals for the stage, the finalist rosette and the Sophos tally; numbers that count up once when seen; partner
-// cards that lean toward the pointer; the faint "Thank you" drifting with the scroll; a thin reading-progress line.
+// cards that lean toward the pointer; the "Thank you" lit and glowing with the scroll; a thin reading-progress line.
 // Reduced motion (or #q-still): everything is shown in place and nothing moves.
 (function () {
   "use strict";
@@ -51,7 +51,7 @@
     });
   }
 
-  // ---- scroll-linked: reading progress and the drifting "Thank you" ----
+  // ---- scroll-linked: reading progress and the light on the "Thank you" ----
   var bar = d.createElement("div");
   bar.className = "q-aw-progress"; bar.setAttribute("aria-hidden", "true");
   d.body.appendChild(bar);
@@ -65,7 +65,9 @@
       var r = thanks.getBoundingClientRect();
       if (r.bottom > 0 && r.top < innerHeight) {
         var p = (innerHeight - r.top) / (innerHeight + r.height); // 0 as it enters, 1 as it leaves
-        word.style.setProperty("--tx", ((0.5 - p) * innerWidth * 0.18).toFixed(1) + "px");
+        // the word stays still: the light band travels across it with the scroll, the halo peaks mid-screen
+        word.style.setProperty("--sx", (100 - p * 100).toFixed(2) + "%");
+        word.style.setProperty("--g", Math.sin(Math.min(1, Math.max(0, p)) * Math.PI).toFixed(3));
       }
     }
   }

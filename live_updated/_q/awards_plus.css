@@ -3,7 +3,7 @@
    - the finalist card answers the winner card's trophy with a gold rosette
    - the Sophos card's tally fills the space under its list; partner cards tilt toward the pointer
    - a moving strip of every partner that has recognised Quadra; the two closing thoughts as numbered cards
-   - the thank-you as a pull quote over a large, faint "Thank you" that drifts with the scroll
+   - the thank-you as a pull quote over a large "Thank you" whose gold light moves and glows with the scroll
    - a thin gold reading-progress line; logos turn gold (not orange and purple) on hover
    Hidden-before-reveal states apply only once the script has run (html.q-awp) and never with reduced motion. */
 
@@ -170,17 +170,16 @@
 .q-aw-thanks > .q-container { position: relative; z-index: 1; }
 .q-aw-thanks-word {
   position: absolute; left: 50%; top: 50%; z-index: 0; pointer-events: none; white-space: nowrap;
-  transform: translate3d(calc(-50% + var(--tx, 0px)), -50%, 0);
+  transform: translate3d(-50%, -50%, 0);
   font: 500 clamp(120px, 20vw, 300px)/1 var(--q-serif); letter-spacing: -0.02em;
   color: transparent; -webkit-text-stroke: 1.2px rgba(201, 162, 39, 0.5);
-  /* a band of gold light sweeps across the letters; the halo follows whatever is lit (outline and band) */
-  background: linear-gradient(105deg, transparent 0 38%, rgba(255, 236, 170, 0.5) 47%, rgba(230, 199, 102, 0.75) 50%, rgba(255, 236, 170, 0.5) 53%, transparent 62% 100%) 0 0 / 300% 100% no-repeat;
+  /* the word stays still; scrolling moves a band of gold light across its letters (--sx) and brightens the halo
+     as the section reaches the middle of the screen (--g, 0..1); both set by awards_plus.js */
+  background: linear-gradient(105deg, transparent 0 40%, rgba(255, 236, 170, 0.32) 47%, rgba(230, 199, 102, 0.55) 50%, rgba(255, 236, 170, 0.32) 53%, transparent 60% 100%) var(--sx, 50%) 0 / 300% 100% no-repeat;
   -webkit-background-clip: text; background-clip: text;
-  filter: drop-shadow(0 0 6px rgba(230, 199, 102, 0.45)) drop-shadow(0 0 26px rgba(201, 162, 39, 0.3));
-  animation: q-aw-thanks-sweep 7s cubic-bezier(0.45, 0, 0.25, 1) infinite, q-aw-thanks-glow 3.5s ease-in-out infinite alternate;
+  opacity: calc(0.55 + 0.45 * var(--g, 1));
+  filter: drop-shadow(0 0 calc(3px + 5px * var(--g, 1)) rgba(230, 199, 102, 0.5)) drop-shadow(0 0 calc(8px + 26px * var(--g, 1)) rgba(201, 162, 39, 0.35));
 }
-@keyframes q-aw-thanks-sweep { 0% { background-position: 100% 0; } 70%, 100% { background-position: 0% 0; } }
-@keyframes q-aw-thanks-glow { from { opacity: 0.7; } to { opacity: 1; } }
 .q-wrap .q-aw-quote { max-width: 760px; position: relative; padding-top: 30px; }
 .q-wrap .q-aw-quote::before {
   content: "\201C"; position: absolute; left: 50%; top: -18px; transform: translateX(-50%);
@@ -200,7 +199,7 @@ html[data-q-theme="dark"] .q-aw-stage-rays { background: repeating-conic-gradien
 html[data-q-theme="dark"] .q-aw-step { background: linear-gradient(160deg, rgba(230, 199, 102, 0.09), var(--q-surface) 58%); }
 html[data-q-theme="dark"] .q-aw-thanks-word {
   -webkit-text-stroke-color: rgba(230, 199, 102, 0.55);
-  filter: drop-shadow(0 0 8px rgba(230, 199, 102, 0.55)) drop-shadow(0 0 34px rgba(201, 162, 39, 0.4));
+  filter: drop-shadow(0 0 calc(4px + 6px * var(--g, 1)) rgba(230, 199, 102, 0.6)) drop-shadow(0 0 calc(10px + 30px * var(--g, 1)) rgba(201, 162, 39, 0.45));
 }
 html[data-q-theme="light"] .q-aw-thanks-word { -webkit-text-stroke-color: rgba(201, 162, 39, 0.42); }
 html[data-q-theme="dark"] .q-aw-stat dt, html[data-q-theme="dark"] .q-aw-tally-n, html[data-q-theme="dark"] .q-aw-step-n {
@@ -209,8 +208,7 @@ html[data-q-theme="dark"] .q-aw-stat dt, html[data-q-theme="dark"] .q-aw-tally-n
 
 /* ---------- reduced motion: everything in place, nothing moves ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .q-aw-stage-rays, .q-aw-plinth i + i, .q-aw-thanks-word { animation: none; }
-  .q-aw-thanks-word { background-position: 50% 0; }
+  .q-aw-stage-rays, .q-aw-plinth i + i { animation: none; }
   .q-awp .q-aw-cap > *, .q-awp .q-aw-stat, .q-awp .q-aw-rosette { opacity: 1; transform: none; transition: none; }
   .q-aw-mq-track { animation: none; width: auto; }
   .q-aw-mq-set { flex-wrap: wrap; justify-content: center; gap: 28px 48px; padding: 0 24px; }
