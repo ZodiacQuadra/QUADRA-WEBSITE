@@ -1,0 +1,29 @@
+/* Awards & Recognition: a shower of gold award pieces (foil confetti, stars, sparkles, medals, trophies) as the page
+   opens. Plays once per page load, ~6 s, then removes itself; never blocks clicks or text selection.
+   Motion: a steady (linear) fall, as confetti falls at terminal velocity; a side-to-side drift on its own layer; foil
+   pieces flip as they fall. Only transform and opacity are animated. Reduced motion: no shower (awards_rain.js). */
+.q-rain { position: fixed; inset: 0; z-index: 9; overflow: hidden; pointer-events: none; contain: strict; }
+.q-rain-p {
+  position: absolute; top: 0; left: var(--x); width: var(--w); height: var(--h);
+  will-change: transform, opacity; opacity: 0;
+  animation: q-rain-fall var(--t) linear var(--d) both;
+}
+.q-rain-s { display: block; width: 100%; height: 100%; animation: q-rain-sway var(--sd) cubic-bezier(0.77, 0, 0.175, 1) var(--d) infinite alternate both; }
+.q-rain-s svg { display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 2px 3px rgba(126, 91, 18, 0.28)); }
+.q-rain-foil {
+  display: block; width: 100%; height: 100%; border-radius: 1px;
+  background: linear-gradient(135deg, #f5e4b4 0%, #E6C766 30%, #C9A227 60%, #A87B22 100%);
+  animation: q-rain-flip var(--fd) linear var(--d) infinite both;
+}
+.q-rain-foil.q-rain-dark { background: linear-gradient(135deg, #E6C766 0%, #A87B22 55%, #7E5B12 100%); }
+
+@keyframes q-rain-fall {
+  0% { opacity: 0; transform: translate3d(0, -12vh, 0) rotate(var(--r0)); }
+  6% { opacity: 1; }
+  84% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(0, 108vh, 0) rotate(var(--r1)); }
+}
+@keyframes q-rain-sway { from { transform: translateX(calc(var(--a) * -1)); } to { transform: translateX(var(--a)); } }
+@keyframes q-rain-flip { from { transform: rotate3d(1, 0.35, 0, 0deg); } to { transform: rotate3d(1, 0.35, 0, 360deg); } }
+
+@media (prefers-reduced-motion: reduce) { .q-rain { display: none; } }
