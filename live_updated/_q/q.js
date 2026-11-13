@@ -392,6 +392,13 @@
       out.setAttribute("aria-hidden", "true");
       out.className = "q-v2-globe-canvas";
       sec.appendChild(out);
+      // (13 Nov) the branch names on their own canvas above the globe, outside its bottom fade, so a city low on the
+      // map (Kochi) keeps a fully visible label
+      var labs = document.createElement("canvas");
+      labs.setAttribute("aria-hidden", "true");
+      labs.className = "q-v2-globe-labels";
+      sec.appendChild(labs);
+      var lx = labs.getContext("2d");
       cv.style.visibility = "hidden";
       var ctx = out.getContext("2d"), layer = document.createElement("canvas"), lctx = layer.getContext("2d");
       var RAMP = " .:-=+*#%@", LEVELS = 12, OLEVELS = 6, atlas = null, gw = 0, gh = 0;
@@ -444,6 +451,10 @@
         var fadeFrom = Math.max(0, VH - Math.min(80, VH * 0.16));
         st.webkitMaskImage = st.maskImage = "linear-gradient(to bottom, #000 0, #000 " + fadeFrom + "px, transparent " + VH + "px)";
         out.width = layer.width = Math.round(VW * dpr); out.height = layer.height = Math.round(VH * dpr);
+        var ls = labs.style;
+        ls.position = "absolute"; ls.pointerEvents = "none"; ls.zIndex = "3";
+        ls.left = "0px"; ls.top = st.top; ls.width = st.width; ls.height = st.height;
+        labs.width = out.width; labs.height = out.height;
         var cw = fs * 0.6, ch = fs * 0.98;
         buildAtlas(cw, ch);
         cells = [];
@@ -503,25 +514,29 @@
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, out.width, out.height);
         ctx.drawImage(layer, 0, 0);
-        // each branch's name right beside it, on a small dark backing
+        // each branch's name right beside it, on a small dark backing (on the label canvas: never faded)
         var cp = Math.cos(layerPhi), sp = Math.sin(layerPhi), ct = Math.cos(layerTilt), st = Math.sin(layerTilt);
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        lx.setTransform(1, 0, 0, 1, 0, 0);
+        lx.clearRect(0, 0, labs.width, labs.height);
+        lx.setTransform(dpr, 0, 0, dpr, 0, 0);
         var lf = Math.max(11, Math.min(13, VW / 110));
-        ctx.font = "600 " + lf.toFixed(1) + "px Raleway, \"Helvetica Neue\", Arial, sans-serif";
-        ctx.textBaseline = "middle";
+        lx.font = "600 " + lf.toFixed(1) + "px Raleway, \"Helvetica Neue\", Arial, sans-serif";
+        lx.textBaseline = "middle";
         for (var bi = 0; bi < BRANCHES.length; bi++) {
           var B = BRANCHES[bi], v = B.v, tx2 = v[0] * cp - v[2] * sp, tz2 = v[0] * sp + v[2] * cp, vy = v[1] * ct - tz2 * st, vz = v[1] * st + tz2 * ct;
           if (vz < 0.1) continue;
-          var x = S / 2 + tx2 * R - offX, y = S / 2 - vy * R - offY, w = ctx.measureText(B.name).width, pad = 7, gap = Math.max(12, R * 0.0075 * 1.2);
+          var x = S / 2 + tx2 * R - offX, y = S / 2 - vy * R - offY, w = lx.measureText(B.name).width, pad = 7, gap = Math.max(12, R * 0.0075 * 1.2);
           var side = B.dx;
           if (side < 0 && x - gap - w - pad * 2 < 4) side = 1;
           if (side > 0 && x + gap + w + pad * 2 > VW - 4) side = -1;
+          // keep the whole label inside the strip, even for a city right at its bottom edge
+          y = Math.min(y, VH - lf * 0.9 - 4);
           var bx = side < 0 ? x - gap - w - pad * 2 : x + gap, by = y - lf * 0.9;
-          ctx.fillStyle = "rgba(8, 8, 10, 0.8)";
-          ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(bx, by, w + pad * 2, lf * 1.8, 5); else ctx.rect(bx, by, w + pad * 2, lf * 1.8); ctx.fill();
-          ctx.strokeStyle = "rgba(242, 97, 2, 0.45)"; ctx.lineWidth = 1; ctx.stroke();
-          ctx.textAlign = "left"; ctx.fillStyle = "#fff";
-          ctx.fillText(B.name, bx + pad, y + 0.5);
+          lx.fillStyle = "rgba(8, 8, 10, 0.8)";
+          lx.beginPath(); if (lx.roundRect) lx.roundRect(bx, by, w + pad * 2, lf * 1.8, 5); else lx.rect(bx, by, w + pad * 2, lf * 1.8); lx.fill();
+          lx.strokeStyle = "rgba(242, 97, 2, 0.45)"; lx.lineWidth = 1; lx.stroke();
+          lx.textAlign = "left"; lx.fillStyle = "#fff";
+          lx.fillText(B.name, bx + pad, y + 0.5);
         }
       }
       function frame(t) {
