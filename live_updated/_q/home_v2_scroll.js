@@ -391,7 +391,9 @@
     (function waitForGlobe(n) { // q.js draws the globe on its own canvas once its map has loaded
       var cv = globeSec.querySelector("canvas.q-v2-globe-canvas");
       if (!cv) { if (n < 60) setTimeout(function () { waitForGlobe(n + 1); }, 100); return; }
-      gsap.fromTo(cv, { y: 160, opacity: 0.2 }, { y: 0, opacity: 1, ease: "none", scrollTrigger: { trigger: globeSec, start: "top bottom", end: "top 20%", scrub: 0.6 } });
+      // the branch names (their own canvas, 13 Nov) rise with the globe
+      var lb = globeSec.querySelector("canvas.q-v2-globe-labels");
+      gsap.fromTo(lb ? [cv, lb] : cv, { y: 160, opacity: 0.2 }, { y: 0, opacity: 1, ease: "none", scrollTrigger: { trigger: globeSec, start: "top bottom", end: "top 20%", scrub: 0.6 } });
       ST.refresh();
     })(0);
   }

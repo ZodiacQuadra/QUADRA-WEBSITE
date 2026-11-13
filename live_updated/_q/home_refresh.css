@@ -268,9 +268,13 @@ html[data-q-theme="light"] .qcb, body.pix-is-light .qcb { --qcb-bg: linear-gradi
 .q-dbanner .qcb-chip:disabled { opacity: 0.6; cursor: default; }
 /* Top Tier: Anthropic, VMware by Broadcom, Citrix after Microsoft, AWS, Google Cloud (six on one line on desktop,
    3 + 3 below 1200px), in the AWS / Google Cloud wordmark colour */
-section[data-framer-name="Top Tier"] [data-framer-name="Content"], section[data-framer-name="Features"] [data-framer-name="Content"] { flex-wrap: wrap !important; }
-section[data-framer-name="Top Tier"] [data-framer-name="Content"] { gap: 52px !important; }
-@media (max-width: 1199.98px) { section[data-framer-name="Top Tier"] [data-framer-name="Content"] { max-width: 640px; margin-left: auto; margin-right: auto; } }
+/* Top Tier spacing (13 Nov): the same space above the heading as below the logos (Framer: 30px top, 110px bottom) */
+section[data-framer-name="Top Tier"] { padding-top: 110px !important; }
+/* 13 Nov: twelve partners (with the security and backup vendors) as an even grid: 6 + 6 on desktop, 4 per row on
+   tablet, 2 per row on phone (the "Features" copy of the row) */
+section[data-framer-name="Top Tier"] [data-framer-name="Content"] { display: grid !important; grid-template-columns: repeat(6, max-content); justify-content: center !important; justify-items: center; align-items: center !important; gap: 40px 56px !important; width: auto !important; max-width: 100% !important; }
+@media (max-width: 1199.98px) { section[data-framer-name="Top Tier"] [data-framer-name="Content"] { grid-template-columns: repeat(4, max-content); gap: 32px 44px !important; } }
+section[data-framer-name="Features"] [data-framer-name="Content"] { display: grid !important; grid-template-columns: repeat(2, max-content); justify-content: center !important; justify-items: center; align-items: center !important; gap: 24px 40px !important; width: auto !important; max-width: 100% !important; }
 .q-dlogo { flex: none; display: flex; }
 .q-dlogo svg { width: 100%; height: 100%; fill: var(--token-e4701bb6-83f6-41e5-b0c8-9b95b4510e3a, rgb(250, 250, 250)); }
 html[data-q-theme="light"] .q-dlogo svg { fill: var(--token-e4701bb6-83f6-41e5-b0c8-9b95b4510e3a, rgb(9, 9, 11)); }
