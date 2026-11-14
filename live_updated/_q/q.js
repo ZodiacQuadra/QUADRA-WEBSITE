@@ -382,7 +382,7 @@
         w.fillStyle = "#fff"; w.fillText("Quadra", 0, 0);
         var t = w.getImageData(0, 0, RWd, RHd).data;
         for (var n = 0; n < RWd * RHd; n++) { qm[n] = t[n * 4 + 3] > 110 ? 2 : 0; qband[n] = band[n * 4 + 3] / 255; }
-        layerPhi = 99; // redraw the characters with it
+        lastLayer = -1e9; regDirty = true; // redraw the characters with it
       };
       wordmark();
       if (document.fonts && document.fonts.load) document.fonts.load("600 168px \"EB Garamond\"").then(wordmark, function () {});
@@ -401,6 +401,10 @@
       var lx = labs.getContext("2d");
       cv.style.visibility = "hidden";
       var ctx = out.getContext("2d"), layer = document.createElement("canvas"), lctx = layer.getContext("2d");
+      // (14 Nov) the characters are drawn into layer2 a slice at a time (job), then swapped in
+      var layer2 = document.createElement("canvas"), l2ctx = layer2.getContext("2d"), job = null;
+      // (14 Nov) WebGL 2 when available (glSetup): the whole globe is drawn by the graphics card every frame
+      var gl = null, glp = null, glU = {}, glT = {}, regDirty = true;
       var RAMP = " .:-=+*#%@", LEVELS = 12, OLEVELS = 6, atlas = null, gw = 0, gh = 0;
       var cells = [], S = 0, R = 0, dpr = 1, fs = 7, last = 0, lastLayer = 0, layerPhi = 99, layerTilt = 99, visible = true;
       var offX = 0, offY = 0, VW = 0, VH = 0;
@@ -465,19 +469,26 @@
           var nz = Math.sqrt(1 - d), lam = Math.max(0, nx * Lx + ny * Ly + nz * Lz);
           cells.push({ dx: Math.round((x - offX - cw / 2) * dpr), dy: Math.round((y - offY - ch / 2) * dpr), nx: nx, ny: ny, nz: nz, shade: 0.45 + 0.55 * lam });
         }
-        tilt = TILT; layerPhi = 99;
+        tilt = TILT; layerPhi = 99; job = null;
+        if (gl) glAfterLayout();
       }
       // the characters (orange at the branches), into the cached layer
       function renderLayer(now) {
-        lctx.setTransform(1, 0, 0, 1, 0, 0);
-        lctx.clearRect(0, 0, layer.width, layer.height);
+        if (layer2.width !== layer.width || layer2.height !== layer.height) { layer2.width = layer.width; layer2.height = layer.height; }
+        l2ctx.setTransform(1, 0, 0, 1, 0, 0);
+        l2ctx.clearRect(0, 0, layer2.width, layer2.height);
         var cx = (S / 2 - offX) * dpr, cy = (S / 2 - offY) * dpr;
-        var atm = lctx.createRadialGradient(cx, cy, R * dpr * 0.97, cx, cy, R * dpr * 1.03);
+        var atm = l2ctx.createRadialGradient(cx, cy, R * dpr * 0.97, cx, cy, R * dpr * 1.03);
         atm.addColorStop(0, "rgba(255, 236, 222, 0)"); atm.addColorStop(0.5, "rgba(255, 226, 205, 0.1)"); atm.addColorStop(1, "rgba(255, 236, 222, 0)");
-        lctx.fillStyle = atm; lctx.beginPath(); lctx.arc(cx, cy, R * dpr * 1.03, 0, 6.283); lctx.fill();
-        var cp = Math.cos(phi), sp = Math.sin(phi), ct = Math.cos(tilt), st = Math.sin(tilt), TWOPI = 2 * Math.PI;
-        var pulse = 0.85 + 0.15 * Math.sin(now / 700), nb = BRANCHES.length;
-        for (var i = 0; i < cells.length; i++) {
+        l2ctx.fillStyle = atm; l2ctx.beginPath(); l2ctx.arc(cx, cy, R * dpr * 1.03, 0, 6.283); l2ctx.fill();
+        job = { i: 0, phi: phi, tilt: tilt, now: now, cp: Math.cos(phi), sp: Math.sin(phi), ct: Math.cos(tilt), st: Math.sin(tilt), pulse: 0.85 + 0.15 * Math.sin(now / 700) };
+      }
+      // continue the redraw for about `budget` ms, then hand back; the finished picture replaces the shown one
+      function stepLayer(budget) {
+        if (!job) return;
+        var j = job, until = performance.now() + budget, cp = j.cp, sp = j.sp, ct = j.ct, st = j.st, pulse = j.pulse, nb = BRANCHES.length;
+        for (var i = j.i; i < cells.length; i++) {
+          if (!(i & 255) && i > j.i && performance.now() > until) { j.i = i; return; }
           var k = cells[i];
           var qy = k.ny * ct + k.nz * st, qz = -k.ny * st + k.nz * ct; // undo the tilt
           var wx = k.nx * cp + qz * sp, wz = -k.nx * sp + qz * cp; // undo the turn
@@ -485,7 +496,7 @@
           for (var b = 0; b < nb; b++) { var v = BRANCHES[b].v, dd = wx * v[0] + qy * v[1] + wz * v[2]; if (dd > NEAR) near = Math.max(near, (dd - NEAR) / (1 - NEAR)); }
           if (near > 0) { // a branch: orange characters, densest and brightest at the city
             var o = Math.min(1, Math.sqrt(near) * pulse);
-            lctx.drawImage(atlas, Math.min(RAMP.length - 1, 4 + Math.round(o * 5)) * gw, (LEVELS + Math.min(OLEVELS - 1, Math.round(o * (OLEVELS - 1)))) * gh, gw, gh, k.dx, k.dy, gw, gh);
+            l2ctx.drawImage(atlas, Math.min(RAMP.length - 1, 4 + Math.round(o * 5)) * gw, (LEVELS + Math.min(OLEVELS - 1, Math.round(o * (OLEVELS - 1)))) * gh, gw, gh, k.dx, k.dy, gw, gh);
             continue;
           }
           var lonD = Math.atan2(wx, wz) / D, latD = Math.asin(qy > 1 ? 1 : qy < -1 ? -1 : qy) / D, val;
@@ -494,7 +505,7 @@
             var ri = Math.min(RHd - 1, ((RG.lat1 - latD) * RG.px) | 0) * RWd + Math.min(RWd - 1, ((lonD - RG.lon0) * RG.px) | 0);
             val = rtex[ri]; qv = qm[ri]; qb = qband[ri];
             if (qv === 2) { // a letter of the wordmark: bright, lighter characters (* and #)
-              lctx.drawImage(atlas, (6 + (i & 1)) * gw, (LEVELS - 1) * gh, gw, gh, k.dx, k.dy, gw, gh);
+              l2ctx.drawImage(atlas, (6 + (i & 1)) * gw, (LEVELS - 1) * gh, gw, gh, k.dx, k.dy, gw, gh);
               continue;
             }
           } else {
@@ -503,19 +514,108 @@
           var fc = (wx * IC[0] + qy * IC[1] + wz * IC[2] - F0) / (F1 - F0); fc = fc < 0 ? 0 : fc > 1 ? 1 : fc * fc * (3 - 2 * fc);
           val *= k.shade * (0.3 + 0.7 * fc) * (1 - 0.8 * qb); // India in focus, the rest dimmer; a dark band behind the wordmark
           var g = Math.min(RAMP.length - 1, 1 + ((val * (RAMP.length - 1)) | 0)), l = Math.min(LEVELS - 1, (val * LEVELS * 1.05) | 0);
-          lctx.drawImage(atlas, g * gw, l * gh, gw, gh, k.dx, k.dy, gw, gh);
+          l2ctx.drawImage(atlas, g * gw, l * gh, gw, gh, k.dx, k.dy, gw, gh);
         }
-        layerPhi = phi; layerTilt = tilt; lastLayer = now;
+        var t = layer; layer = layer2; layer2 = t; var tc = lctx; lctx = l2ctx; l2ctx = tc;
+        layerPhi = j.phi; layerTilt = j.tilt; lastLayer = j.now; job = null;
+      }
+
+      // ---- (14 Nov) the globe on the graphics card ----
+      function glSetup() {
+        if (!window.WebGL2RenderingContext || /[?&]q-globe=2d\b/.test(location.search)) return;
+        try {
+          var c = document.createElement("canvas"), g = c.getContext("webgl2", { alpha: true, premultipliedAlpha: true, antialias: false, depth: false, stencil: false });
+          if (!g) return;
+          var VS = "#version 300 es\nvoid main(){vec2 p=vec2(float((gl_VertexID<<1)&2),float(gl_VertexID&2));gl_Position=vec4(p*2.0-1.0,0.0,1.0);}";
+          var FS = "#version 300 es\nprecision highp float;precision highp int;\n" +
+            "uniform sampler2D uTex,uReg,uAtlas;uniform vec2 uView;uniform float uDpr,uCw,uCh,uOffX,uS,uR,uPulse,uNear,uF0,uF1,uRGpx;" +
+            "uniform int uGw,uGh;uniform vec4 uRot,uRG;uniform vec3 uBr[7],uIC,uL;out vec4 o;const float D=0.017453292519943295;" +
+            "vec4 glyph(int gi,int li,ivec2 lp){if(lp.x<0||lp.y<0||lp.x>=uGw||lp.y>=uGh)return vec4(0.0);return texelFetch(uAtlas,ivec2(gi*uGw+lp.x,li*uGh+lp.y),0);}" +
+            "void main(){vec2 p=floor(vec2(gl_FragCoord.x,uView.y-gl_FragCoord.y));vec2 q=(p+0.5)/uDpr;" +
+            "vec2 cen=vec2(uS*0.5-uOffX,uS*0.5);float t=(length(q-cen)-0.97*uR)/(0.06*uR);vec4 atm=vec4(0.0);" +
+            "if(t>=0.0&&t<=1.0){float a=t<0.5?t*0.2:(1.0-t)*0.2;vec3 col=mix(vec3(1.0,0.925,0.871),vec3(1.0,0.886,0.804),1.0-abs(t*2.0-1.0));atm=vec4(col*a,a);}" +
+            "float c=floor((q.x+uOffX)/uCw),r=floor(q.y/uCh);" +
+            "ivec2 lp=ivec2(p)-ivec2(int(floor((c*uCw-uOffX)*uDpr+0.5)),int(floor(r*uCh*uDpr+0.5)));" +
+            "float nx=((c+0.5)*uCw-uS*0.5)/uR,ny=(uS*0.5-(r+0.5)*uCh)/uR,d=nx*nx+ny*ny;if(d>1.0){o=atm;return;}" +
+            "float nz=sqrt(1.0-d),sh=0.45+0.55*max(0.0,nx*uL.x+ny*uL.y+nz*uL.z);" +
+            "float cp=uRot.x,sp=uRot.y,ct=uRot.z,st=uRot.w;float qy=ny*ct+nz*st,qz=-ny*st+nz*ct,wx=nx*cp+qz*sp,wz=-nx*sp+qz*cp;" +
+            "float nr=0.0;for(int b=0;b<7;b++){float dd=wx*uBr[b].x+qy*uBr[b].y+wz*uBr[b].z;if(dd>uNear)nr=max(nr,(dd-uNear)/(1.0-uNear));}" +
+            "vec4 g;if(nr>0.0){float oo=min(1.0,sqrt(nr)*uPulse);g=glyph(min(9,4+int(floor(oo*5.0+0.5))),12+min(5,int(floor(oo*5.0+0.5))),lp);}" +
+            "else{float lonD=atan(wx,wz)/D,latD=asin(clamp(qy,-1.0,1.0))/D,val,qb=0.0;bool word=false;" +
+            "if(lonD>=uRG.x&&lonD<uRG.y&&latD>uRG.z&&latD<=uRG.w){ivec2 rs=textureSize(uReg,0);" +
+            "vec3 rg=texelFetch(uReg,ivec2(min(rs.x-1,int((lonD-uRG.x)*uRGpx)),min(rs.y-1,int((uRG.w-latD)*uRGpx))),0).rgb;val=rg.r;qb=rg.b;word=rg.g>0.5;}" +
+            "else{ivec2 ts=textureSize(uTex,0);val=texelFetch(uTex,ivec2(min(ts.x-1,int((lonD+180.0)/360.0*float(ts.x))),min(ts.y-1,int((90.0-latD)/180.0*float(ts.y)))),0).r;}" +
+            "if(word){g=glyph(6+(int(c+r)&1),11,lp);}else{" +
+            "float fc=clamp((wx*uIC.x+qy*uIC.y+wz*uIC.z-uF0)/(uF1-uF0),0.0,1.0);fc=fc*fc*(3.0-2.0*fc);val*=sh*(0.3+0.7*fc)*(1.0-0.8*qb);" +
+            "g=glyph(min(9,1+int(val*9.0)),min(11,int(val*12.6)),lp);}}" +
+            "o=g+atm*(1.0-g.a);}";
+          var sh = function (type, src) { var x = g.createShader(type); g.shaderSource(x, src); g.compileShader(x); if (!g.getShaderParameter(x, g.COMPILE_STATUS)) throw new Error(g.getShaderInfoLog(x)); return x; };
+          var prog = g.createProgram();
+          g.attachShader(prog, sh(g.VERTEX_SHADER, VS)); g.attachShader(prog, sh(g.FRAGMENT_SHADER, FS)); g.linkProgram(prog);
+          if (!g.getProgramParameter(prog, g.LINK_STATUS)) throw new Error(g.getProgramInfoLog(prog));
+          g.useProgram(prog);
+          ["uTex", "uReg", "uAtlas", "uView", "uDpr", "uCw", "uCh", "uOffX", "uS", "uR", "uPulse", "uNear", "uF0", "uF1", "uRGpx", "uGw", "uGh", "uRot", "uRG", "uBr", "uIC", "uL"].forEach(function (n) { glU[n] = g.getUniformLocation(prog, n); });
+          var mk = function (unit) { var x = g.createTexture(); g.activeTexture(g.TEXTURE0 + unit); g.bindTexture(g.TEXTURE_2D, x); [g.TEXTURE_MIN_FILTER, g.TEXTURE_MAG_FILTER].forEach(function (k) { g.texParameteri(g.TEXTURE_2D, k, g.NEAREST); }); [g.TEXTURE_WRAP_S, g.TEXTURE_WRAP_T].forEach(function (k) { g.texParameteri(g.TEXTURE_2D, k, g.CLAMP_TO_EDGE); }); return x; };
+          glT.tex = mk(0); glT.reg = mk(1); glT.atlas = mk(2);
+          g.pixelStorei(g.UNPACK_ALIGNMENT, 1);
+          // the world texture, once
+          var tb = new Uint8Array(TW * TH); for (var i = 0; i < tb.length; i++) tb[i] = Math.round(Math.min(1, tex[i]) * 255);
+          g.activeTexture(g.TEXTURE0); g.texImage2D(g.TEXTURE_2D, 0, g.R8, TW, TH, 0, g.RED, g.UNSIGNED_BYTE, tb);
+          g.uniform1i(glU.uTex, 0); g.uniform1i(glU.uReg, 1); g.uniform1i(glU.uAtlas, 2);
+          var br = []; BRANCHES.forEach(function (B) { br.push(B.v[0], B.v[1], B.v[2]); });
+          g.uniform3fv(glU.uBr, br); g.uniform1f(glU.uNear, NEAR); g.uniform3f(glU.uIC, IC[0], IC[1], IC[2]);
+          g.uniform1f(glU.uF0, F0); g.uniform1f(glU.uF1, F1); g.uniform3f(glU.uL, Lx, Ly, Lz);
+          g.uniform4f(glU.uRG, RG.lon0, RG.lon1, RG.lat0, RG.lat1); g.uniform1f(glU.uRGpx, RG.px);
+          g.clearColor(0, 0, 0, 0);
+          // the GL canvas takes the place of the 2D one
+          c.setAttribute("aria-hidden", "true"); c.className = out.className;
+          out.replaceWith(c); out = c; gl = g; glp = prog;
+          c.addEventListener("webglcontextlost", function (e) { e.preventDefault(); gl = null; }, false);
+        } catch (err) { gl = null; if (window.console) console.warn("Globe: WebGL unavailable, using canvas", err); }
+      }
+      function glAfterLayout() {
+        var g = gl;
+        g.activeTexture(g.TEXTURE2);
+        g.pixelStorei(g.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+        g.texImage2D(g.TEXTURE_2D, 0, g.RGBA, g.RGBA, g.UNSIGNED_BYTE, atlas);
+        g.pixelStorei(g.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
+        g.viewport(0, 0, out.width, out.height);
+        g.uniform2f(glU.uView, out.width, out.height); g.uniform1f(glU.uDpr, dpr);
+        g.uniform1f(glU.uCw, fs * 0.6); g.uniform1f(glU.uCh, fs * 0.98); g.uniform1f(glU.uOffX, offX);
+        g.uniform1f(glU.uS, S); g.uniform1f(glU.uR, R); g.uniform1i(glU.uGw, gw); g.uniform1i(glU.uGh, gh);
+        // the canvas path's back layers are not needed
+        layer.width = layer.height = layer2.width = layer2.height = 1;
+      }
+      function glRender(now) {
+        var g = gl;
+        if (regDirty) {
+          regDirty = false;
+          var rb = new Uint8Array(RWd * RHd * 3);
+          for (var i = 0, n = RWd * RHd; i < n; i++) { rb[i * 3] = Math.round(Math.min(1, rtex[i]) * 255); rb[i * 3 + 1] = qm[i] === 2 ? 255 : 0; rb[i * 3 + 2] = Math.round(qband[i] * 255); }
+          g.activeTexture(g.TEXTURE1); g.texImage2D(g.TEXTURE_2D, 0, g.RGB8, RWd, RHd, 0, g.RGB, g.UNSIGNED_BYTE, rb);
+        }
+        g.uniform4f(glU.uRot, Math.cos(phi), Math.sin(phi), Math.cos(tilt), Math.sin(tilt));
+        g.uniform1f(glU.uPulse, 0.85 + 0.15 * Math.sin(now / 700));
+        g.clear(g.COLOR_BUFFER_BIT);
+        g.drawArrays(g.TRIANGLES, 0, 3);
+      }
+      // where India's centre sits on screen for a turn p and tilt t: the shown picture is shifted by the difference
+      function spot(p, t) {
+        var tx2 = IC[0] * Math.cos(p) - IC[2] * Math.sin(p), tz2 = IC[0] * Math.sin(p) + IC[2] * Math.cos(p);
+        return [tx2 * R, -(IC[1] * Math.cos(t) - tz2 * Math.sin(t)) * R];
       }
       function draw(now) {
-        if (drag || ((Math.abs(phi - layerPhi) > 0.0004 || Math.abs(tilt - layerTilt) > 0.0004 || now - lastLayer > 240) && now - lastLayer > 90)) renderLayer(now);
+        if (gl) glRender(now); else {
+        if (!job && (layerPhi === 99 || Math.abs(phi - layerPhi) > (drag ? 0.004 : 0.01) || Math.abs(tilt - layerTilt) > 0.003 || now - lastLayer > 1000)) renderLayer(now);
+        stepLayer(reduce ? 1e9 : 7); // without the animation loop (reduced motion) it is drawn at once
         // a globe section hidden at this screen size has nothing to draw into (11 Nov: this threw on every frame)
         if (!layer.width || !layer.height) return;
         ctx.setTransform(1, 0, 0, 1, 0, 0);
         ctx.clearRect(0, 0, out.width, out.height);
-        ctx.drawImage(layer, 0, 0);
+        if (layerPhi !== 99) { var pa = spot(phi, tilt), pb = spot(layerPhi, layerTilt); ctx.drawImage(layer, Math.round((pa[0] - pb[0]) * dpr), Math.round((pa[1] - pb[1]) * dpr)); }
+        }
         // each branch's name right beside it, on a small dark backing (on the label canvas: never faded)
-        var cp = Math.cos(layerPhi), sp = Math.sin(layerPhi), ct = Math.cos(layerTilt), st = Math.sin(layerTilt);
+        var cp = Math.cos(phi), sp = Math.sin(phi), ct = Math.cos(tilt), st = Math.sin(tilt);
         lx.setTransform(1, 0, 0, 1, 0, 0);
         lx.clearRect(0, 0, labs.width, labs.height);
         lx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -540,7 +640,7 @@
         }
       }
       function frame(t) {
-        if (visible && !document.hidden && t - last > 33) {
+        if (visible && !document.hidden && t - last > (gl ? 15 : 33)) {
           last = t;
           // back toward India with a slight sway (a damped spring), unless it is being dragged
           if (!drag) {
@@ -579,6 +679,7 @@
         addEventListener("pointerup", function () { if (drag) { drag = null; sec.style.cursor = ""; } });
         addEventListener("pointercancel", function () { drag = null; });
       }
+      glSetup();
       layout(); draw(performance.now());
       var relayout = function () { layout(); draw(performance.now()); };
       addEventListener("resize", relayout);
